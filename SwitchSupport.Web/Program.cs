@@ -1,12 +1,20 @@
 #region Services
 using Microsoft.EntityFrameworkCore;
 using SwitchSupport.DataLayer.Context;
+using SwitchSupport.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+#region DbContext
 builder.Services.AddDbContext<SwitchSupportDbContext>(options => options.
 UseSqlServer(builder.Configuration.GetConnectionString("SwitchSupportDbContext")));
+#endregion
+
+#region RegisterDependencies
+DependencyContainer.RegisterDependencies(builder.Services);
+#endregion
+
+
 #endregion
 
 // Add services to the container.

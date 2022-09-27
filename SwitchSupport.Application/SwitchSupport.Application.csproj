@@ -11,8 +11,11 @@
     <Folder Include="Extentsions\" />
     <Folder Include="Generators\" />
     <Folder Include="Statics\" />
-    <Folder Include="Services\" />
     <Folder Include="Security\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SwitchSupport.Domain\SwitchSupport.Domain.csproj" />
   </ItemGroup>
 
 </Project>

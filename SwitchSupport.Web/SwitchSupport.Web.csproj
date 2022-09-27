@@ -21,7 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SwitchSupport.Application\SwitchSupport.Application.csproj" />
     <ProjectReference Include="..\SwitchSupport.DataLayer\SwitchSupport.DataLayer.csproj" />
+    <ProjectReference Include="..\SwitchSupport.IoC\SwitchSupport.IoC.csproj" />
   </ItemGroup>
 
 </Project>
