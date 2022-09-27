@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SwitchSupport.Application.Services.Interfaces;
+using SwitchSupport.Domain.ViewModels.Account;
 
 namespace SwitchSupport.Web.Controllers
 {
@@ -25,6 +26,26 @@ namespace SwitchSupport.Web.Controllers
         public async Task<IActionResult> Register()
         {
             return View();
+        }
+        [HttpPost("Register"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel register)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(register);
+            }
+            var result = await _userService.RegisterUser(register);
+
+            switch (result)
+            {
+                case RegisterResult.EmailExists:
+                    TempData[ErrorMessage] = "ایمیل وارد شده تکراری می باشد.";
+                    break;
+                case RegisterResult.Success:
+                    TempData[SuccessMessage] = "عملیات با موفقیت انجام شد.";
+                    return RedirectToAction("Login", "Account");
+            }
+            return View(register);
         }
         #endregion
     }
