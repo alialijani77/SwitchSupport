@@ -1,6 +1,16 @@
+#region Services
+using Microsoft.EntityFrameworkCore;
+using SwitchSupport.DataLayer.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddDbContext<SwitchSupportDbContext>(options => options.
+UseSqlServer(builder.Configuration.GetConnectionString("SwitchSupportDbContext")));
+#endregion
+
 // Add services to the container.
+#region MiddleWare
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -25,3 +35,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+#endregion
