@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SwitchSupport.Application.Services.Interfaces;
 using SwitchSupport.Domain.ViewModels.Account;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SwitchSupport.Web.Controllers
 {
@@ -18,9 +19,14 @@ namespace SwitchSupport.Web.Controllers
         #endregion
         #region Login
         [HttpGet("Login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(string ReturnUrl = "")
         {
-            return View();
+            var login = new LoginViewModel();
+            if (!string.IsNullOrEmpty(ReturnUrl))
+            {
+                login.ReturnUrl = ReturnUrl;
+            }
+            return View(login);
         }
 
         [HttpPost("Login"),ValidateAntiForgeryToken]
@@ -62,6 +68,11 @@ namespace SwitchSupport.Web.Controllers
 
                     #endregion
                     TempData[SuccessMessage] = "خوش آمدید";
+                    if (!string.IsNullOrEmpty(login.ReturnUrl))
+                    {
+                        return Redirect(login.ReturnUrl);
+                    }
+                    
                     return Redirect("/");
             }
             return View(login);
