@@ -1,4 +1,5 @@
-﻿using SwitchSupport.Domain.ViewModels.Account;
+﻿using SwitchSupport.Domain.Entities.Account;
+using SwitchSupport.Domain.ViewModels.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,10 @@ namespace SwitchSupport.Application.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<RegisterResult> RegisterUser(RegisterViewModel register); 
+        Task<RegisterResult> RegisterUser(RegisterViewModel register);
+
+        Task<LoginResult> CheckForLogin(LoginViewModel login);
+
+        Task<User> GetUserByEmail(string email);
     }
 }

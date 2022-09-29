@@ -14,5 +14,7 @@ namespace SwitchSupport.Domain.Interfaces
         Task CreateUser(User user);
 
         Task Save();
+
+        Task<User> GetUserByEmail(string email);
     }
 }

@@ -46,5 +46,30 @@ namespace SwitchSupport.Application.Services.Implementions.Account
 
         }
         #endregion
+
+        #region Login
+        public async Task<LoginResult> CheckForLogin(LoginViewModel login)
+        {
+            var user = await _userRepository.GetUserByEmail(login.Email.Trim().ToLower());
+
+            if (user == null) return LoginResult.NoExists;
+
+            var password = PasswordHelper.EncodePasswordMd5(login.Password);
+
+            if (user.Password != password) return LoginResult.NoExists;
+
+            if(user.IsBan) return LoginResult.IsBan;
+            if (user.IsDelete) return LoginResult.IsDelete;
+            if (!user.IsEmailConfirmed) return LoginResult.IsNotActive;
+
+            return LoginResult.Success;
+            
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _userRepository.GetUserByEmail(email.Trim().ToLower());
+        }
+        #endregion
     }
 }
