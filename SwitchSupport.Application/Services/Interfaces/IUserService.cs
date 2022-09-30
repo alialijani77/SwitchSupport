@@ -15,5 +15,7 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<LoginResult> CheckForLogin(LoginViewModel login);
 
         Task<User> GetUserByEmail(string email);
+
+        Task<bool> EmailActivation(string activationcode);
     }
 }

@@ -17,6 +17,7 @@ namespace SwitchSupport.Web.Controllers
             _userService = userService;
         }
         #endregion
+
         #region Login
         [HttpGet("Login")]
         public async Task<IActionResult> Login(string ReturnUrl = "")
@@ -113,6 +114,23 @@ namespace SwitchSupport.Web.Controllers
                     return RedirectToAction("Login", "Account");
             }
             return View(register);
+        }
+        #endregion
+
+        #region Email Activation
+        [HttpGet("Email-Activation/{activationcode}")]
+        public async Task<IActionResult> EmailActivation(string activationcode)
+        {
+            var result = await _userService.EmailActivation(activationcode);
+            if(result)
+            {
+                TempData[SuccessMessage] = "حساب کاربری با موفقیت فعال شد.";
+            }
+            else
+            {
+                TempData[ErrorMessage] = "متاسفانه مشکلی در فعال سازی حساب کاربری رخ داده است.";
+            }
+            return Redirect("/");
         }
         #endregion
     }

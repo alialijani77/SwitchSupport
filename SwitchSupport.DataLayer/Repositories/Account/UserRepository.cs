@@ -41,5 +41,15 @@ namespace SwitchSupport.DataLayer.Repositories.Account
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
+
+        public async Task<User> GetUserByActivationcode(string activationcode)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.EmailActivationCode.Equals(activationcode));
+        }
+
+        public async Task UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+        }
     }
 }

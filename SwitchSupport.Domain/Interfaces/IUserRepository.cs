@@ -13,8 +13,12 @@ namespace SwitchSupport.Domain.Interfaces
 
         Task CreateUser(User user);
 
+        Task UpdateUser(User user);
+
         Task Save();
 
         Task<User> GetUserByEmail(string email);
+
+        Task<User> GetUserByActivationcode(string activationcode);
     }
 }

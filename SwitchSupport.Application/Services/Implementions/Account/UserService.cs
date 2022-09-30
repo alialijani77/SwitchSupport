@@ -70,6 +70,25 @@ namespace SwitchSupport.Application.Services.Implementions.Account
         {
             return await _userRepository.GetUserByEmail(email.Trim().ToLower());
         }
+
+
+        #endregion
+
+        #region EmailActivation
+        public async Task<bool> EmailActivation(string activationcode)
+        {
+            var user = await _userRepository.GetUserByActivationcode(activationcode);
+
+            if (user == null)  return false;
+            if (user.IsDelete || user.IsBan) return false;
+            user.IsEmailConfirmed = true;
+            user.EmailActivationCode = CodeGenerator.CreateActivationCode();
+            await _userRepository.UpdateUser(user);
+            await _userRepository.Save();
+            return true;
+
+
+        }
         #endregion
     }
 }
