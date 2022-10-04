@@ -1,5 +1,6 @@
 ﻿using SwitchSupport.Application.Generators;
 using SwitchSupport.Application.Security;
+using SwitchSupport.Application.Services.Implementions.SiteSettings;
 using SwitchSupport.Application.Services.Interfaces;
 using SwitchSupport.Application.Statics;
 using SwitchSupport.Domain.Entities.Account;
@@ -16,11 +17,14 @@ namespace SwitchSupport.Application.Services.Implementions.Account
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEmailService _emailService;
+
 
         #region ctor
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IEmailService emailService)
         {
             _userRepository = userRepository;
+            _emailService = emailService;
         }
         #endregion
 
@@ -42,6 +46,17 @@ namespace SwitchSupport.Application.Services.Implementions.Account
             await _userRepository.CreateUser(User);
             await _userRepository.Save();
 
+            #region Send Activation Email
+
+            var body = $@"
+                <div> برای فعالسازی حساب کاربری خود روی لینک زیر کلیک کنید . </div>
+                <a href='{PathTools.SiteAddress}/Activate-Email/{User.EmailActivationCode}'>فعالسازی حساب کاربری</a>";
+
+            await _emailService.SendEmail(User.Email, "فعالسازی حساب کاربری", body);
+
+            #endregion
+
+
             return RegisterResult.Success;
 
         }
@@ -58,12 +73,12 @@ namespace SwitchSupport.Application.Services.Implementions.Account
 
             if (user.Password != password) return LoginResult.NoExists;
 
-            if(user.IsBan) return LoginResult.IsBan;
+            if (user.IsBan) return LoginResult.IsBan;
             if (user.IsDelete) return LoginResult.IsDelete;
             if (!user.IsEmailConfirmed) return LoginResult.IsNotActive;
 
             return LoginResult.Success;
-            
+
         }
 
         public async Task<User> GetUserByEmail(string email)
@@ -79,7 +94,7 @@ namespace SwitchSupport.Application.Services.Implementions.Account
         {
             var user = await _userRepository.GetUserByActivationcode(activationcode);
 
-            if (user == null)  return false;
+            if (user == null) return false;
             if (user.IsDelete || user.IsBan) return false;
             user.IsEmailConfirmed = true;
             user.EmailActivationCode = CodeGenerator.CreateActivationCode();
@@ -90,5 +105,25 @@ namespace SwitchSupport.Application.Services.Implementions.Account
 
         }
         #endregion
+
+        public async Task<ForgotPasswordResult> CheckForForgotPassword(ForgotPassword forgotPassword)
+        {
+            var user = await _userRepository.GetUserByEmail(forgotPassword.Email.Trim().ToLower());
+
+            if (user == null || user.IsDelete) return ForgotPasswordResult.NotFound;
+            if (user.IsBan) return ForgotPasswordResult.IsBan;
+
+            #region Send Activation Email
+
+            var body = $@"
+                <div> برای بازیابی رمز حساب کاربری خود روی لینک زیر کلیک کنید . </div>
+                <a href='{PathTools.SiteAddress}/Reset-Password/{user.EmailActivationCode}'>بازیابی رمزحساب کاربری</a>";
+
+            await _emailService.SendEmail(user.Email, "فعالسازی حساب کاربری", body);
+
+            #endregion
+
+            return ForgotPasswordResult.Success;
+        }
     }
 }

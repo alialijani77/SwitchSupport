@@ -133,5 +133,36 @@ namespace SwitchSupport.Web.Controllers
             return Redirect("/");
         }
         #endregion
+
+        #region ForgotPassword
+        [HttpGet("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(ForgotPassword forgotPassword)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(forgotPassword);
+            }
+            var result = await _userService.CheckForForgotPassword(forgotPassword);
+            switch (result)
+            {
+                case ForgotPasswordResult.NotFound:
+                    TempData[ErrorMessage] = "کاربری با ایمیل وارد شده یافت نشد.";
+                    break;
+                case ForgotPasswordResult.IsBan:
+                    TempData[InfoMessage] = "کاربر مسدود می باشد.";
+                    break;
+                case ForgotPasswordResult.Success:
+                    TempData[InfoMessage] = "ایمیل جهت بازیابی پسورد ارسال شد.";
+                    return RedirectToAction("Login", "Account");
+            }
+            return View(forgotPassword);
+        }
+        #endregion
     }
 }

@@ -12,6 +12,8 @@ namespace SwitchSupport.Application.Statics
 
         public static readonly string DefaultUserAvatar = "DefaultAvatar.png";
 
+        public static readonly string SiteAddress = "/";
+
         #endregion
     }
 }

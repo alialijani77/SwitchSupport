@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SwitchSupport.Domain.Entities.Account;
+using SwitchSupport.Domain.Entities.SiteSetting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,30 @@ namespace SwitchSupport.DataLayer.Context
 
         #region DbSet
         public DbSet<User> Users { get; set; }
+
+        public DbSet<EmailSetting> EmailSettings { get; set; }
         #endregion
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            var date = DateTime.MinValue;
+
+            modelBuilder.Entity<EmailSetting>().HasData(new EmailSetting()
+            {
+                CreateDate = date,
+                DisplayName = "Switchsupport",
+                EnableSSL = true,
+                From = "",
+                Id = 1,
+                IsDefault = true,
+                IsDelete = false,
+                Password = "",
+                Port = 587,
+                SMTP = "smtp.gmail.com"
+
+            });
+            base.OnModelCreating(modelBuilder);
+            
+        }
     }
 }
