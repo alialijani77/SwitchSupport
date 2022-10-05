@@ -106,6 +106,7 @@ namespace SwitchSupport.Application.Services.Implementions.Account
         }
         #endregion
 
+        #region ForgotPassword
         public async Task<ForgotPasswordResult> CheckForForgotPassword(ForgotPassword forgotPassword)
         {
             var user = await _userRepository.GetUserByEmail(forgotPassword.Email.Trim().ToLower());
@@ -125,5 +126,31 @@ namespace SwitchSupport.Application.Services.Implementions.Account
 
             return ForgotPasswordResult.Success;
         }
+
+
+        #endregion
+
+        #region Reset-Password
+        public async Task<User> GetUserByActivationCode(string activationcode)
+        {
+            return await _userRepository.GetUserByActivationcode(activationcode);
+        }
+
+        public async Task<ResetPasswordResult> ResetPassword(ResetPasswordViewModel resetPassword)
+        {
+            var user = await _userRepository.GetUserByActivationcode(resetPassword.activationCode);
+            if (user == null) return ResetPasswordResult.NotFound;
+
+            var password = PasswordHelper.EncodePasswordMd5(resetPassword.Password);
+            user.Password = password;
+            user.IsEmailConfirmed = true;
+            user.EmailActivationCode = CodeGenerator.CreateActivationCode();
+            await _userRepository.UpdateUser(user);
+            await _userRepository.Save();
+
+            return ResetPasswordResult.Success;
+
+        }
+        #endregion
     }
 }

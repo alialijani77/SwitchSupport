@@ -19,5 +19,9 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<bool> EmailActivation(string activationcode);
 
         Task<ForgotPasswordResult> CheckForForgotPassword(ForgotPassword forgotPassword);
+
+        Task<User> GetUserByActivationCode(string activationcode);
+
+        Task<ResetPasswordResult> ResetPassword(ResetPasswordViewModel resetPassword);
     }
 }

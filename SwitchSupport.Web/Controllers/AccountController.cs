@@ -30,10 +30,10 @@ namespace SwitchSupport.Web.Controllers
             return View(login);
         }
 
-        [HttpPost("Login"),ValidateAntiForgeryToken]
+        [HttpPost("Login"), ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(login);
             }
@@ -73,7 +73,7 @@ namespace SwitchSupport.Web.Controllers
                     {
                         return Redirect(login.ReturnUrl);
                     }
-                    
+
                     return Redirect("/");
             }
             return View(login);
@@ -122,7 +122,7 @@ namespace SwitchSupport.Web.Controllers
         public async Task<IActionResult> EmailActivation(string activationcode)
         {
             var result = await _userService.EmailActivation(activationcode);
-            if(result)
+            if (result)
             {
                 TempData[SuccessMessage] = "حساب کاربری با موفقیت فعال شد.";
             }
@@ -144,7 +144,7 @@ namespace SwitchSupport.Web.Controllers
         [HttpPost("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword(ForgotPassword forgotPassword)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(forgotPassword);
             }
@@ -162,6 +162,40 @@ namespace SwitchSupport.Web.Controllers
                     return RedirectToAction("Login", "Account");
             }
             return View(forgotPassword);
+        }
+        #endregion
+
+        #region Reset-Password
+        [HttpGet("Reset-Password/{activationcode}")]
+        public async Task<IActionResult> ResetPassword(string activationcode)
+        {
+            if (await _userService.GetUserByActivationCode(activationcode) == null)
+            {
+                return NotFound();
+            }
+            var resetpassword = new ResetPasswordViewModel();
+            resetpassword.activationCode = activationcode;
+            return View(resetpassword);
+        }
+
+        [HttpPost("Reset-Password/{activationcode}")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPassword)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(resetPassword);
+            }
+            var result = await _userService.ResetPassword(resetPassword);
+            switch (result)
+            {
+                case ResetPasswordResult.NotFound:
+                    TempData[ErrorMessage] = "کاربری یافت نشد.";
+                    break;               
+                case ResetPasswordResult.Success:
+                    TempData[InfoMessage] = "پسورد با موفقیت تغییر یافت.";
+                    return RedirectToAction("Login", "Account");
+            }
+            return View(resetPassword);
         }
         #endregion
     }
