@@ -34,11 +34,11 @@ namespace SwitchSupport.DataLayer.Context
                 CreateDate = date,
                 DisplayName = "Switchsupport",
                 EnableSSL = true,
-                From = "",
+                From = "swtsup80448@gmail.com",
                 Id = 1,
                 IsDefault = true,
                 IsDelete = false,
-                Password = "",
+                Password = "bhrghgjiayznrjiv",
                 Port = 587,
                 SMTP = "smtp.gmail.com"
 

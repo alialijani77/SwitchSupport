@@ -34,8 +34,10 @@ namespace SwitchSupport.Application.Services.Implementions.SiteSettings
 
                 if (defaultSiteEmail.Port != 0)
                 {
+                   
                     SmtpServer.Port = defaultSiteEmail.Port;
                     SmtpServer.EnableSsl = defaultSiteEmail.EnableSSL;
+                    
                 }
 
                 SmtpServer.Credentials = new System.Net.NetworkCredential(defaultSiteEmail.From, defaultSiteEmail.Password);

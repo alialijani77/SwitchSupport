@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SwitchSupport.DataLayer.Context;
 
@@ -11,9 +12,10 @@ using SwitchSupport.DataLayer.Context;
 namespace SwitchSupport.DataLayer.Migrations
 {
     [DbContext(typeof(SwitchSupportDbContext))]
-    partial class SwitchSupportDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221004170922_Create EmailSettings")]
+    partial class CreateEmailSettings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,7 +138,7 @@ namespace SwitchSupport.DataLayer.Migrations
                             From = "swtsup80448@gmail.com",
                             IsDefault = true,
                             IsDelete = false,
-                            Password = "bhrghgjiayznrjiv",
+                            Password = "vzofbkrrnigcwit",
                             Port = 587,
                             SMTP = "smtp.gmail.com"
                         });
