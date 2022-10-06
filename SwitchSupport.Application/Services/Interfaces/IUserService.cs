@@ -23,5 +23,7 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<User> GetUserByActivationCode(string activationcode);
 
         Task<ResetPasswordResult> ResetPassword(ResetPasswordViewModel resetPassword);
+
+        Task<User?> GetUserById(long userId);
     }
 }

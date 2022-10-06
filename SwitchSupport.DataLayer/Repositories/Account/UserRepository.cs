@@ -51,5 +51,10 @@ namespace SwitchSupport.DataLayer.Repositories.Account
         {
             _context.Users.Update(user);
         }
+
+        public async Task<User?> GetUserById(long userId)
+        {
+            return await _context.Users.SingleOrDefaultAsync(u => !u.IsDelete && u.Id == userId);
+        }
     }
 }

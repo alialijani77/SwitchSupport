@@ -152,5 +152,12 @@ namespace SwitchSupport.Application.Services.Implementions.Account
 
         }
         #endregion
+
+        #region User
+        public async Task<User?> GetUserById(long userId)
+        {
+            return await _userRepository.GetUserById(userId);
+        }
+        #endregion
     }
 }

@@ -20,5 +20,7 @@ namespace SwitchSupport.Domain.Interfaces
         Task<User> GetUserByEmail(string email);
 
         Task<User> GetUserByActivationcode(string activationcode);
+
+        Task<User?> GetUserById(long userId);
     }
 }
