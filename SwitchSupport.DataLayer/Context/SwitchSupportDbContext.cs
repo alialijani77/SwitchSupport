@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SwitchSupport.Domain.Entities.Account;
+using SwitchSupport.Domain.Entities.Location;
 using SwitchSupport.Domain.Entities.SiteSetting;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace SwitchSupport.DataLayer.Context
         public DbSet<User> Users { get; set; }
 
         public DbSet<EmailSetting> EmailSettings { get; set; }
+
+        public DbSet<State> States { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
