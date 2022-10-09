@@ -23,7 +23,7 @@ namespace SwitchSupport.Domain.ViewModels.Account
 
         public bool RememberMe { get; set; }
 
-        public string ReturnUrl { get; set; }
+        public string? ReturnUrl { get; set; }
     }
 
     public enum LoginResult
