@@ -21,6 +21,10 @@ namespace SwitchSupport.IoC
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IStateServices, StateServices>();
+
+
+
 
 
             #endregion
@@ -29,7 +33,7 @@ namespace SwitchSupport.IoC
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISiteSettingRepository, SiteSettingRepository>();
-
+            services.AddScoped<IStateRepository, StateRepository>();
 
             #endregion
         }
