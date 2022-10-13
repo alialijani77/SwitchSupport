@@ -22,6 +22,12 @@ namespace SwitchSupport.Web.Areas.UserPanel.Controllers
             ViewData["state"] = await _stateServices.GetAllState();
             return View(); 
         }
+
+        public async Task<IActionResult> LoadCities(long countryId)
+        {
+            var res = await _stateServices.GetAllState(countryId);
+            return new JsonResult(res);
+        }
         #endregion
     }
 }
