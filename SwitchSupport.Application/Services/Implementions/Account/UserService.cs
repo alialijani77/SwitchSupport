@@ -1,4 +1,5 @@
-﻿using SwitchSupport.Application.Generators;
+﻿using SwitchSupport.Application.Extensions;
+using SwitchSupport.Application.Generators;
 using SwitchSupport.Application.Security;
 using SwitchSupport.Application.Services.Implementions.SiteSettings;
 using SwitchSupport.Application.Services.Interfaces;
@@ -6,6 +7,7 @@ using SwitchSupport.Application.Statics;
 using SwitchSupport.Domain.Entities.Account;
 using SwitchSupport.Domain.Interfaces;
 using SwitchSupport.Domain.ViewModels.Account;
+using SwitchSupport.Domain.ViewModels.UserPanel.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -157,6 +159,55 @@ namespace SwitchSupport.Application.Services.Implementions.Account
         public async Task<User?> GetUserById(long userId)
         {
             return await _userRepository.GetUserById(userId);
+        }
+
+
+        public async Task<EditUserViewModel> GetEditUser(long userId)
+        {
+            var user = await _userRepository.GetUserById(userId);
+
+            var edituser = new EditUserViewModel()
+            {
+                BirthDate = user.BirthDate != null ? user.BirthDate.Value.ToShamsi() : string.Empty,
+                FirstName = user.FirstName ?? string.Empty,
+                LastName = user.LastName ?? string.Empty,
+                CityId = user.CityId,
+                CountryId = user.CountryId,
+                Description = user.Description,
+                PhoneNumber = user.PhoneNumber,
+                GetNewsLetter = user.GetNewsLetter
+            };
+            return edituser;
+        }
+
+        public async Task<ResultEditInfo> EditUserInfo(EditUserViewModel editUser, long userId)
+        {
+            var user = await _userRepository.GetUserById(userId);
+
+            if(!string.IsNullOrEmpty(editUser.BirthDate))
+            {
+                try
+                {
+                    var date = editUser.BirthDate.ToMiladi();
+                    user.BirthDate = date;
+                }
+                catch (Exception)
+                {
+                    return ResultEditInfo.notvialid;
+                }
+            }
+            user.FirstName = editUser.FirstName;
+            user.LastName = editUser.LastName;
+            user.PhoneNumber = editUser.PhoneNumber;
+            user.CountryId = editUser.CountryId;
+            user.CityId = editUser.CityId;
+            user.Description = editUser.Description;
+            user.GetNewsLetter = editUser.GetNewsLetter;
+
+            await _userRepository.UpdateUser(user);
+            await _userRepository.Save();
+
+            return ResultEditInfo.success;
         }
         #endregion
     }

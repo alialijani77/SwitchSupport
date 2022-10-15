@@ -1,5 +1,6 @@
 ﻿using SwitchSupport.Domain.Entities.Account;
 using SwitchSupport.Domain.ViewModels.Account;
+using SwitchSupport.Domain.ViewModels.UserPanel.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,5 +26,9 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<ResetPasswordResult> ResetPassword(ResetPasswordViewModel resetPassword);
 
         Task<User?> GetUserById(long userId);
+
+        Task<EditUserViewModel> GetEditUser(long userId);
+
+        Task<ResultEditInfo> EditUserInfo(EditUserViewModel editUser,long userId);
     }
 }

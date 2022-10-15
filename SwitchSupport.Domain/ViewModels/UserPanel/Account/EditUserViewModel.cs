@@ -27,7 +27,7 @@ namespace SwitchSupport.Domain.ViewModels.UserPanel.Account
         public string? Description { get; set; }
 
         [Display(Name = "تاریخ تولد")]
-        [RegularExpression(@"^\d{4}/((0[1-9])|(1[012]))/((0[1-9]|[12]\d)|3[01])$", ErrorMessage ="تاریخ وارد شده اشتباه می باشد")]
+        [RegularExpression(@"^\d{4}/((0[1-9])|(1[012]))/((0[1-9]|[12]\d)|3[01])$", ErrorMessage = "تاریخ وارد شده اشتباه می باشد")]
         public string? BirthDate { get; set; }
 
         [Display(Name = "کشور")]
@@ -37,5 +37,11 @@ namespace SwitchSupport.Domain.ViewModels.UserPanel.Account
         public long? CityId { get; set; }
 
         public bool GetNewsLetter { get; set; }
+    }
+
+    public enum ResultEditInfo
+    {
+        success,
+        notvialid
     }
 }
