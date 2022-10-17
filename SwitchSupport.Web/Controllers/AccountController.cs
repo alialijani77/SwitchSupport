@@ -198,5 +198,19 @@ namespace SwitchSupport.Web.Controllers
             return View(resetPassword);
         }
         #endregion
+
+        #region ChangePassword
+        [HttpGet("ChangePassword")]
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePassword)
+        {
+            return View();
+        }
+        #endregion
     }
 }
