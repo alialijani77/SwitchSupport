@@ -5,6 +5,7 @@ using SwitchSupport.Application.Services.Interfaces;
 using SwitchSupport.Domain.ViewModels.Account;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using SwitchSupport.Application.Extensions;
 
 namespace SwitchSupport.Web.Controllers
 {
@@ -206,10 +207,22 @@ namespace SwitchSupport.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePassword)
         {
-            return View();
+            var result = await _userService.ChangePassword(changePassword, HttpContext.User.GetUserId());
+
+            switch (result)
+            {
+                case ChangePasswordViewModel.ChangePasswordResult.Success:
+                    TempData[SuccessMessage] = "رمز عبور با موفقیت تغییر یافت";
+                    await HttpContext.SignOutAsync();
+                    return RedirectToAction("Login", "Account");
+                case ChangePasswordViewModel.ChangePasswordResult.OldPasswordIsNotValid:
+                    TempData[ErrorMessage] = "رمز عبور قبلی صحیح نمی باشد";
+                    break;
+            }
+            return View(changePassword);
         }
         #endregion
     }

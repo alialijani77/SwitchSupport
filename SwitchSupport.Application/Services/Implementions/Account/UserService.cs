@@ -209,6 +209,27 @@ namespace SwitchSupport.Application.Services.Implementions.Account
 
             return ResultEditInfo.success;
         }
+
+
+        #endregion
+
+        #region ChangePassword
+        public async Task<ChangePasswordViewModel.ChangePasswordResult> ChangePassword(ChangePasswordViewModel changePassword, long userId)
+        {
+            var user = await _userRepository.GetUserById(userId);
+
+            var password = PasswordHelper.EncodePasswordMd5(changePassword.OldPassword);
+
+            if (user.Password != password)
+            {
+                return ChangePasswordViewModel.ChangePasswordResult.OldPasswordIsNotValid;
+            }
+            user.Password =  PasswordHelper.EncodePasswordMd5(changePassword.NewPassword);
+            await _userRepository.UpdateUser(user);
+            await _userRepository.Save();
+
+            return ChangePasswordViewModel.ChangePasswordResult.Success;
+        }
         #endregion
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static SwitchSupport.Domain.ViewModels.Account.ChangePasswordViewModel;
 
 namespace SwitchSupport.Application.Services.Interfaces
 {
@@ -30,5 +31,7 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<EditUserViewModel> GetEditUser(long userId);
 
         Task<ResultEditInfo> EditUserInfo(EditUserViewModel editUser,long userId);
+
+        Task<ChangePasswordResult> ChangePassword(ChangePasswordViewModel changePassword, long userId);
     }
 }

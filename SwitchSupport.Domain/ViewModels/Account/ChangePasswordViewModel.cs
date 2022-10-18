@@ -23,5 +23,12 @@ namespace SwitchSupport.Domain.ViewModels.Account
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(100, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
         public string ReNewPassword { get; set; }
+
+
+        public enum ChangePasswordResult
+        {
+            Success,
+            OldPasswordIsNotValid
+        }
     }
 }
