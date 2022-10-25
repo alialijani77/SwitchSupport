@@ -1,5 +1,8 @@
 ﻿using SwitchSupport.Domain.Entities.Common;
 using SwitchSupport.Domain.Entities.Location;
+using SwitchSupport.Domain.Entities.Questions;
+using SwitchSupport.Domain.Entities.Tags;
+using SwitchSupport.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -59,6 +62,12 @@ namespace SwitchSupport.Domain.Entities.Account
 
         public string Avatar { get; set; }
 
+        [Display(Name = "امتیاز")]
+        public int Score { get; set; } = 0;
+
+        [Display(Name = "مدال")]
+        public UserMedal? Medal { get; set; }
+
         #endregion
 
         #region Relations
@@ -66,6 +75,14 @@ namespace SwitchSupport.Domain.Entities.Account
         public State? Country { get; set; }
         [InverseProperty("UserCities")]
         public State? City { get; set; }
+
+        public ICollection<Question> Questions { get; set; }
+
+        public ICollection<Answer> Answers { get; set; }
+
+        public ICollection<RequestTag> RequestTags { get; set; }
+
+        public ICollection<UserQuestionBookmark> UserQuestionBookmarks { get; set; }
         #endregion
     }
 }
