@@ -43,6 +43,8 @@ namespace SwitchSupport.DataLayer.Context
 
         public DbSet<RequestTag> RequestTags { get; set; }
 
+        public DbSet<QuestionUserScore> QuestionUserScores { get; set; }
+
 
         #endregion
 

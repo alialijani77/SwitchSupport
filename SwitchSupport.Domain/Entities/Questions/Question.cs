@@ -44,6 +44,8 @@ namespace SwitchSupport.Domain.Entities.Questions
 
 
         public ICollection<UserQuestionBookmark> UserQuestionBookmarks { get; set; }
+
+        public ICollection<QuestionUserScore> QuestionUserScores { get; set; }
         #endregion
     }
 }
