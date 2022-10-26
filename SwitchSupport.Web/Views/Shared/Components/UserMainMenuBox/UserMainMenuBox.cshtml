@@ -1,0 +1,21 @@
+﻿@model SwitchSupport.Domain.Entities.Account.User
+@using SwitchSupport.Application.Extensions;
+@using SwitchSupport.Application.Statics;
+<div class="loggedin-status">
+    <span> <i class="icon-profile"></i> <span>حساب کاربری شما</span>  </span>
+    <div class="sublayer">
+        <div class="avatar">
+            <a href=""><img src="@PathTools.UserAvatarPath@Model.Avatar"></a>
+            <div>
+                <span class="fullname">@Model.GetUserDisplayName()</span>              
+            </div>
+        </div>
+        <ul>
+            <li><a asp-action="Index" asp-controller="Home" asp-area="UserPanel"> مشاهده حساب کاربری </a></li>
+            <li><a asp-action="EditInfo" asp-controller="Account" asp-area="UserPanel"> ویرایش حساب کاربری </a></li>
+            <li><a asp-action="ChangePassword" asp-controller="Account"> تغییر رمز عبور </a></li>
+         
+            <li><a asp-action="Logout" asp-controller="Account"> خروج از حساب کاربری </a></li>
+        </ul>
+    </div>
+</div>

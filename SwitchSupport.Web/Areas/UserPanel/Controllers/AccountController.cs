@@ -49,7 +49,10 @@ namespace SwitchSupport.Web.Areas.UserPanel.Controllers
                 }
                 
             ViewData["state"] = await _stateServices.GetAllState();
-
+            if (editUser.CountryId.HasValue)
+            {
+                ViewData["cities"] = await _stateServices.GetAllState(editUser.CountryId.Value);
+            }
             return View(editUser);
         }
 
