@@ -18,5 +18,14 @@ namespace SwitchSupport.Application.Statics
         public static readonly string SiteAddress = "/";
 
         #endregion
+
+        #region CKeditor
+
+        public readonly static string CkeditorServerPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/content/ckeditor/");
+
+        public readonly static string CkeditorPath = "/content/ckeditor/";
+
+
+        #endregion
     }
 }

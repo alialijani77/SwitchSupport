@@ -5,6 +5,7 @@
 
 @section Styles
     {
+	<link rel="stylesheet" type="text/css" href="~/common/custom/ckeditor.css" />
     <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/page.css">
     <link rel="stylesheet" type="text/css" href="/css/question.css">
@@ -38,7 +39,7 @@
 
                         <div class="inner">
                             <div class="rules-layer">
-                                <p> لطفا قبل از ثبت پرسش  ، ابتدا موضوع مورد نظر خود را در سایت جستجو نمایید ، در صورتی که پاسخ مورد نظر خود را دریافت نکردید ، به ثبت پرسش اقدام نمایید ، از ثبت پرسش های تکراری جدا خودداری فرمایید </p>
+                                <p class="p-style"> لطفا قبل از ثبت پرسش  ، ابتدا موضوع مورد نظر خود را در سایت جستجو نمایید ، در صورتی که پاسخ مورد نظر خود را دریافت نکردید ، به ثبت پرسش اقدام نمایید ، از ثبت پرسش های تکراری جدا خودداری فرمایید </p>
 
                                 <form>
                                     <input type="text" name="" placeholder="پرسش مورد نظر ...">
@@ -48,7 +49,7 @@
                             </div>
 
                             <div class="submit-layer">
-                                <p> لطفا قبل از ثبت پرسش قوانین را مطالعه نمایید ، ثبت پرسش شما تایید قوانین محسوب خواهد شد :</p>
+                                <p class="p-style"> لطفا قبل از ثبت پرسش قوانین را مطالعه نمایید ، ثبت پرسش شما تایید قوانین محسوب خواهد شد :</p>
                                 <ul>
                                     <li> ادب و احترام در گفتگو می بایست رعایت شود ، در صورت مشاهده تخلف کاربری شما مسدود خواهد شد. </li>
                                     <li> از ثبت پرسش تکراری خودداری نمایید. </li>
@@ -67,8 +68,8 @@
                                         </div>
                                         <div class="col-xs-12">
                                             <div class="textarea-layer">
-                                                <label> <i class="icon-document"></i> متن کامل پرسش </label>
-                                                <textarea></textarea>
+                                                <label class="mb-10"> <i class="icon-document"></i> متن کامل پرسش </label>
+                                                <textarea class="editor"></textarea>                                               
                                             </div>
                                         </div>
                                         <div class="col-xs-12">
@@ -103,5 +104,9 @@
     @section Scripts
     {
     <partial name="_JqueryValidation" />
+	
     <script src="/js/question.js"></script>
+
 }
+
+   

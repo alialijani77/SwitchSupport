@@ -22,4 +22,8 @@
     <ProjectReference Include="..\SwitchSupport.IoC\SwitchSupport.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\content\ckeditor\" />
+  </ItemGroup>
+
 </Project>
