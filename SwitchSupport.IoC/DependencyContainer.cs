@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SwitchSupport.Application.Services.Implementions.Account;
+using SwitchSupport.Application.Services.Implementions.Question;
 using SwitchSupport.Application.Services.Implementions.SiteSettings;
 using SwitchSupport.Application.Services.Interfaces;
 using SwitchSupport.DataLayer.Repositories.Account;
+using SwitchSupport.DataLayer.Repositories.Question;
 using SwitchSupport.DataLayer.Repositories.SiteSetting;
 using SwitchSupport.Domain.Interfaces;
 using System;
@@ -22,7 +24,7 @@ namespace SwitchSupport.IoC
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IStateServices, StateServices>();
-
+            services.AddScoped<IQuestionService, QuestionService>();
 
 
 
@@ -34,6 +36,7 @@ namespace SwitchSupport.IoC
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISiteSettingRepository, SiteSettingRepository>();
             services.AddScoped<IStateRepository, StateRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
 
             #endregion
         }
