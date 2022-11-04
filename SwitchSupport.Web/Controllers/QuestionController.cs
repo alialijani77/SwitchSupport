@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SwitchSupport.Application.Services.Interfaces;
+using SwitchSupport.Domain.ViewModels.Question;
 
 namespace SwitchSupport.Web.Controllers
 {
@@ -17,9 +18,21 @@ namespace SwitchSupport.Web.Controllers
         #region Question
         [Authorize]
         [HttpGet("create-question")]
-        public IActionResult CreateQuestion()
+        public async Task<IActionResult> CreateQuestion()
         {
             return View();
+        }
+
+
+        [HttpPost("create-question"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateQuestion(CreateQuestionViewModel createQuestion)
+        {
+            if(createQuestion.SelectTags == null || createQuestion.SelectTags.Any())
+            {
+                TempData[ErrorMessage] = "انتخاب تگ الزامی می باشد";
+                return View(createQuestion);
+            }
+            return View(createQuestion);
         }
         #endregion
 
@@ -28,7 +41,7 @@ namespace SwitchSupport.Web.Controllers
         public async Task<IActionResult> GetTags(string name)
         {
             var tags = await _questionService.GetAllTags();
-            var qu = tags.Where(t => t.Title.Contains(name)).Select(t=>t.Title).ToList();
+            var qu = tags.Where(t => t.Title.Contains(name)).Select(t => t.Title).ToList();
 
             return Json(qu);
         }
