@@ -57,26 +57,26 @@ $(function () {
 
 
 
-var magicsuggests = document.querySelectorAll(".magicsuggest");
-if (magicsuggests.length) {
-    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '/common/magicsuggest/magicsuggest.css'));
-    $.getScript("/common/magicsuggest/magicsuggest.js", function (data, textStatus, jqxhr) {
-        for (magicsuggest of magicsuggests) {
-            $(`#${magicsuggest.id}`).magicSuggest({
-                method: 'get',
-                queryParam: 'name',
-                data: 'get-tags',
-                minChars: 2,
-                    placeholder: 'لطفا تگ های مورد نظر خود را وارد کنید',
-                    style: 'direction: ltr !important',
-                    minCharsRenderer: function (v) {
-                        return 'لطفا حداقل 2 کاراکتر را وارد کنید';
-                    },
-                    noSuggestionText: '{{name}} وارد شده در پیشنهادات سایت موجود نیست',
-            });
-        }
-    });
-}
+//var magicsuggests = document.querySelectorAll(".magicsuggest");
+//if (magicsuggests.length) {
+//    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '/common/magicsuggest/magicsuggest.css'));
+//    $.getScript("/common/magicsuggest/magicsuggest.js", function (data, textStatus, jqxhr) {
+//        for (magicsuggest of magicsuggests) {
+//            $(`#${magicsuggest.id}`).magicSuggest({
+//                method: 'get',
+//                queryParam: 'name',
+//                data: 'get-tags',
+//                minChars: 2,
+//                    placeholder: 'لطفا تگ های مورد نظر خود را وارد کنید',
+//                    style: 'direction: ltr !important',
+//                    minCharsRenderer: function (v) {
+//                        return 'لطفا حداقل 2 کاراکتر را وارد کنید';
+//                    },
+//                    noSuggestionText: '{{name}} وارد شده در پیشنهادات سایت موجود نیست',
+//            });
+//        }
+//    });
+//}
     
     
         

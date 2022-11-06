@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/page.css">
     <link rel="stylesheet" type="text/css" href="/css/question.css">
+	<link href="~/common/magicsuggest/magicsuggest.css" rel="stylesheet" />
 }
 
     @section Header
@@ -53,6 +54,7 @@
                                 </ul>
 
                                 <form class="form-layer-style" asp-action="CreateQuestion" asp-controller="Question">
+                                    <input type="hidden" id="SelectTagsJson" name="SelectTagsJson" value="@Model?.SelectTagsJson"/>
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="input-layer">
@@ -72,7 +74,7 @@
                                             <div class="input-layer">
                                                 <!-- Use YourSelf autocomplete Plugin -->
                                                 <label> <i class="icon-document"></i> تگ های مرتبط با پرسش شما </label>
-                                                <input asp-for="SelectTags" class="magicsuggest" id="SelectTags" type="text">
+                                                <input class="magicsuggest" id="SelectTags" name="SelectTags" type="text">
                                                 <span asp-validation-for="SelectTags"></span>
                                             </div>
                                         </div>
@@ -103,6 +105,28 @@
     <partial name="_JqueryValidation" />
 	
     <script src="/js/question.js"></script>
+    <script src="~/common/magicsuggest/magicsuggest.js"></script>
+    <script>
+        $(function(){
+           var ms =  $("#SelectTags").magicSuggest({
+                method: 'get',
+                queryParam: 'name',
+                data: 'get-tags',
+                minChars: 2,
+                placeholder: 'لطفا تگ های مورد نظر خود را وارد کنید',
+                style: 'direction: ltr !important',
+                minCharsRenderer: function (v) {
+                    return 'لطفا حداقل 2 کاراکتر را وارد کنید';
+                },
+                noSuggestionText: '{{name}} وارد شده در پیشنهادات سایت موجود نیست',
+            });
+            var jsonval = $("#SelectTagsJson").val();
+            if(jsonval !== '')
+            {
+                ms.setValue(JSON.parse(jsonval));
+            }
+        });   
+    </script>
 
 }
 

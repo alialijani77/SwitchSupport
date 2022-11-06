@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SwitchSupport.DataLayer.Context;
+using SwitchSupport.Domain.ViewModels.Common;
 using SwitchSupport.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,7 +38,7 @@ builder.Services.AddAuthentication(options =>
 // Add services to the container.
 #region MiddleWare
 builder.Services.AddControllersWithViews();
-
+builder.Services.Configure<ScoreManagementViewModel>(builder.Configuration.GetSection("ScoreManagement"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
