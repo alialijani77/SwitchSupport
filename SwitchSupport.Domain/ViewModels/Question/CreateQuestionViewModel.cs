@@ -26,4 +26,17 @@ namespace SwitchSupport.Domain.ViewModels.Question
 
         public long UserId { get; set; }
     }
+
+    public class CreateQuestionResult
+    {
+        public CreateQuestionEnum Status { get; set; }
+
+        public string Message { get; set; }
+    }
+
+    public enum CreateQuestionEnum
+    {
+        Success,
+        NotValidTag
+    }
 }

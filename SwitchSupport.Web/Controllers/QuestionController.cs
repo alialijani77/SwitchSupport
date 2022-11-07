@@ -28,11 +28,6 @@ namespace SwitchSupport.Web.Controllers
         [HttpPost("create-question"), ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateQuestion(CreateQuestionViewModel createQuestion)
         {
-            if(createQuestion.SelectTags == null || !createQuestion.SelectTags.Any())
-            {
-                TempData[ErrorMessage] = "انتخاب تگ الزامی می باشد";
-                return View(createQuestion);
-            }
             createQuestion.SelectTagsJson = JsonConvert.SerializeObject(createQuestion.SelectTags);
             createQuestion.SelectTags = null;
             return View(createQuestion);

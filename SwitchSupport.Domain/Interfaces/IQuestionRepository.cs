@@ -11,6 +11,15 @@ namespace SwitchSupport.Domain.Interfaces
     {
         #region Tags
         Task<List<Tag>> GetAllTags();
+
+        Task<bool> IsExistsTagByName(string name);
+
+        Task<bool> CheckUserRequestTag(long userId, string tag);
+
+        Task AddRequestTag(RequestTag requestTag);
+
+        Task SaveChanges();
+        
         #endregion
     }
 }
