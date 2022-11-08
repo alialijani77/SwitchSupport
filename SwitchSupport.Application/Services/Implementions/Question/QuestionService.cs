@@ -16,20 +16,19 @@ namespace SwitchSupport.Application.Services.Implementions.Question
     public class QuestionService : IQuestionService
     {
         private readonly IQuestionRepository _questionRepository;
-        private readonly IOptions<ScoreManagementViewModel> _socerManagment;
+        private readonly ScoreManagementViewModel _socerManagment;
         #region ctor
         public QuestionService(IQuestionRepository questionRepository,IOptions<ScoreManagementViewModel> socerManagment)
         {
             _questionRepository = questionRepository;
-            _socerManagment = socerManagment;
+            _socerManagment = socerManagment.Value;
         }
 
         #endregion
         #region Tags
 
         public async Task<List<Tag>> GetAllTags()
-        {
-            var l = _socerManagment.Value;
+        {           
             return await _questionRepository.GetAllTags();
         }
 
@@ -47,7 +46,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     {
                         CreateQuestionResult res2 = new CreateQuestionResult();
                         res2.Status = CreateQuestionEnum.NotValidTag;
-                        res2.Message = $"تگ {item} باید حداقل توسط {_socerManagment.Value} تایید شود.";
+                        res2.Message = $"تگ {item} باید حداقل توسط {_socerManagment.MinRequestCountForVerifyTag} تایید شود.";
                         return res2;
                     }
 
@@ -57,7 +56,25 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     await _questionRepository.AddRequestTag(tagRequest);
                     await _questionRepository.SaveChanges();
 
+                    var countTag = await _questionRepository.GetCountRequestTag(item.ToLower().Trim());
+                    if (countTag < _socerManagment.MinRequestCountForVerifyTag)
+                    {
+                        CreateQuestionResult res3 = new CreateQuestionResult();
+                        res3.Status = CreateQuestionEnum.NotValidTag;
+                        res3.Message = $"تگ {item} باید حداقل توسط {_socerManagment.MinRequestCountForVerifyTag} تایید شود.";
+                        return res3;
+                    }
+
+                    Tag tag = new Tag();
+                    tag.Title = item;
+
+                    await _questionRepository.AddTag(tag);
+                    await _questionRepository.SaveChanges();
                 }
+                CreateQuestionResult res4 = new CreateQuestionResult();
+                res4.Status = CreateQuestionEnum.Success;
+                res4.Message = "تگ معتبر می باشد";
+                return res4;
             }
 
             CreateQuestionResult res = new CreateQuestionResult();

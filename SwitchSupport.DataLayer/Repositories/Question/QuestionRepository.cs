@@ -45,6 +45,16 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         {
             await _context.SaveChangesAsync();
         }
+
+        public async Task<int> GetCountRequestTag(string tag)
+        {
+            return await _context.RequestTags.CountAsync(r => r.Title.Equals(tag) && !r.IsDelete);
+        }
+
+        public async Task AddTag(Tag tag)
+        {
+            await _context.Tags.AddAsync(tag);
+        }
         #endregion
     }
 }

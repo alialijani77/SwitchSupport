@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SwitchSupport.Application.Extensions;
 using SwitchSupport.Application.Services.Interfaces;
 using SwitchSupport.Domain.ViewModels.Question;
 
@@ -28,6 +29,16 @@ namespace SwitchSupport.Web.Controllers
         [HttpPost("create-question"), ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateQuestion(CreateQuestionViewModel createQuestion)
         {
+            var tagvalidation = await _questionService.CheckTagValidation(HttpContext.User.GetUserId(), createQuestion.SelectTags);
+
+            if (tagvalidation.Status == CreateQuestionEnum.NotValidTag)
+            {
+                createQuestion.SelectTagsJson = JsonConvert.SerializeObject(createQuestion.SelectTags);
+                createQuestion.SelectTags = null;
+                TempData[ErrorMessage] = tagvalidation.Message;
+                return View(createQuestion);
+            }
+
             createQuestion.SelectTagsJson = JsonConvert.SerializeObject(createQuestion.SelectTags);
             createQuestion.SelectTags = null;
             return View(createQuestion);

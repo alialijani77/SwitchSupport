@@ -19,7 +19,11 @@ namespace SwitchSupport.Domain.Interfaces
         Task AddRequestTag(RequestTag requestTag);
 
         Task SaveChanges();
-        
+
+        Task<int> GetCountRequestTag(string tag);
+
+        Task AddTag(Tag tag);
+
         #endregion
     }
 }
