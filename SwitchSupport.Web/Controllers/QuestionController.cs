@@ -38,6 +38,8 @@ namespace SwitchSupport.Web.Controllers
                 TempData[ErrorMessage] = tagvalidation.Message;
                 return View(createQuestion);
             }
+            createQuestion.UserId = HttpContext.User.GetUserId();
+
 
             createQuestion.SelectTagsJson = JsonConvert.SerializeObject(createQuestion.SelectTags);
             createQuestion.SelectTags = null;

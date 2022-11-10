@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic.FileIO;
 using SwitchSupport.Application.Services.Interfaces;
+using SwitchSupport.Domain.Entities.Questions;
 using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.Interfaces;
 using SwitchSupport.Domain.ViewModels.Common;
 using SwitchSupport.Domain.ViewModels.Question;
+using SwitchSupport.Domain.Entities.Questions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,6 +83,24 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             res.Status = CreateQuestionEnum.NotValidTag;
             res.Message = "انتخاب تگ الزامی می باشد";
             return res;
+        }
+        #endregion
+
+        #region Question
+
+        public async Task<bool> AddQuestion(CreateQuestionViewModel createQuestion)
+        {
+            var qu = new SwitchSupport.Domain.Entities.Questions.Question()
+            {
+                Content = createQuestion.Description,
+                Title = createQuestion.Title,
+                UserId = createQuestion.UserId
+            };
+            await _questionRepository.AddQuestion(qu);
+            await _questionRepository.SaveChanges();
+
+
+            return true;
         }
         #endregion
     }

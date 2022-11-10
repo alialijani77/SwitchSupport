@@ -2,6 +2,7 @@
 using SwitchSupport.Domain.ViewModels.Question;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,10 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<List<Tag>> GetAllTags();
 
         Task<CreateQuestionResult> CheckTagValidation(long userId, List<string>? tags);
+        #endregion
+
+        #region Quetion
+        Task<bool> AddQuestion(CreateQuestionViewModel createQuestion);
         #endregion
     }
 }

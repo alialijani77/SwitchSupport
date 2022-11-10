@@ -1,4 +1,5 @@
-﻿using SwitchSupport.Domain.Entities.Tags;
+﻿using SwitchSupport.Domain.Entities.Questions;
+using SwitchSupport.Domain.Entities.Tags;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,10 @@ namespace SwitchSupport.Domain.Interfaces
 
         Task AddTag(Tag tag);
 
+        #endregion
+
+        #region Question
+        Task AddQuestion(Question question);
         #endregion
     }
 }

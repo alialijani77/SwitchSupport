@@ -56,5 +56,12 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             await _context.Tags.AddAsync(tag);
         }
         #endregion
+
+        #region Question
+        public async Task AddQuestion(Domain.Entities.Questions.Question question)
+        {
+            await _context.Questions.AddAsync(question);
+        }
+        #endregion
     }
 }
