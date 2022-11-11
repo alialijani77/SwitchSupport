@@ -33,5 +33,7 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<ResultEditInfo> EditUserInfo(EditUserViewModel editUser,long userId);
 
         Task<ChangePasswordResult> ChangePassword(ChangePasswordViewModel changePassword, long userId);
+
+        Task UpdateUserScoreAndMedal(long userId,int score);
     }
 }

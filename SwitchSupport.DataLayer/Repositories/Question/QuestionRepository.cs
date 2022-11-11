@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SwitchSupport.DataLayer.Context;
+using SwitchSupport.Domain.Entities.Questions;
 using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.Interfaces;
 using System;
@@ -55,6 +56,10 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         {
             await _context.Tags.AddAsync(tag);
         }
+        public async Task<Tag?> GetTagByName(string tagName)
+        {
+            return await _context.Tags.FirstOrDefaultAsync(t => !t.IsDelete && t.Title.Equals(tagName));
+        }
         #endregion
 
         #region Question
@@ -62,6 +67,13 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         {
             await _context.Questions.AddAsync(question);
         }
+
+        public async Task AddQuestionTag(SelectQuestionTag questionTag)
+        {
+            await _context.SelectQuestionTags.AddAsync(questionTag);
+        }
+
+
         #endregion
     }
 }

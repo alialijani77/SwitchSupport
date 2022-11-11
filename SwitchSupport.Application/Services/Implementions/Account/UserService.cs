@@ -1,12 +1,16 @@
-﻿using SwitchSupport.Application.Extensions;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic;
+using SwitchSupport.Application.Extensions;
 using SwitchSupport.Application.Generators;
 using SwitchSupport.Application.Security;
 using SwitchSupport.Application.Services.Implementions.SiteSettings;
 using SwitchSupport.Application.Services.Interfaces;
 using SwitchSupport.Application.Statics;
 using SwitchSupport.Domain.Entities.Account;
+using SwitchSupport.Domain.Enums;
 using SwitchSupport.Domain.Interfaces;
 using SwitchSupport.Domain.ViewModels.Account;
+using SwitchSupport.Domain.ViewModels.Common;
 using SwitchSupport.Domain.ViewModels.UserPanel.Account;
 using System;
 using System.Collections.Generic;
@@ -20,13 +24,15 @@ namespace SwitchSupport.Application.Services.Implementions.Account
     {
         private readonly IUserRepository _userRepository;
         private readonly IEmailService _emailService;
+        private readonly ScoreManagementViewModel _socerManagment;
 
 
         #region ctor
-        public UserService(IUserRepository userRepository, IEmailService emailService)
+        public UserService(IUserRepository userRepository, IEmailService emailService, IOptions<ScoreManagementViewModel> socerManagment)
         {
             _userRepository = userRepository;
             _emailService = emailService;
+            _socerManagment = socerManagment.Value;
         }
         #endregion
 
@@ -184,7 +190,7 @@ namespace SwitchSupport.Application.Services.Implementions.Account
         {
             var user = await _userRepository.GetUserById(userId);
 
-            if(!string.IsNullOrEmpty(editUser.BirthDate))
+            if (!string.IsNullOrEmpty(editUser.BirthDate))
             {
                 try
                 {
@@ -224,11 +230,49 @@ namespace SwitchSupport.Application.Services.Implementions.Account
             {
                 return ChangePasswordViewModel.ChangePasswordResult.OldPasswordIsNotValid;
             }
-            user.Password =  PasswordHelper.EncodePasswordMd5(changePassword.NewPassword);
+            user.Password = PasswordHelper.EncodePasswordMd5(changePassword.NewPassword);
             await _userRepository.UpdateUser(user);
             await _userRepository.Save();
 
             return ChangePasswordViewModel.ChangePasswordResult.Success;
+        }
+        #endregion
+
+        #region User Question
+        public async Task UpdateUserScoreAndMedal(long userId, int score)
+        {
+            var user = await GetUserById(userId);
+            if (user != null)
+            {
+                user.Score += score;
+                await _userRepository.UpdateUser(user);
+                await _userRepository.Save();
+
+                if (user.Score >= _socerManagment.MinScoreForBronzeMedal && user.Score < _socerManagment.MinScoreForSilverMedal)
+                {
+                    if (user.Medal != null && user.Medal == UserMedal.Bronze) return;
+
+                    user.Medal = UserMedal.Bronze;
+                    await _userRepository.UpdateUser(user);
+                    await _userRepository.Save();
+                }
+                else if (user.Score >= _socerManagment.MinScoreForSilverMedal && user.Score < _socerManagment.MinScoreForGoldMedal)
+                {
+                    if (user.Medal != null && user.Medal == UserMedal.Silver) return;
+
+                    user.Medal = UserMedal.Silver;
+                    await _userRepository.UpdateUser(user);
+                    await _userRepository.Save();
+                }
+                else if (user.Score >= _socerManagment.MinScoreForGoldMedal)
+                {
+                    if (user.Medal != null && user.Medal == UserMedal.Gold) return;
+
+                    user.Medal = UserMedal.Gold;
+                    await _userRepository.UpdateUser(user);
+                    await _userRepository.Save();
+                }
+            }
         }
         #endregion
     }

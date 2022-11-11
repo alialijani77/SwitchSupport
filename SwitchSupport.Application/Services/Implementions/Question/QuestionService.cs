@@ -19,11 +19,13 @@ namespace SwitchSupport.Application.Services.Implementions.Question
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly ScoreManagementViewModel _socerManagment;
+        private readonly IUserService _userService;
         #region ctor
-        public QuestionService(IQuestionRepository questionRepository,IOptions<ScoreManagementViewModel> socerManagment)
+        public QuestionService(IQuestionRepository questionRepository,IOptions<ScoreManagementViewModel> socerManagment, IUserService userService)
         {
             _questionRepository = questionRepository;
             _socerManagment = socerManagment.Value;
+            _userService = userService;
         }
 
         #endregion
@@ -99,7 +101,24 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             await _questionRepository.AddQuestion(qu);
             await _questionRepository.SaveChanges();
 
+            if(createQuestion.SelectTags != null && createQuestion.SelectTags.Any())
+            {
+                foreach (var item in createQuestion.SelectTags)
+                {
+                    var tag = await _questionRepository.GetTagByName(item.Trim().ToLower());
+                    if (tag == null) continue;
+                    var selectTagQuestion = new SelectQuestionTag()
+                    {
+                        QuestionId = qu.Id,
+                        TagId = tag.Id
+                     };
 
+                    await _questionRepository.AddQuestionTag(selectTagQuestion);                   
+                }
+                await _questionRepository.SaveChanges();
+            }
+            await _userService.UpdateUserScoreAndMedal(createQuestion.UserId, _socerManagment.AddNewQuestionScore);
+           
             return true;
         }
         #endregion

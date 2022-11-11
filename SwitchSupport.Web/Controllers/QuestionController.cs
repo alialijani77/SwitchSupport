@@ -39,7 +39,12 @@ namespace SwitchSupport.Web.Controllers
                 return View(createQuestion);
             }
             createQuestion.UserId = HttpContext.User.GetUserId();
-
+            var result = await _questionService.AddQuestion(createQuestion);
+            if(result)
+            {
+                TempData[SuccessMessage] = "عملیات با موفقیت انجام شد.";
+                return Redirect("/");
+            }
 
             createQuestion.SelectTagsJson = JsonConvert.SerializeObject(createQuestion.SelectTags);
             createQuestion.SelectTags = null;

@@ -1,5 +1,6 @@
 ﻿@using SwitchSupport.Application.Extensions
 @using SwitchSupport.Application.Statics
+@using SwitchSupport.Domain.Enums;
 @model SwitchSupport.Domain.Entities.Account.User
 
 <!-- right side -->
@@ -10,9 +11,36 @@
             <a href="javascript:void(0)" class="change-image"><i class="icon-pencil-edit"></i></a>
             <img src="@PathTools.UserAvatarPath@Model.Avatar">
         </div>
-        <div class="detail gold">
-            <h3> @Model.GetUserDisplayName() </h3>
+        @{
+            var className = string.Empty;
+
+            if (Model.Medal != null)
+            {
+                switch (Model.Medal)
+                {
+                    case UserMedal.Bronze:
+                        className = "bronze";
+                        break;
+                    case UserMedal.Silver:
+                        className = "silver";
+                        break;
+                    case UserMedal.Gold:
+                        className = "gold";
+                        break;
+                }
+            }
+        }
+        <div class="detail @className">
+            @if (Model.Medal != null)
+            {
+                <h3> <i class="icon-quality"></i> @Model.GetUserDisplayName() </h3>
+            }
+            else
+            {
+                <h3>@Model.GetUserDisplayName() </h3>
+            }
             <span> عضویت : @Model.CreateDate.ToShamsi() </span>
+            <span> امتیاز کاربر : @Model.Score </span>
         </div>
         <ul>
             <li><a asp-action="Index" asp-controller="Home" asp-area="UserPanel" data-toggle="tooltip" data-placement="top" title=" داشبورد "><i class="icon-settings"></i></a></li>

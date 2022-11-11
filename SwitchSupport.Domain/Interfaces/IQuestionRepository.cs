@@ -13,6 +13,8 @@ namespace SwitchSupport.Domain.Interfaces
         #region Tags
         Task<List<Tag>> GetAllTags();
 
+        Task<Tag?> GetTagByName(string tagName);
+
         Task<bool> IsExistsTagByName(string name);
 
         Task<bool> CheckUserRequestTag(long userId, string tag);
@@ -29,6 +31,9 @@ namespace SwitchSupport.Domain.Interfaces
 
         #region Question
         Task AddQuestion(Question question);
+
+        Task AddQuestionTag(SelectQuestionTag questionTag);
+
         #endregion
     }
 }
