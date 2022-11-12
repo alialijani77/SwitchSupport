@@ -17,6 +17,7 @@ namespace SwitchSupport.Web.Controllers
             _questionService = questionService;
         }
         #endregion
+
         #region Question
         [Authorize]
         [HttpGet("create-question")]
@@ -60,6 +61,15 @@ namespace SwitchSupport.Web.Controllers
             var qu = tags.Where(t => t.Title.Contains(name)).Select(t => t.Title).ToList();
 
             return Json(qu);
+        }
+
+        #endregion
+
+        #region Question List
+
+        public async Task<IActionResult> QuestionList()
+        {
+            return View();
         }
 
         #endregion
