@@ -121,6 +121,36 @@ namespace SwitchSupport.Application.Services.Implementions.Question
            
             return true;
         }
+
+        public async Task<FilterQuestionViewModel> GetAllQuestions(FilterQuestionViewModel filter)
+        {
+            var query = await _questionRepository.GetAllQuestions();
+
+            if (!string.IsNullOrEmpty(filter.Title))
+            {
+                query = query.Where(q => q.Title.Contains(filter.Title));
+            }
+
+            switch (filter.Sort)
+            {
+                case FilterQuestionSortEnum.NewToOld:
+                    query = query.OrderByDescending(q => q.CreateDate);
+                    break;
+                case FilterQuestionSortEnum.OldToNew:
+                    query = query.OrderBy(q => q.CreateDate);
+                    break;
+                case FilterQuestionSortEnum.ScoreHighToLow:
+                    query = query.OrderByDescending(q => q.Score);
+                    break;
+                case FilterQuestionSortEnum.ScoreLowToHigh:
+                    query = query.OrderBy(q => q.Score);
+                    break;               
+            }
+
+            await filter.SetPaging(query);
+
+            return filter;
+        }
         #endregion
     }
 }

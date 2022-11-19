@@ -67,9 +67,10 @@ namespace SwitchSupport.Web.Controllers
 
         #region Question List
 
-        public async Task<IActionResult> QuestionList()
+        public async Task<IActionResult> QuestionList(FilterQuestionViewModel filter)
         {
-            return View();
+            var result = _questionService.GetAllQuestions(filter);
+            return View(result);
         }
 
         #endregion

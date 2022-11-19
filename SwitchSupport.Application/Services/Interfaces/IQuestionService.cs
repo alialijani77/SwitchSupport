@@ -19,6 +19,8 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         #region Quetion
         Task<bool> AddQuestion(CreateQuestionViewModel createQuestion);
+
+        Task<FilterQuestionViewModel> GetAllQuestions(FilterQuestionViewModel filter);
         #endregion
     }
 }

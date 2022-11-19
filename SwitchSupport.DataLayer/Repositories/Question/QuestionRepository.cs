@@ -73,6 +73,11 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             await _context.SelectQuestionTags.AddAsync(questionTag);
         }
 
+        public async Task<IQueryable<Domain.Entities.Questions.Question>> GetAllQuestions()
+        {
+            return _context.Questions.Where(q => q.IsDelete).AsQueryable();
+        }
+
 
         #endregion
     }

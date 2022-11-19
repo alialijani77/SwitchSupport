@@ -34,6 +34,8 @@ namespace SwitchSupport.Domain.Interfaces
 
         Task AddQuestionTag(SelectQuestionTag questionTag);
 
+        Task<IQueryable<Question>> GetAllQuestions();
+
         #endregion
     }
 }
