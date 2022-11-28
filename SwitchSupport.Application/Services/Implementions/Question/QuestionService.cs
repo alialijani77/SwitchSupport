@@ -1,17 +1,15 @@
-﻿using Microsoft.Extensions.Options;
-using Microsoft.VisualBasic.FileIO;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
 using SwitchSupport.Application.Services.Interfaces;
 using SwitchSupport.Domain.Entities.Questions;
 using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.Interfaces;
 using SwitchSupport.Domain.ViewModels.Common;
 using SwitchSupport.Domain.ViewModels.Question;
-using SwitchSupport.Domain.Entities.Questions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SwitchSupport.Application.Extensions;
+using System.Data;
+
 
 namespace SwitchSupport.Application.Services.Implementions.Question
 {
@@ -146,6 +144,22 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     query = query.OrderBy(q => q.Score);
                     break;               
             }
+            var result = query.Include(s => s.Answers)
+                .Select(q => new QuestionListViewModel()
+                {
+                    QuestionId = q.Id,
+                    Title = q.Title,
+                    Score = q.Score,
+                    HasAnyTrueAnswer = q.Answers.Any(a => !a.IsDelete && a.IsTrue),
+                    HasAnyAnswer = q.Answers.Any(a => !a.IsDelete),
+                    Tags = q.SelectQuestionTags.Select(t => t.Tag.Title).ToList(),
+                    UserDisplayName = q.User.GetUserDisplayName(),
+                    ViewCount = q.ViewCount,
+                    AnswersCount = q.Answers.Count(),
+                    CreateDate = q.CreateDate.TimeAgo(),
+                    AnswerByDisplayName = q.Answers.Where(a => !a.IsDelete).OrderByDescending(a => a.CreateDate).First().User.GetUserDisplayName(),
+                    AnswerByCreateDate = q.Answers.Any(a => !a.IsDelete) ? q.Answers.OrderByDescending(a => a.CreateDate).First().CreateDate.TimeAgo() : null
+                }).AsQueryable();
 
             await filter.SetPaging(query);
 
