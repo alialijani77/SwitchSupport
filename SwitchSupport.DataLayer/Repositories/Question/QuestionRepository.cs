@@ -75,7 +75,8 @@ namespace SwitchSupport.DataLayer.Repositories.Question
 
         public async Task<IQueryable<Domain.Entities.Questions.Question>> GetAllQuestions()
         {
-            return _context.Questions.Where(q => q.IsDelete).AsQueryable();
+            //var res = _context.Questions.Where(q => !q.IsDelete).ToList();
+            return _context.Questions.Where(q => !q.IsDelete).AsQueryable();
         }
 
 

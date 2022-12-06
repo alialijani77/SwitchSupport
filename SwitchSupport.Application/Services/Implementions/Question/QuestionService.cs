@@ -119,7 +119,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
            
             return true;
         }
-
+        
         public async Task<FilterQuestionViewModel> GetAllQuestions(FilterQuestionViewModel filter)
         {
             var query = await _questionRepository.GetAllQuestions();
@@ -144,7 +144,8 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     query = query.OrderBy(q => q.Score);
                     break;               
             }
-            var result = query.Include(s => s.Answers)
+            var result = query.Include(s => s.Answers).Include(s=>s.SelectQuestionTags).ThenInclude(s=>s.Tag)
+                .Include(s=>s.User)
                 .Select(q => new QuestionListViewModel()
                 {
                     QuestionId = q.Id,
@@ -156,12 +157,12 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     UserDisplayName = q.User.GetUserDisplayName(),
                     ViewCount = q.ViewCount,
                     AnswersCount = q.Answers.Count(),
-                    CreateDate = q.CreateDate.TimeAgo(),
-                    AnswerByDisplayName = q.Answers.Where(a => !a.IsDelete).OrderByDescending(a => a.CreateDate).First().User.GetUserDisplayName(),
-                    AnswerByCreateDate = q.Answers.Any(a => !a.IsDelete) ? q.Answers.OrderByDescending(a => a.CreateDate).First().CreateDate.TimeAgo() : null
+                    CreateDate = q.CreateDate.TimeAgo()
+                    //AnswerByDisplayName = q.Answers.Where(a => !a.IsDelete).OrderByDescending(a => a.CreateDate).First().User.GetUserDisplayName(),
+                   // AnswerByCreateDate = q.Answers.Any(a => !a.IsDelete) ? q.Answers.OrderByDescending(a => a.CreateDate).First().CreateDate.TimeAgo() : null
                 }).AsQueryable();
-
-            await filter.SetPaging(query);
+            
+           await filter.SetPaging(result);
 
             return filter;
         }

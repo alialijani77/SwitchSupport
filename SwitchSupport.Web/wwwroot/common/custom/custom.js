@@ -56,6 +56,15 @@ $(function () {
 });
 
 
+function SubmitQuestionForm() {
+    $("#filter_form").submit();
+}
+
+function SubmitFilterFormPagination(pageId) {
+    $("#CurrentPage").val(pageId);
+    $("#filter_form").submit();
+}
+
 
 //var magicsuggests = document.querySelectorAll(".magicsuggest");
 //if (magicsuggests.length) {

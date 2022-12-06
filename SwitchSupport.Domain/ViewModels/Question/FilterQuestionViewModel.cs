@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SwitchSupport.Domain.ViewModels.Question
 {
-    public class FilterQuestionViewModel : Paging<SwitchSupport.Domain.Entities.Questions.Question>
+    public class FilterQuestionViewModel : Paging<QuestionListViewModel>
     {
         public string? Title { get; set; }
 
