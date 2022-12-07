@@ -122,11 +122,11 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         
         public async Task<FilterQuestionViewModel> GetAllQuestions(FilterQuestionViewModel filter)
         {
-            var query = await _questionRepository.GetAllQuestions();
+            var query = await  _questionRepository.GetAllQuestions();
 
             if (!string.IsNullOrEmpty(filter.Title))
             {
-                query = query.Where(q => q.Title.Contains(filter.Title));
+                query = query.Where(q => q.Title.Contains(filter.Title.Trim().ToLower()));
             }
 
             switch (filter.Sort)
@@ -158,11 +158,11 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     ViewCount = q.ViewCount,
                     AnswersCount = q.Answers.Count(),
                     CreateDate = q.CreateDate.TimeAgo()
-                    //AnswerByDisplayName = q.Answers.Where(a => !a.IsDelete).OrderByDescending(a => a.CreateDate).First().User.GetUserDisplayName(),
-                   // AnswerByCreateDate = q.Answers.Any(a => !a.IsDelete) ? q.Answers.OrderByDescending(a => a.CreateDate).First().CreateDate.TimeAgo() : null
+                   // AnswerByDisplayName = q.Answers.Where(a => !a.IsDelete).OrderByDescending(a => a.CreateDate).First().User.GetUserDisplayName(),
+                    //AnswerByCreateDate = q.Answers.Any(a => !a.IsDelete) ? q.Answers.OrderByDescending(a => a.CreateDate).First().CreateDate.TimeAgo() : null
                 }).AsQueryable();
             
-           await filter.SetPaging(result);
+            await filter.SetPaging(result);
 
             return filter;
         }

@@ -26,9 +26,9 @@ namespace SwitchSupport.Domain.ViewModels.Question
 
         public int ViewCount { get; set; }
 
-        public string? AnswerByDisplayName { get; set; }
+       //public string? AnswerByDisplayName { get; set; }
 
-        public string? AnswerByCreateDate { get; set; }
+        //public string? AnswerByCreateDate { get; set; }
 
         public List<string> Tags { get; set; }
     }

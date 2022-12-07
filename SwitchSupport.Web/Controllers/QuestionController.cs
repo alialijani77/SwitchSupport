@@ -69,7 +69,7 @@ namespace SwitchSupport.Web.Controllers
 
         public async Task<IActionResult> QuestionList(FilterQuestionViewModel filter)
         {
-            var result = _questionService.GetAllQuestions(filter);
+            var result = await _questionService.GetAllQuestions(filter);
             return View(result);
         }
 

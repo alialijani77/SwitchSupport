@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SwitchSupport.Domain.ViewModels.Common
 {
@@ -51,8 +52,8 @@ namespace SwitchSupport.Domain.ViewModels.Common
             CurrentPage = CurrentPage > TotalPage ? TotalPage : CurrentPage;
             StartPage = CurrentPage - HowManyShowBeforAfter < 0 ? 1 : CurrentPage - HowManyShowBeforAfter;
             EndPage = CurrentPage + HowManyShowBeforAfter > TotalPage ? TotalPage : CurrentPage + HowManyShowBeforAfter;
-            SkipEntity = (2 - 1) * TakeEntitiy;
-            Entities = query.Skip(SkipEntity).Take(TakeEntitiy).ToList();
+            SkipEntity = (CurrentPage - 1) * TakeEntitiy;
+            Entities = await query.Skip(SkipEntity).Take(TakeEntitiy).ToListAsync();
         }
     }
 

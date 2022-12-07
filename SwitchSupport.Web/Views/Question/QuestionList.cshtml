@@ -78,14 +78,14 @@
                                     <span> @question.AnswersCount <i class="icon-comment-1"></i> </span>
                                     <ul>
                                         <li> پرسیده شده توسط <a href="javascript:void(0)"> @question.UserDisplayName </a> @question.CreateDate </li>
-                                        @if (!string.IsNullOrEmpty(question.AnswerByDisplayName) && !string.IsNullOrEmpty(question.AnswerByCreateDate))
+                                       @* @if (!string.IsNullOrEmpty(question.AnswerByDisplayName) && !string.IsNullOrEmpty(question.AnswerByCreateDate))
                                         {
                                             <li> پاسخ داده شده توسط <a href="javascript:void(0)"> @question.AnswerByDisplayName </a> @question.AnswerByCreateDate </li>
                                         }
                                         else
                                         {
                                             <li> پاسخی ثبت نشده است . </li>
-                                        }
+                                        }*@
                                     </ul>
                                     <div class="detail">
                                         <div class="tags-layer">
