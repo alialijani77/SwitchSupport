@@ -2,19 +2,19 @@
 @model SwitchSupport.Domain.ViewModels.Question.FilterQuestionViewModel
 
 @{
-    ViewData["Title"] = "لیست سوالات";
+    ViewData["Title"] = $"لیست سوالات مروبط به {ViewBag.TagTitle}";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Styles
-{
-<link rel="stylesheet" type="text/css" href="/css/page.css">
-<link rel="stylesheet" type="text/css" href="/css/question.css">
+    {
+    <link rel="stylesheet" type="text/css" href="/css/page.css">
+    <link rel="stylesheet" type="text/css" href="/css/question.css">
 }
 
 @section Header
-{
-<partial name="_Header" />
+    {
+    <partial name="_Header" />
 }
 
 <div class="user-page-style">
@@ -22,7 +22,7 @@
     <div class="breadcumb-layer">
         <div class="container">
             <ul itemtype="http://schema.org/BreadcrumbList" class="breadcrumb">
-                <li itemtype="http://schema.org/ListItem" itemscope itemprop="itemListElement"><a href="/" itemprop="item"><span itemprop="name"> سوییچ </span></a></li>
+                <li itemtype="http://schema.org/ListItem" itemscope itemprop="itemListElement"><a href="/" itemprop="item"><span itemprop="name"> باگ فیکسر </span></a></li>
                 <li itemtype="http://schema.org/ListItem" itemscope itemprop="itemListElement"><a href="javascript:void(0)" itemprop="item"><span itemprop="name"> @ViewData["Title"] </span></a></li>
             </ul>
         </div>
@@ -38,12 +38,12 @@
                     <span> <i>@Model.AllCountEntities</i> پرسش ثبت شده  </span>
                 </header>
                 <!-- Top -->
-                <form asp-action="QuestionList" method="get" id="filter_form">
-                    <input type="hidden" asp-for="CurrentPage"/>
+                <form asp-action="QuestionListByTag" asp-route-tagName="@ViewBag.TagTitle" method="get" id="filter_form">
+                    <input type="hidden" asp-for="CurrentPage" />
                     <div class="top-layer">
                         <div class="search-layer">
                             <input type="text" asp-for="Title" placeholder="دنبال چه سوالی میگردی ؟ ">
-                            <button type="submit"><i class="icon-search"></i></button>
+                            <button type="su"><i class="icon-search"></i></button>
                         </div>
                         <div class="filter-layer">
                             <div class="select-layer">
@@ -92,7 +92,6 @@
                                             @foreach (var tag in question.Tags)
                                             {
                                                 <a asp-action="QuestionListByTag" asp-controller="Question" asp-route-tagName="@tag"> @tag </a>
-
                                             }
                                         </div>
                                         <div class="left-side">
@@ -108,7 +107,7 @@
                     <!-- /questions list -->
                 </div>
                 <!-- /questions -->
-                
+
                 <partial name="_SitePaging" model="Model.GetPaging()" />
 
             </div>

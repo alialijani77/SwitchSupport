@@ -124,6 +124,12 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         {
             var query = await  _questionRepository.GetAllQuestions();
 
+            if(!string.IsNullOrEmpty(filter.TagTitle))
+            {
+                query = query.Include(t => t.SelectQuestionTags).ThenInclude(t => t.Tag)
+                    .Where(s => s.SelectQuestionTags.Any(s => s.Tag.Title.Equals(filter.TagTitle)));
+            }
+
             if (!string.IsNullOrEmpty(filter.Title))
             {
                 query = query.Where(q => q.Title.Contains(filter.Title.Trim().ToLower()));

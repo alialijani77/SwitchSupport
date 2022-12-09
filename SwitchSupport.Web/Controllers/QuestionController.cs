@@ -66,13 +66,25 @@ namespace SwitchSupport.Web.Controllers
         #endregion
 
         #region Question List
-
+        [Route("question")]
         public async Task<IActionResult> QuestionList(FilterQuestionViewModel filter)
         {
             var result = await _questionService.GetAllQuestions(filter);
             return View(result);
         }
 
+        #endregion
+
+        #region Question list By Tag
+        [Route("tags/{tagName}")]
+        public async Task<IActionResult> QuestionListByTag(FilterQuestionViewModel filter,string tagName)
+        {
+            tagName = tagName.Trim().ToLower();
+            filter.TagTitle = tagName;
+            ViewBag.TagTitle = tagName;
+            var result = await _questionService.GetAllQuestions(filter);
+            return View(result);
+        }
         #endregion
 
 
