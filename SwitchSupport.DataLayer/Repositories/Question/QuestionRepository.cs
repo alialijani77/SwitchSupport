@@ -27,6 +27,11 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             return await _context.Tags.ToListAsync();
         }
 
+        public async Task<IQueryable<Tag>> GetAllFilterTags()
+        {
+            return _context.Tags.Where(t => !t.IsDelete).AsQueryable();
+        }
+
         public async Task<bool> IsExistsTagByName(string name)
         {
             return await _context.Tags.AnyAsync(t => t.Title.Equals(name) && !t.IsDelete);
@@ -78,6 +83,12 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             //var res = _context.Questions.Where(q => !q.IsDelete).ToList();
             return _context.Questions.Where(q => !q.IsDelete).AsQueryable();
         }
+
+        public async Task UpdateTag(Tag tag)
+        {
+             _context.Tags.Update(tag);
+        }
+
 
 
         #endregion

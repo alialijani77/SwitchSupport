@@ -63,6 +63,14 @@ namespace SwitchSupport.Web.Controllers
             return Json(qu);
         }
 
+
+        [Route("tags")]
+        public async Task<IActionResult> FilterTag(FilterTagViewModel filter)
+        {
+            var result = await _questionService.GetAllFilterTags(filter);
+            return View(result);
+        }
+
         #endregion
 
         #region Question List

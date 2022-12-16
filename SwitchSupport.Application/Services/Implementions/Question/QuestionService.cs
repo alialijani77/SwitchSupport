@@ -105,6 +105,8 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                 {
                     var tag = await _questionRepository.GetTagByName(item.Trim().ToLower());
                     if (tag == null) continue;
+                    tag.UseCount += 1;
+                    await _questionRepository.UpdateTag(tag);
                     var selectTagQuestion = new SelectQuestionTag()
                     {
                         QuestionId = qu.Id,
@@ -172,6 +174,41 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 
             return filter;
         }
+        #endregion
+
+        #region FilterTag
+
+        public async Task<FilterTagViewModel> GetAllFilterTags(FilterTagViewModel filter)
+        {
+            var query = await _questionRepository.GetAllFilterTags();
+
+            if(!string.IsNullOrEmpty(filter.Title))
+            {
+                query = query.Where(t=>t.Title.Contains(filter.Title.ToLower().Trim()));
+            }
+
+            switch (filter.Sort)
+            {
+                case FilterTagSortEnum.NewToOld:
+                    query = query.OrderByDescending(t => t.CreateDate);
+                    break;
+                case FilterTagSortEnum.OldToNew:
+                    query = query.OrderBy(t => t.CreateDate);
+                    break;
+                case FilterTagSortEnum.UseCountHighToLow:
+                    query = query.OrderByDescending(t => t.UseCount);
+                    break;
+                case FilterTagSortEnum.UseCountLowToHigh:
+                    query = query.OrderBy(t => t.UseCount);
+                    break;
+            }
+
+            await filter.SetPaging(query);
+
+            return filter;
+        }
+
+
         #endregion
     }
 }

@@ -13,6 +13,10 @@ namespace SwitchSupport.Domain.Interfaces
         #region Tags
         Task<List<Tag>> GetAllTags();
 
+        Task<IQueryable<Tag>> GetAllFilterTags();
+
+        Task UpdateTag(Tag tag);
+
         Task<Tag?> GetTagByName(string tagName);
 
         Task<bool> IsExistsTagByName(string name);
