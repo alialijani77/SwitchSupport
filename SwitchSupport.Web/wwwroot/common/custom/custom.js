@@ -60,6 +60,10 @@ function SubmitQuestionForm() {
     $("#filter_form").submit();
 }
 
+function SubmitTagForm() {
+    $("#filter_form").submit();
+}
+
 function SubmitFilterFormPagination(pageId) {
     $("#CurrentPage").val(pageId);
     $("#filter_form").submit();

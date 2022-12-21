@@ -52,9 +52,11 @@ namespace SwitchSupport.Domain.ViewModels.Common
             CurrentPage = CurrentPage > TotalPage ? TotalPage : CurrentPage;
             StartPage = CurrentPage - HowManyShowBeforAfter < 0 ? 1 : CurrentPage - HowManyShowBeforAfter;
             EndPage = CurrentPage + HowManyShowBeforAfter > TotalPage ? TotalPage : CurrentPage + HowManyShowBeforAfter;
-            if (CurrentPage == 0) { CurrentPage =1; }
             SkipEntity = (CurrentPage - 1) * TakeEntitiy;
-            Entities = await query.Skip(SkipEntity).Take(TakeEntitiy).ToListAsync();
+            if (query.Any())
+            {
+                Entities = await query.Skip(SkipEntity).Take(TakeEntitiy).ToListAsync();
+            }          
         }
     }
 
