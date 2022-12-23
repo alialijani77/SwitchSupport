@@ -208,6 +208,11 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             return filter;
         }
 
+        public async Task<Domain.Entities.Questions.Question?> GetQuestionById(long questionId)
+        {
+            return await _questionRepository.GetQuestionById(questionId);
+        }
+
 
         #endregion
     }

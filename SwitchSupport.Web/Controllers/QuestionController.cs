@@ -51,6 +51,7 @@ namespace SwitchSupport.Web.Controllers
             createQuestion.SelectTags = null;
             return View(createQuestion);
         }
+
         #endregion
 
         #region Tags
@@ -79,6 +80,15 @@ namespace SwitchSupport.Web.Controllers
         {
             var result = await _questionService.GetAllQuestions(filter);
             return View(result);
+        }
+
+
+        [Route("question/{questionId}")]
+        public async Task<IActionResult> GetQuestionDetails(long questionId)
+        {
+            var question = await _questionService.GetQuestionById(questionId);
+            if (question == null) return NotFound();
+            return View(question);
         }
 
         #endregion

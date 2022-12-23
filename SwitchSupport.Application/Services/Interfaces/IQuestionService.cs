@@ -1,4 +1,5 @@
-﻿using SwitchSupport.Domain.Entities.Tags;
+﻿using SwitchSupport.Domain.Entities.Questions;
+using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.ViewModels.Question;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,9 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<FilterQuestionViewModel> GetAllQuestions(FilterQuestionViewModel filter);
 
         Task<FilterTagViewModel> GetAllFilterTags(FilterTagViewModel filter);
+
+        Task<Question?> GetQuestionById(long questionId);
+
 
         #endregion
     }

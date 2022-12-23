@@ -32,6 +32,11 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             return _context.Tags.Where(t => !t.IsDelete).AsQueryable();
         }
 
+        public async Task UpdateTag(Tag tag)
+        {
+            _context.Tags.Update(tag);
+        }
+
         public async Task<bool> IsExistsTagByName(string name)
         {
             return await _context.Tags.AnyAsync(t => t.Title.Equals(name) && !t.IsDelete);
@@ -84,9 +89,14 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             return _context.Questions.Where(q => !q.IsDelete).AsQueryable();
         }
 
-        public async Task UpdateTag(Tag tag)
+       
+
+        public async Task<Domain.Entities.Questions.Question?> GetQuestionById(long questionId)
         {
-             _context.Tags.Update(tag);
+            return await _context.Questions
+                .Include(q => q.User)
+                .Include(q => q.Answers)
+                .FirstOrDefaultAsync(q => q.Id == questionId && !q.IsDelete);
         }
 
 

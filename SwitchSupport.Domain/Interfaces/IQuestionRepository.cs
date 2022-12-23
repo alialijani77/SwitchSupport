@@ -40,6 +40,8 @@ namespace SwitchSupport.Domain.Interfaces
 
         Task<IQueryable<Question>> GetAllQuestions();
 
+        Task<Question?> GetQuestionById(long questionId);
+
         #endregion
     }
 }
