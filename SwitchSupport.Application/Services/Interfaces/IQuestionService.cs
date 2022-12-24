@@ -16,6 +16,8 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<List<Tag>> GetAllTags();
 
         Task<CreateQuestionResult> CheckTagValidation(long userId, List<string>? tags);
+
+        Task<List<string>> GetTagsByQuestionId(long questionId);
         #endregion
 
         #region Quetion

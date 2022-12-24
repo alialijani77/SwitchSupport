@@ -2,9 +2,11 @@
 @using SwitchSupport.Application.Statics
 @model SwitchSupport.Domain.Entities.Questions.Question
 
+
 @{
     ViewData["Title"] = "جزئیات سوال";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var tags = ViewData["tags"] as List<string>;
 }
 
 @section Styles
@@ -98,13 +100,11 @@
                     <!-- tags -->
                     <div class="post-tags-layer">
                         <div class="tags-layer">
-                            <a href=""> Jquery </a>
-                            <a href=""> php </a>
-                            <a href=""> Javascript </a>
-                            <a href=""> woocommerce </a>
-                            <a href=""> Framework </a>
-                            <a href=""> Jquery </a>
-                            <a href=""> php </a>
+                            @foreach (var item in tags)
+                            {
+                                <a asp-action="QuestionListByTag" asp-controller="Question" asp-route-tagName =" @item"> @item </a>
+                            }
+                                                   
                         </div>
                     </div>
                     <!-- /tags -->

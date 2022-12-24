@@ -62,6 +62,14 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             return await _context.RequestTags.CountAsync(r => r.Title.Equals(tag) && !r.IsDelete);
         }
 
+        public async Task<List<string>> GetTagsByQuestionId(long questionId)
+        {
+            return await _context.SelectQuestionTags
+                .Include(t => t.Tag)
+                .Where(t => t.QuestionId == questionId)
+                .Select(t=>t.Tag.Title).ToListAsync();
+        }
+
         public async Task AddTag(Tag tag)
         {
             await _context.Tags.AddAsync(tag);
@@ -98,6 +106,8 @@ namespace SwitchSupport.DataLayer.Repositories.Question
                 .Include(q => q.Answers)
                 .FirstOrDefaultAsync(q => q.Id == questionId && !q.IsDelete);
         }
+
+       
 
 
 

@@ -84,6 +84,12 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             res.Message = "انتخاب تگ الزامی می باشد";
             return res;
         }
+
+
+        public async Task<List<string>> GetTagsByQuestionId(long questionId)
+        {
+            return await _questionRepository.GetTagsByQuestionId(questionId);
+        }
         #endregion
 
         #region Question
@@ -212,6 +218,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         {
             return await _questionRepository.GetQuestionById(questionId);
         }
+
 
 
         #endregion

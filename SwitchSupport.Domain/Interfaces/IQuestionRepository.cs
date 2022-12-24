@@ -31,6 +31,8 @@ namespace SwitchSupport.Domain.Interfaces
 
         Task AddTag(Tag tag);
 
+        Task<List<string>> GetTagsByQuestionId(long questionId);
+
         #endregion
 
         #region Question

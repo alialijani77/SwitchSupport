@@ -88,6 +88,7 @@ namespace SwitchSupport.Web.Controllers
         {
             var question = await _questionService.GetQuestionById(questionId);
             if (question == null) return NotFound();
+            ViewData["tags"] = await _questionService.GetTagsByQuestionId(questionId);
             return View(question);
         }
 
