@@ -29,6 +29,11 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         Task<Question?> GetQuestionById(long questionId);
 
+        #endregion
+
+        #region Answer
+
+        Task<bool> AnswerQuestin(AnswerQuestionViewModel answerQuestion);
 
         #endregion
     }

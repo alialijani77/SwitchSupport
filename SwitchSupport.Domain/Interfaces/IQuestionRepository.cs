@@ -1,5 +1,6 @@
 ﻿using SwitchSupport.Domain.Entities.Questions;
 using SwitchSupport.Domain.Entities.Tags;
+using SwitchSupport.Domain.ViewModels.Question;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,10 @@ namespace SwitchSupport.Domain.Interfaces
 
         Task<Question?> GetQuestionById(long questionId);
 
+        #endregion
+
+        #region Answer
+        Task AnswerQuestion(Answer answerQuestion);
         #endregion
     }
 }

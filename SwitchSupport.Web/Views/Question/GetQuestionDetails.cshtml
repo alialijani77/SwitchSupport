@@ -1,7 +1,7 @@
 ﻿@using SwitchSupport.Application.Extensions
 @using SwitchSupport.Application.Statics
 @model SwitchSupport.Domain.Entities.Questions.Question
-
+@using SwitchSupport.Domain.ViewModels.Question
 
 @{
     ViewData["Title"] = "جزئیات سوال";
@@ -108,7 +108,16 @@
                         </div>
                     </div>
                     <!-- /tags -->
-
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <partial name="_AnswerFormPartial" model="new AnswerQuestionViewModel { QuestionId = Model.Id }" />
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            برای پاسخ به سوال ابتدا باید وارد حساب کاربری خود شوید .
+                        </div>
+                    }
                 </section>
                 <!-- /question content -->
 
@@ -124,5 +133,6 @@
 
 @section Scripts
     {
+    <partial name="_JqueryValidation" />
     <script src="/js/question.js"></script>
 }

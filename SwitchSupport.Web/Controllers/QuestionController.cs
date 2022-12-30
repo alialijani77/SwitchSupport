@@ -91,6 +91,23 @@ namespace SwitchSupport.Web.Controllers
             ViewData["tags"] = await _questionService.GetTagsByQuestionId(questionId);
             return View(question);
         }
+        [Route("AnswerQuestion")]
+        [Authorize]
+        public async Task<IActionResult> AnswerQuestion(AnswerQuestionViewModel answerQuestion)
+        {
+            if(string.IsNullOrEmpty(answerQuestion.Answer))
+            {
+                return new JsonResult(new { status = "empty" });
+            }
+            var userId = User.GetUserId();
+            answerQuestion.UserId = userId;
+            var result = await _questionService.AnswerQuestin(answerQuestion);
+            if (result)
+            {
+                return new JsonResult(new {status = "success"});
+            }
+            return new JsonResult(new { status = "error" });
+        }
 
         #endregion
 

@@ -219,7 +219,29 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             return await _questionRepository.GetQuestionById(questionId);
         }
 
+        #endregion
 
+        #region Answer
+
+        public async Task<bool> AnswerQuestin(AnswerQuestionViewModel answerQuestion)
+        {
+            var question = _questionRepository.GetQuestionById(answerQuestion.QuestionId);
+
+            if(question == null)
+            {
+                return false;
+            }
+            Answer answer = new Answer()
+            {
+                Content = answerQuestion.Answer,
+                QuestionId = answerQuestion.QuestionId,
+                UserId = answerQuestion.UserId
+            };
+
+            await _questionRepository.AnswerQuestion(answer);
+            await _questionRepository.SaveChanges();
+            return true;
+        }
 
         #endregion
     }

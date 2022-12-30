@@ -3,6 +3,7 @@ using SwitchSupport.DataLayer.Context;
 using SwitchSupport.Domain.Entities.Questions;
 using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.Interfaces;
+using SwitchSupport.Domain.ViewModels.Question;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -107,10 +108,13 @@ namespace SwitchSupport.DataLayer.Repositories.Question
                 .FirstOrDefaultAsync(q => q.Id == questionId && !q.IsDelete);
         }
 
-       
+        #endregion
 
-
-
+        #region Answer
+        public async Task AnswerQuestion(Answer answerQuestion)
+        {
+            await _context.Answers.AddAsync(answerQuestion);
+        }
         #endregion
     }
 }
