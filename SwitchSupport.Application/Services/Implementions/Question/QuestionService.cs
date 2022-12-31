@@ -243,6 +243,11 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             return true;
         }
 
+        public async Task<List<Answer>> GetQuestionAnswerList(long questionId)
+        {
+            return await _questionRepository.GetQuestionAnswerList(questionId);
+        }
+
         #endregion
     }
 }

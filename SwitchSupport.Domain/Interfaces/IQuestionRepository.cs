@@ -49,6 +49,8 @@ namespace SwitchSupport.Domain.Interfaces
 
         #region Answer
         Task AnswerQuestion(Answer answerQuestion);
+
+        Task<List<Answer>> GetQuestionAnswerList(long questionId);
         #endregion
     }
 }

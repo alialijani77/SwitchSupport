@@ -1,4 +1,5 @@
-﻿var editors = document.querySelectorAll(".editor");
+﻿var editorsArray = [];
+var editors = document.querySelectorAll(".editor");
 if (editors.length) {
     console.log("ali")
     $.getScript("/common/ckeditor/build/ckeditor.js", function (data, textStatus, jqxhr) {
@@ -14,6 +15,7 @@ if (editors.length) {
                 })
                 .then(editor => {
                     window.editor = editor;
+                    editorsArray.push(editor);
                 })
                 .catch(error => {
                     console.log(error);
