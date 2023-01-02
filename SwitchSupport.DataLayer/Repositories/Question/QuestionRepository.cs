@@ -119,7 +119,8 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         public async Task<List<Answer>> GetQuestionAnswerList(long questionId)
         {
             return await _context.Answers.Include(a => a.User)
-                .Where(a=>a.QuestionId == questionId && !a.IsDelete).ToListAsync();
+                .Where(a => a.QuestionId == questionId && !a.IsDelete)
+                .OrderByDescending(a => a.CreateDate).ToListAsync();
         }
         #endregion
     }

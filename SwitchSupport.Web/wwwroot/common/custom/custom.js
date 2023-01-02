@@ -55,6 +55,37 @@ $(function () {
     }
 });
 
+var editorsArray = [];
+var editors = document.querySelectorAll(".editor");
+if (editors.length) {
+    console.log("ali")
+    $.getScript("/common/ckeditor/build/ckeditor.js", function (data, textStatus, jqxhr) {
+        for (editor of editors) {
+            ClassicEditor
+                .create(editor, {
+
+                    licenseKey: '',
+                    simpleUpload: {
+                        // The URL that the images are uploaded to.
+                        uploadUrl: '/Home/UploadCkeditor'
+                    }
+                })
+                .then(editor => {
+                    window.editor = editor;
+                    editorsArray.push(editor);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    });
+
+}
+
+function SubmitFilterFormPagination(pageId) {
+    $("#CurrentPage").val(pageId);
+    $("#filter_form").submit();
+}
 
 function SubmitQuestionForm() {
     $("#filter_form").submit();
@@ -63,20 +94,14 @@ function SubmitQuestionForm() {
 function SubmitTagForm() {
     $("#filter_form").submit();
 }
-
-function SubmitFilterFormPagination(pageId) {
-    $("#CurrentPage").val(pageId);
-    $("#filter_form").submit();
-}
-
 function AnswerQuestionFormDone(response) {
-   
+
     if (response.status === "success") {
         Swal.fire(
             'اعلان',
             'پاسخ شما با موفقیت ثبت شد .',
             'success'
-        )       
+        )
     }
     else if (response.status === "empty") {
         Swal.fire(
@@ -90,9 +115,13 @@ function AnswerQuestionFormDone(response) {
             'خطا',
             'خطایی رخ داده است لطفا مجدد تلاش کنید .',
             'error'
-        )    
+        )
+    }
+    for (var editor of editorsArray) {
+        editor.setData('');
     }
 }
+
 //var magicsuggests = document.querySelectorAll(".magicsuggest");
 //if (magicsuggests.length) {
 //    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '/common/magicsuggest/magicsuggest.css'));
