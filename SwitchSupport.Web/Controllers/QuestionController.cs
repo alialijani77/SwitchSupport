@@ -101,7 +101,7 @@ namespace SwitchSupport.Web.Controllers
             }
             var userId = User.GetUserId();
             answerQuestion.UserId = userId;
-            var result = await _questionService.AnswerQuestin(answerQuestion);
+            var result = await _questionService.AnswerQuestion(answerQuestion);
             if (result)
             {
                 return new JsonResult(new {status = "success"});

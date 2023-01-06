@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SwitchSupport.Application.Services.Implementions.Question;
+using SwitchSupport.Application.Services.Interfaces;
 
 namespace SwitchSupport.Web.ViewComponents
 {
     public class QuestionAnswerListViewComponent : ViewComponent
     {
-        private readonly QuestionService _questionService;
-        public QuestionAnswerListViewComponent(QuestionService questionService)
+        private readonly IQuestionService _questionService;
+        public QuestionAnswerListViewComponent(IQuestionService questionService)
         {
             _questionService = questionService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(long questionId)
         {
-            return View("QuestionAnswerList",_questionService.GetQuestionAnswerList(questionId));
+            return View("QuestionAnswerList",await _questionService.GetQuestionAnswerList(questionId));
         }
     }
 }

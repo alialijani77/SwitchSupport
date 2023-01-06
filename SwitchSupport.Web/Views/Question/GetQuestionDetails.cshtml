@@ -108,6 +108,15 @@
                         </div>
                     </div>
                     <!-- /tags -->
+                    <!-- answer -->
+                    <div class="answers-layer" id="AnswersBox">
+                        <div class="top-layer">
+                            <h4><span> @Model.Answers.Count(s => !s.IsDelete) </span> پاسخ به این پرسش </h4>
+                        </div>
+
+                        @await Component.InvokeAsync("QuestionAnswerList", new { questionId = Model.Id })
+
+                    </div>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <partial name="_AnswerFormPartial" model="new AnswerQuestionViewModel { QuestionId = Model.Id }" />

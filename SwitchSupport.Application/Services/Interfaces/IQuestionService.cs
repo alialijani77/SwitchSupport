@@ -33,7 +33,7 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         #region Answer
 
-        Task<bool> AnswerQuestin(AnswerQuestionViewModel answerQuestion);
+        Task<bool> AnswerQuestion(AnswerQuestionViewModel answerQuestion);
 
         Task<List<Answer>> GetQuestionAnswerList(long questionId);
 

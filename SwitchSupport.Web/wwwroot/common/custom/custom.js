@@ -120,6 +120,12 @@ function AnswerQuestionFormDone(response) {
     for (var editor of editorsArray) {
         editor.setData('');
     }
+
+    $("#AnswersBox").load(location.href + " #AnswersBox");
+
+    //$('html, body').animate({
+    //    scrollTop: $("#AnswersBox").offset().top
+    //}, 1000);
 }
 
 //var magicsuggests = document.querySelectorAll(".magicsuggest");

@@ -223,7 +223,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 
         #region Answer
 
-        public async Task<bool> AnswerQuestin(AnswerQuestionViewModel answerQuestion)
+        public async Task<bool> AnswerQuestion(AnswerQuestionViewModel answerQuestion)
         {
             var question = _questionRepository.GetQuestionById(answerQuestion.QuestionId);
 
