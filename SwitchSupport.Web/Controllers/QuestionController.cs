@@ -87,7 +87,12 @@ namespace SwitchSupport.Web.Controllers
         public async Task<IActionResult> GetQuestionDetails(long questionId)
         {
             var question = await _questionService.GetQuestionById(questionId);
+            var userIp = Request.HttpContext.Connection.RemoteIpAddress;        
             if (question == null) return NotFound();
+            if (userIp != null)
+            {
+                await _questionService.AddViewForQuestion(userIp.ToString(), question);
+            }
             ViewData["tags"] = await _questionService.GetTagsByQuestionId(questionId);
             return View(question);
         }

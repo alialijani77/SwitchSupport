@@ -249,5 +249,24 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         }
 
         #endregion
+
+        #region View
+
+        public async Task AddViewForQuestion(string userIp, Domain.Entities.Questions.Question question)
+        {
+            if (await _questionRepository.IsExistsViewForQuestion(userIp, question.Id))
+            {
+                return;
+            }
+            var QuestionViews = new QuestionView(){ QuestionId = question.Id,UserIP = userIp};
+
+            await _questionRepository.AddQuestionView(QuestionViews);
+
+            question.ViewCount += 1;
+
+            await _questionRepository.UpdateQuestion(question);
+            await _questionRepository.SaveChanges();
+        }
+        #endregion
     }
 }

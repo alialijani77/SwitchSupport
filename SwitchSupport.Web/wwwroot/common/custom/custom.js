@@ -102,6 +102,11 @@ function AnswerQuestionFormDone(response) {
             'پاسخ شما با موفقیت ثبت شد .',
             'success'
         )
+        $("#AnswersBox").load(location.href + " #AnswersBox");
+
+        //$('html, body').animate({
+        //    scrollTop: $("#AnswersBox").offset().top
+        //}, 1000);
     }
     else if (response.status === "empty") {
         Swal.fire(
@@ -121,11 +126,8 @@ function AnswerQuestionFormDone(response) {
         editor.setData('');
     }
 
-    $("#AnswersBox").load(location.href + " #AnswersBox");
 
-    //$('html, body').animate({
-    //    scrollTop: $("#AnswersBox").offset().top
-    //}, 1000);
+
 }
 
 //var magicsuggests = document.querySelectorAll(".magicsuggest");
@@ -148,8 +150,8 @@ function AnswerQuestionFormDone(response) {
 //        }
 //    });
 //}
-    
-    
-        
-                        
+
+
+
+
 

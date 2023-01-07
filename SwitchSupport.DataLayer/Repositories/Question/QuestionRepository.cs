@@ -108,6 +108,11 @@ namespace SwitchSupport.DataLayer.Repositories.Question
                 .FirstOrDefaultAsync(q => q.Id == questionId && !q.IsDelete);
         }
 
+        public async Task UpdateQuestion(Domain.Entities.Questions.Question question)
+        {
+             _context.Questions.Update(question);
+        }
+
         #endregion
 
         #region Answer
@@ -122,6 +127,23 @@ namespace SwitchSupport.DataLayer.Repositories.Question
                 .Where(a => a.QuestionId == questionId && !a.IsDelete)
                 .OrderByDescending(a => a.CreateDate).ToListAsync();
         }
+
+
+        #endregion
+
+        #region View
+
+        public async Task<bool> IsExistsViewForQuestion(string userIp, long questionId)
+        {
+            return await _context.QuestionViews.AnyAsync(q => q.UserIP.Equals(userIp) && q.QuestionId == questionId);
+        }
+
+
+        public async Task AddQuestionView(QuestionView view)
+        {
+            await _context.QuestionViews.AddAsync(view);
+        }
+
         #endregion
     }
 }

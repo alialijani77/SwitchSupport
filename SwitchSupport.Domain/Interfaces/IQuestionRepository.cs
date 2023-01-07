@@ -39,6 +39,9 @@ namespace SwitchSupport.Domain.Interfaces
         #region Question
         Task AddQuestion(Question question);
 
+        Task UpdateQuestion(Question question);
+
+
         Task AddQuestionTag(SelectQuestionTag questionTag);
 
         Task<IQueryable<Question>> GetAllQuestions();
@@ -51,6 +54,13 @@ namespace SwitchSupport.Domain.Interfaces
         Task AnswerQuestion(Answer answerQuestion);
 
         Task<List<Answer>> GetQuestionAnswerList(long questionId);
+        #endregion
+
+
+        #region View
+        Task<bool> IsExistsViewForQuestion(string userIp,long questionId);
+
+        Task AddQuestionView(QuestionView view);
         #endregion
     }
 }

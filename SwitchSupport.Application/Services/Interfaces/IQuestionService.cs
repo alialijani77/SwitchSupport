@@ -38,5 +38,9 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<List<Answer>> GetQuestionAnswerList(long questionId);
 
         #endregion
+
+        #region View
+        Task AddViewForQuestion(string userIp, Question question);
+        #endregion
     }
 }
