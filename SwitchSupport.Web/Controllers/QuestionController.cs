@@ -41,7 +41,7 @@ namespace SwitchSupport.Web.Controllers
             }
             createQuestion.UserId = HttpContext.User.GetUserId();
             var result = await _questionService.AddQuestion(createQuestion);
-            if(result)
+            if (result)
             {
                 TempData[SuccessMessage] = "عملیات با موفقیت انجام شد.";
                 return Redirect("/");
@@ -87,7 +87,7 @@ namespace SwitchSupport.Web.Controllers
         public async Task<IActionResult> GetQuestionDetails(long questionId)
         {
             var question = await _questionService.GetQuestionById(questionId);
-            var userIp = Request.HttpContext.Connection.RemoteIpAddress;        
+            var userIp = Request.HttpContext.Connection.RemoteIpAddress;
             if (question == null) return NotFound();
             if (userIp != null)
             {
@@ -100,7 +100,7 @@ namespace SwitchSupport.Web.Controllers
         [Authorize]
         public async Task<IActionResult> AnswerQuestion(AnswerQuestionViewModel answerQuestion)
         {
-            if(string.IsNullOrEmpty(answerQuestion.Answer))
+            if (string.IsNullOrEmpty(answerQuestion.Answer))
             {
                 return new JsonResult(new { status = "empty" });
             }
@@ -109,7 +109,7 @@ namespace SwitchSupport.Web.Controllers
             var result = await _questionService.AnswerQuestion(answerQuestion);
             if (result)
             {
-                return new JsonResult(new {status = "success"});
+                return new JsonResult(new { status = "success" });
             }
             return new JsonResult(new { status = "error" });
         }
@@ -118,7 +118,7 @@ namespace SwitchSupport.Web.Controllers
 
         #region Question list By Tag
         [Route("tags/{tagName}")]
-        public async Task<IActionResult> QuestionListByTag(FilterQuestionViewModel filter,string tagName)
+        public async Task<IActionResult> QuestionListByTag(FilterQuestionViewModel filter, string tagName)
         {
             tagName = tagName.Trim().ToLower();
             filter.TagTitle = tagName;
@@ -128,6 +128,27 @@ namespace SwitchSupport.Web.Controllers
         }
         #endregion
 
+
+        #region Answer
+        [HttpPost("SelectTrueAnswer")]
+        public async Task<IActionResult> SelectTrueAnswer(long answerId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return new JsonResult(new { status = "NotAuth" });
+            }
+
+            if (!await _questionService.HasUserAccessToSelectTrueAnswer(User.GetUserId(), answerId))
+            {
+                return new JsonResult(new { status = "NotAccess" });
+            }
+            await _questionService.SelectTrueAnswer(User.GetUserId(), answerId);
+            return new JsonResult(new { status = "Success" });
+
+
+        }
+
+        #endregion
 
     }
 }

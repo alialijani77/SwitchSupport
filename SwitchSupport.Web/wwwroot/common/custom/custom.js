@@ -150,7 +150,46 @@ function AnswerQuestionFormDone(response) {
 //        }
 //    });
 //}
-
+function SelectTrueAnswer(answerId) {
+    $.ajax({
+        url:"/SelectTrueAnswer",
+        type: "post",
+        data: {
+            answerId: answerId
+        },
+        success: function (response) {
+            if (response.status === "Success") {
+                Swal.fire(
+                    'اعلان',
+                    'پاسخ شما با موفقیت ثبت شد .',
+                    'success'
+                )
+                $("#AnswersBox").load(location.href + " #AnswersBox");
+            }
+            else if (response.status === "NotAuth") {             
+                Swal.fire(
+                    'خطا',
+                    'خواهشمند است وارد سامانه شوید .',
+                    'error'
+                )
+            }
+            else if (response.status === "NotAccess") {              
+                Swal.fire(
+                    'خطا',
+                    'شما دسترسی به این عملیات را ندارید.',
+                    'error'
+                )
+            }
+        },
+        error: function () {
+            Swal.fire(
+                'خطا',
+                'شما دسترسی به این عملیات را ندارید.',
+                'error'
+            )
+        }
+    })
+}
 
 
 

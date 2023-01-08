@@ -248,6 +248,37 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             return await _questionRepository.GetQuestionAnswerList(questionId);
         }
 
+
+        public async Task<bool> HasUserAccessToSelectTrueAnswer(long userId, long answerId)
+        {
+            var answer = await _questionRepository.GetAnswerById(answerId);
+
+            if(answer == null) { return false; }
+
+            var user = await _userService.GetUserById(userId);
+
+            if(user == null) { return false;}
+
+            if(user.IsAdmin) { return true;}
+
+            if(answer.Question.UserId != userId) { return false;}
+
+            return true;
+        }
+
+        
+        public async Task SelectTrueAnswer(long userId, long answerId)
+        {
+            var answer = await _questionRepository.GetAnswerById(answerId);
+
+            if (answer == null) return; 
+
+            answer.IsTrue = !answer.IsTrue;
+
+            await _questionRepository.UpdateAnswer(answer);
+            await _questionRepository.SaveChanges();
+        }
+
         #endregion
 
         #region View
@@ -267,6 +298,9 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             await _questionRepository.UpdateQuestion(question);
             await _questionRepository.SaveChanges();
         }
+
+       
+
         #endregion
     }
 }

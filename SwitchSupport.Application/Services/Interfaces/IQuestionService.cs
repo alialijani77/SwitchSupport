@@ -37,6 +37,10 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         Task<List<Answer>> GetQuestionAnswerList(long questionId);
 
+        Task<bool> HasUserAccessToSelectTrueAnswer(long userId, long answerId);
+
+        Task SelectTrueAnswer(long userId, long answerId);
+
         #endregion
 
         #region View

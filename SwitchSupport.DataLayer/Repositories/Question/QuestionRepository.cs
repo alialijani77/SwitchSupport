@@ -129,6 +129,16 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         }
 
 
+        public async Task<Answer?> GetAnswerById(long answerId)
+        {
+            return await _context.Answers.Include(a => a.Question).FirstOrDefaultAsync(a => a.Id == answerId);
+        }
+
+
+        public async Task UpdateAnswer(Answer answer)
+        {
+            _context.Answers.Update(answer);
+        }
         #endregion
 
         #region View
@@ -143,6 +153,8 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         {
             await _context.QuestionViews.AddAsync(view);
         }
+
+
 
         #endregion
     }
