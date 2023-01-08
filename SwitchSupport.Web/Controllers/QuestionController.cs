@@ -96,6 +96,16 @@ namespace SwitchSupport.Web.Controllers
             ViewData["tags"] = await _questionService.GetTagsByQuestionId(questionId);
             return View(question);
         }
+        [Route("q/{questionId}")]
+        public async Task<IActionResult> GetQuestionDetailsByShortLink(long questionId)
+        {
+            var question = await _questionService.GetQuestionById(questionId);
+            if (question == null) return NotFound();
+
+            return RedirectToAction("GetQuestionDetails", "Question", new { questionId = questionId });
+        }
+
+
         [Route("AnswerQuestion")]
         [Authorize]
         public async Task<IActionResult> AnswerQuestion(AnswerQuestionViewModel answerQuestion)

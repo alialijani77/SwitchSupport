@@ -15,7 +15,7 @@ namespace SwitchSupport.Application.Statics
         public static readonly string UserAvatarServerPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwrroot/content/user/");
         public static readonly string UserAvatarPath = "/content/user/";
 
-        public static readonly string SiteAddress = "/";
+        public static readonly string SiteAddress = "https://localhost:7003";
 
         #endregion
 
