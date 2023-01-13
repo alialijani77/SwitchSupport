@@ -13,4 +13,11 @@ namespace SwitchSupport.Domain.Enums
         [Display(Name = "مثبت")] Plus,
         [Display(Name = "منفی")] Minus
     }
+
+
+    public enum AnswerScore
+    {
+        [Display(Name = "مثبت")] Plus,
+        [Display(Name = "منفی")] Minus
+    }
 }

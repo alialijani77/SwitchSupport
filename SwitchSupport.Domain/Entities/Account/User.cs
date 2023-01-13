@@ -85,6 +85,9 @@ namespace SwitchSupport.Domain.Entities.Account
         public ICollection<UserQuestionBookmark> UserQuestionBookmarks { get; set; }
 
         public ICollection<QuestionUserScore> QuestionUserScores { get; set; }
+
+        public ICollection<AnswerUserScore> AnswerUserScores { get; set; }
+
         #endregion
     }
 }
