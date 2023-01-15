@@ -20,4 +20,14 @@ namespace SwitchSupport.Domain.Enums
         [Display(Name = "مثبت")] Plus,
         [Display(Name = "منفی")] Minus
     }
+
+
+    public enum AnswerScoreResult
+    {
+        error,
+        MinScoreForUpScoreAnswer,
+        MinScoreForDownScoreAnswer,
+        IsExistsUserScoreForScore,
+        success
+    }
 }

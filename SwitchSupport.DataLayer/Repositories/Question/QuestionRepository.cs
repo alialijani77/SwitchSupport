@@ -139,6 +139,18 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         {
             _context.Answers.Update(answer);
         }
+
+        public async Task<bool> IsExistsUserScoreForScore(long userId, long answerId)
+        {
+            return await _context.AnswerUserScores.AnyAsync(a=>a.UserId == userId && a.AnswerId == answerId);
+        }
+
+        public async Task AddAnswerUserScore(AnswerUserScore answerUserScore)
+        {
+            await _context.AnswerUserScores.AddAsync(answerUserScore);
+        }
+
+
         #endregion
 
         #region View
@@ -153,8 +165,6 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         {
             await _context.QuestionViews.AddAsync(view);
         }
-
-
 
         #endregion
     }

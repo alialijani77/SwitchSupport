@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SwitchSupport.Application.Extensions;
 using SwitchSupport.Application.Services.Interfaces;
+using SwitchSupport.Domain.Enums;
 using SwitchSupport.Domain.ViewModels.Question;
 
 namespace SwitchSupport.Web.Controllers
@@ -154,8 +155,61 @@ namespace SwitchSupport.Web.Controllers
             }
             await _questionService.SelectTrueAnswer(User.GetUserId(), answerId);
             return new JsonResult(new { status = "Success" });
+        }
 
+        [HttpPost("ScoreUpForAnswer")]
+        public async Task<IActionResult> ScoreUpForAnswer(long answerId)
+        {
+            var reslut = await _questionService.CreateScoreForAnswer(answerId, AnswerScore.Plus,User.GetUserId());
 
+            switch (reslut)
+            {
+                case AnswerScoreResult.error:
+                    return new JsonResult(new { status = "error" });
+                    break;
+                case AnswerScoreResult.MinScoreForUpScoreAnswer:
+                    return new JsonResult(new { status = "MinScoreForUpScoreAnswer" });
+                    break;
+                case AnswerScoreResult.MinScoreForDownScoreAnswer:
+                    return new JsonResult(new { status = "MinScoreForDownScoreAnswer" });
+                    break;
+                case AnswerScoreResult.IsExistsUserScoreForScore:
+                    return new JsonResult(new { status = "IsExistsUserScoreForScore" });
+                    break;
+                case AnswerScoreResult.success:
+                    return new JsonResult(new { status = "success" });
+                    break;
+                default:
+                    return NotFound();
+                    break;
+            }        
+        }
+        [HttpPost("ScoreDownForAnswer")]
+        public async Task<IActionResult> ScoreDownForAnswer(long answerId)
+        {
+            var reslut = await _questionService.CreateScoreForAnswer(answerId, AnswerScore.Minus, User.GetUserId());
+
+            switch (reslut)
+            {
+                case AnswerScoreResult.error:
+                    return new JsonResult(new { status = "error" });
+                    break;
+                case AnswerScoreResult.MinScoreForUpScoreAnswer:
+                    return new JsonResult(new { status = "MinScoreForUpScoreAnswer" });
+                    break;
+                case AnswerScoreResult.MinScoreForDownScoreAnswer:
+                    return new JsonResult(new { status = "MinScoreForDownScoreAnswer" });
+                    break;
+                case AnswerScoreResult.IsExistsUserScoreForScore:
+                    return new JsonResult(new { status = "IsExistsUserScoreForScore" });
+                    break;
+                case AnswerScoreResult.success:
+                    return new JsonResult(new { status = "success" });
+                    break;
+                default:
+                    return NotFound();
+                    break;
+            }
         }
 
         #endregion

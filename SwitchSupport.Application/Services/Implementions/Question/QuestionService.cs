@@ -9,7 +9,7 @@ using SwitchSupport.Domain.ViewModels.Common;
 using SwitchSupport.Domain.ViewModels.Question;
 using SwitchSupport.Application.Extensions;
 using System.Data;
-
+using SwitchSupport.Domain.Enums;
 
 namespace SwitchSupport.Application.Services.Implementions.Question
 {
@@ -279,6 +279,48 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             await _questionRepository.SaveChanges();
         }
 
+
+        public async Task<AnswerScoreResult> CreateScoreForAnswer(long answerId, AnswerScore answerScore, long userId)
+        {
+            var answer = await _questionRepository.GetAnswerById(answerId);
+
+            if (answer == null) return AnswerScoreResult.error;
+
+            var user = await _userService.GetUserById(userId);
+
+            if (user == null)  return AnswerScoreResult.error;
+
+            if (answerScore == AnswerScore.Plus && user.Score < _socerManagment.MinScoreForUpScoreAnswer)
+            {
+                return AnswerScoreResult.MinScoreForUpScoreAnswer;
+            }
+            if (answerScore == AnswerScore.Minus && user.Score < _socerManagment.MinScoreForDownScoreAnswer)
+            {
+                return AnswerScoreResult.MinScoreForDownScoreAnswer;
+            }
+            if (await _questionRepository.IsExistsUserScoreForScore(userId, answerId))
+            {
+                return AnswerScoreResult.IsExistsUserScoreForScore;
+            }
+
+            var answerUserScore = new AnswerUserScore();
+            answerUserScore.AnswerId = answerId;
+            answerUserScore.UserId = userId;
+
+            await _questionRepository.AddAnswerUserScore(answerUserScore);
+            if (answerScore == AnswerScore.Plus)
+            {
+                answer.Score += 1;
+            }
+            else
+            {
+                answer.Score -= 1;
+            }
+            await _questionRepository.UpdateAnswer(answer);
+            await _questionRepository.SaveChanges();
+
+            return AnswerScoreResult.success;
+        }
         #endregion
 
         #region View
@@ -299,7 +341,9 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             await _questionRepository.SaveChanges();
         }
 
-       
+      
+
+
 
         #endregion
     }

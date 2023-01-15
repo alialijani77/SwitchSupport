@@ -58,6 +58,10 @@ namespace SwitchSupport.Domain.Interfaces
         Task<Answer?> GetAnswerById(long answerId);
 
         Task UpdateAnswer(Answer answer);
+
+        Task<bool> IsExistsUserScoreForScore(long userId,long answerId);
+
+        Task AddAnswerUserScore(AnswerUserScore answerUserScore);
         #endregion
 
 

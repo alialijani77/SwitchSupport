@@ -1,5 +1,6 @@
 ﻿using SwitchSupport.Domain.Entities.Questions;
 using SwitchSupport.Domain.Entities.Tags;
+using SwitchSupport.Domain.Enums;
 using SwitchSupport.Domain.ViewModels.Question;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,11 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<bool> HasUserAccessToSelectTrueAnswer(long userId, long answerId);
 
         Task SelectTrueAnswer(long userId, long answerId);
+
+
+        Task<AnswerScoreResult> CreateScoreForAnswer(long answerId, AnswerScore answerScore,long userId);      
+
+        
 
         #endregion
 

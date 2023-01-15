@@ -194,3 +194,116 @@ function SelectTrueAnswer(answerId) {
 
 
 
+function ScoreUpForAnswer(answerId) {
+    $.ajax({
+        url: "/ScoreUpForAnswer",
+        type: "post",
+        data: {
+            answerId: answerId
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                Swal.fire(
+                    'اعلان',
+                    'امتیاز شما با موفقیت ثبت شد .',
+                    'success'
+                )
+                $("#AnswersBox").load(location.href + " #AnswersBox");
+            }
+            else if (response.status === "MinScoreForUpScoreAnswer") {
+                Swal.fire(
+                    'خطا',
+                    'امتیاز شما کافی نمی باشد. ',
+                    'error'
+                )
+            }
+            else if (response.status === "MinScoreForDownScoreAnswer") {
+                Swal.fire(
+                    'خطا',
+                    'امتیاز شما کافی نمی باشد. ',
+                    'error'
+                )
+            }
+
+            else if (response.status === "IsExistsUserScoreForScore") {
+                Swal.fire(
+                    'خطا',
+                    'قبلا امتیاز ثبت گردیده است .',
+                    'error'
+                )
+            }
+
+            else if (response.status === "error") {
+                Swal.fire(
+                    'خطا',
+                    'مشکلی پیش آمده است . مجددا تلاش نمایید .',
+                    'error'
+                )
+            }
+        },
+        error: function () {
+            Swal.fire(
+                'خطا',
+                'شما دسترسی به این عملیات را ندارید.',
+                'error'
+            )
+        }
+    })
+}
+
+function ScoreDownForAnswer(answerId) {
+    $.ajax({
+        url: "/ScoreDownForAnswer",
+        type: "post",
+        data: {
+            answerId: answerId
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                Swal.fire(
+                    'اعلان',
+                    'امتیاز شما با موفقیت ثبت شد .',
+                    'success'
+                )
+                $("#AnswersBox").load(location.href + " #AnswersBox");
+            }
+            else if (response.status === "MinScoreForUpScoreAnswer") {
+                Swal.fire(
+                    'خطا',
+                    'امتیاز شما کافی نمی باشد. ',
+                    'error'
+                )
+            }
+            else if (response.status === "MinScoreForDownScoreAnswer") {
+                Swal.fire(
+                    'خطا',
+                    'امتیاز شما کافی نمی باشد. ',
+                    'error'
+                )
+            }
+
+            else if (response.status === "IsExistsUserScoreForScore") {
+                Swal.fire(
+                    'خطا',
+                    'قبلا امتیاز ثبت گردیده است .',
+                    'error'
+                )
+            }
+
+            else if (response.status === "error") {
+                Swal.fire(
+                    'خطا',
+                    'مشکلی پیش آمده است . مجددا تلاش نمایید .',
+                    'error'
+                )
+            }
+        },
+        error: function () {
+            Swal.fire(
+                'خطا',
+                'شما دسترسی به این عملیات را ندارید.',
+                'error'
+            )
+        }
+    })
+}
