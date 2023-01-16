@@ -53,6 +53,60 @@ namespace SwitchSupport.Web.Controllers
             return View(createQuestion);
         }
 
+        [HttpPost("ScoreUpForQuestion")]
+        public async Task<IActionResult> ScoreUpForQuestion(long questionId)
+        {
+            var result = await _questionService.CreateScoreForQuestion(questionId, QustionScore.Plus, User.GetUserId());
+
+            switch (result)
+            {
+                case QuestionScoreResult.error:
+                    return new JsonResult(new { status = "error" });
+                    break;
+                case QuestionScoreResult.MinScoreForUpScoreQuestion:
+                    return new JsonResult(new { status = "MinScoreForUpScoreQuestion" });
+                    break;
+                case QuestionScoreResult.MinScoreForDownScoreQuestion:
+                    return new JsonResult(new { status = "MinScoreForDownScoreQuestion" });
+                    break;
+                case QuestionScoreResult.IsExistsUserScoreForQuestion:
+                    return new JsonResult(new { status = "IsExistsUserScoreForQuestion" });
+                    break;
+                case QuestionScoreResult.success:
+                    return new JsonResult(new { status = "success" });
+                    break;
+                default:
+                    return NotFound();
+            }
+        }
+
+        [HttpPost("ScoreDownForQuestion")]
+        public async Task<IActionResult> ScoreDownForQuestion(long questionId)
+        {
+            var result = await _questionService.CreateScoreForQuestion(questionId, QustionScore.Minus, User.GetUserId());
+
+            switch (result)
+            {
+                case QuestionScoreResult.error:
+                    return new JsonResult(new { status = "error" });
+                    break;
+                case QuestionScoreResult.MinScoreForUpScoreQuestion:
+                    return new JsonResult(new { status = "MinScoreForUpScoreQuestion" });
+                    break;
+                case QuestionScoreResult.MinScoreForDownScoreQuestion:
+                    return new JsonResult(new { status = "MinScoreForDownScoreQuestion" });
+                    break;
+                case QuestionScoreResult.IsExistsUserScoreForQuestion:
+                    return new JsonResult(new { status = "IsExistsUserScoreForQuestion" });
+                    break;
+                case QuestionScoreResult.success:
+                    return new JsonResult(new { status = "success" });
+                    break;
+                default:
+                    return NotFound();
+            }
+        }
+
         #endregion
 
         #region Tags

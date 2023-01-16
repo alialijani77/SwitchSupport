@@ -30,6 +30,8 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         Task<Question?> GetQuestionById(long questionId);
 
+        Task<QuestionScoreResult> CreateScoreForQuestion(long questionId, QustionScore type, long userId);
+
         #endregion
 
         #region Answer

@@ -30,4 +30,13 @@ namespace SwitchSupport.Domain.Enums
         IsExistsUserScoreForScore,
         success
     }
+
+    public enum QuestionScoreResult
+    {
+        error,
+        MinScoreForUpScoreQuestion,
+        MinScoreForDownScoreQuestion,
+        IsExistsUserScoreForQuestion,
+        success
+    }
 }

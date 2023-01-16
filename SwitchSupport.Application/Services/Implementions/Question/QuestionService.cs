@@ -27,6 +27,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         }
 
         #endregion
+
         #region Tags
 
         public async Task<List<Tag>> GetAllTags()
@@ -180,6 +181,43 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 
             return filter;
         }
+
+        public async Task<QuestionScoreResult> CreateScoreForQuestion(long questionId, QustionScore type, long userId)
+        {
+            var question = await _questionRepository.GetQuestionById(questionId);
+
+            if (question == null)  return QuestionScoreResult.error;
+
+            var user = await _userService.GetUserById(userId);
+
+            if (user == null) return QuestionScoreResult.error;
+
+            if (user.Score < _socerManagment.MinScoreForUpScoreQuestion && type == QustionScore.Plus) return QuestionScoreResult.MinScoreForUpScoreQuestion;
+
+            if (user.Score < _socerManagment.MinScoreForDownScoreQuestion && type == QustionScore.Minus) return QuestionScoreResult.MinScoreForDownScoreQuestion;
+
+            if(await _questionRepository.IsExistsUserScoreForQuestion(questionId,userId)) return QuestionScoreResult.IsExistsUserScoreForQuestion;
+
+            var questionUserScore = new QuestionUserScore();
+            questionUserScore.QuestionId = questionId;
+            questionUserScore.UserId = userId;
+
+            if(type == QustionScore.Plus)
+            {
+                question.Score += 1;
+            }
+            else
+            {
+                question.Score -= 1;
+            }          
+            await _questionRepository.AddQuestionUserScore(questionUserScore);
+            await _questionRepository.UpdateQuestion(question);
+            await _questionRepository.SaveChanges();
+
+
+            return QuestionScoreResult.success;
+        }
+
         #endregion
 
         #region FilterTag
@@ -340,10 +378,6 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             await _questionRepository.UpdateQuestion(question);
             await _questionRepository.SaveChanges();
         }
-
-      
-
-
 
         #endregion
     }

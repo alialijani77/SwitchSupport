@@ -48,6 +48,10 @@ namespace SwitchSupport.Domain.Interfaces
 
         Task<Question?> GetQuestionById(long questionId);
 
+        Task<bool> IsExistsUserScoreForQuestion(long questionId, long userId);
+
+        Task AddQuestionUserScore(QuestionUserScore questionUserScore);
+
         #endregion
 
         #region Answer

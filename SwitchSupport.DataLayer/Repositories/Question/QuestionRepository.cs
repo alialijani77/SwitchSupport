@@ -22,6 +22,7 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             _context = context;
         }        
         #endregion
+
         #region Tags
         public async Task<List<Tag>> GetAllTags()
         {
@@ -113,6 +114,16 @@ namespace SwitchSupport.DataLayer.Repositories.Question
              _context.Questions.Update(question);
         }
 
+        public async Task<bool> IsExistsUserScoreForQuestion(long questionId, long userId)
+        {
+            return await _context.QuestionUserScores.AnyAsync(q=>q.UserId == userId && q.QuestionId == questionId);
+        }
+
+        public async Task AddQuestionUserScore(QuestionUserScore questionUserScore)
+        {
+            await _context.QuestionUserScores.AddAsync(questionUserScore);
+        }
+
         #endregion
 
         #region Answer
@@ -165,7 +176,7 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         {
             await _context.QuestionViews.AddAsync(view);
         }
-
+   
         #endregion
     }
 }

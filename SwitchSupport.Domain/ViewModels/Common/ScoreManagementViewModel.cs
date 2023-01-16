@@ -23,6 +23,12 @@ namespace SwitchSupport.Domain.ViewModels.Common
 
         public int MinScoreForDownScoreAnswer { get; set; }
 
+        public int MinScoreForUpScoreQuestion { get; set; }
+
+
+        public int MinScoreForDownScoreQuestion { get; set; }
+
+
 
     }
 }

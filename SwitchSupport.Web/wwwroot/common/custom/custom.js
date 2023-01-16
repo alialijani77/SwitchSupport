@@ -307,3 +307,121 @@ function ScoreDownForAnswer(answerId) {
         }
     })
 }
+
+
+
+
+function ScoreUpForQuestion(questionId) {
+    $.ajax({
+        url: "/ScoreUpForQuestion",
+        type: "post",
+        data: {
+            questionId: questionId
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                Swal.fire(
+                    'اعلان',
+                    'امتیاز شما با موفقیت ثبت شد .',
+                    'success'
+                )
+                location.reload();
+            }
+            else if (response.status === "MinScoreForUpScoreQuestion") {
+                Swal.fire(
+                    'خطا',
+                    'امتیاز شما کافی نمی باشد. ',
+                    'error'
+                )
+            }
+            else if (response.status === "MinScoreForDownScoreQuestion") {
+                Swal.fire(
+                    'خطا',
+                    'امتیاز شما کافی نمی باشد. ',
+                    'error'
+                )
+            }
+
+            else if (response.status === "IsExistsUserScoreForQuestion") {
+                Swal.fire(
+                    'خطا',
+                    'قبلا امتیاز ثبت گردیده است .',
+                    'error'
+                )
+            }
+
+            else if (response.status === "error") {
+                Swal.fire(
+                    'خطا',
+                    'مشکلی پیش آمده است . مجددا تلاش نمایید .',
+                    'error'
+                )
+            }
+        },
+        error: function () {
+            Swal.fire(
+                'خطا',
+                'شما دسترسی به این عملیات را ندارید.',
+                'error'
+            )
+        }
+    })
+}
+
+
+function ScoreDownForQuestion(questionId) {
+    $.ajax({
+        url: "/ScoreDownForQuestion",
+        type: "post",
+        data: {
+            questionId: questionId
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                Swal.fire(
+                    'اعلان',
+                    'امتیاز شما با موفقیت ثبت شد .',
+                    'success'
+                )
+                location.reload();
+            }
+            else if (response.status === "MinScoreForUpScoreQuestion") {
+                Swal.fire(
+                    'خطا',
+                    'امتیاز شما کافی نمی باشد. ',
+                    'error'
+                )
+            }
+            else if (response.status === "MinScoreForDownScoreQuestion") {
+                Swal.fire(
+                    'خطا',
+                    'امتیاز شما کافی نمی باشد. ',
+                    'error'
+                )
+            }
+
+            else if (response.status === "IsExistsUserScoreForQuestion") {
+                Swal.fire(
+                    'خطا',
+                    'قبلا امتیاز ثبت گردیده است .',
+                    'error'
+                )
+            }
+
+            else if (response.status === "error") {
+                Swal.fire(
+                    'خطا',
+                    'مشکلی پیش آمده است . مجددا تلاش نمایید .',
+                    'error'
+                )
+            }
+        },
+        error: function () {
+            Swal.fire(
+                'خطا',
+                'شما دسترسی به این عملیات را ندارید.',
+                'error'
+            )
+        }
+    })
+}
