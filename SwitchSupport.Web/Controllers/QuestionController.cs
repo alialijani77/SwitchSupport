@@ -148,6 +148,13 @@ namespace SwitchSupport.Web.Controllers
             {
                 await _questionService.AddViewForQuestion(userIp.ToString(), question);
             }
+            ViewBag.bookmarks = false;
+
+            if(User.Identity.IsAuthenticated && await _questionService.IsExistsUserQuestionBookmarkByQuestinIdUserId(questionId,User.GetUserId()))
+            {
+                ViewBag.bookmarks = true;
+            }
+
             ViewData["tags"] = await _questionService.GetTagsByQuestionId(questionId);
             return View(question);
         }
@@ -268,5 +275,19 @@ namespace SwitchSupport.Web.Controllers
 
         #endregion
 
+
+        #region AddQuestionToBookmark
+
+        [HttpPost("AddQuestionToBookmark")]
+        public async Task<IActionResult> AddQuestionToBookmark(long questionId)
+        {
+            if (await _questionService.CheckAddQuestionToBookmark(questionId, User.GetUserId()))
+            {
+                return new JsonResult(new { status = "success" });
+            }
+            return new JsonResult(new { status = "error" });
+        }
+
+        #endregion
     }
 }

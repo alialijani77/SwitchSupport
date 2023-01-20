@@ -1,4 +1,5 @@
-﻿using SwitchSupport.Domain.Entities.Questions;
+﻿using SwitchSupport.Domain.Entities.Account;
+using SwitchSupport.Domain.Entities.Questions;
 using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.ViewModels.Question;
 using System;
@@ -51,6 +52,14 @@ namespace SwitchSupport.Domain.Interfaces
         Task<bool> IsExistsUserScoreForQuestion(long questionId, long userId);
 
         Task AddQuestionUserScore(QuestionUserScore questionUserScore);
+
+        Task<bool> IsExistsUserQuestionBookmarkByQuestinIdUserId(long questionId, long userId);
+
+        Task<UserQuestionBookmark?> GetUserQuestionBookmarkByQuestinIdUserId(long questionId, long userId);
+
+        void RemoveBookmark(UserQuestionBookmark questionBookmark);
+
+        Task AddBookmark(UserQuestionBookmark questionBookmark);
 
         #endregion
 

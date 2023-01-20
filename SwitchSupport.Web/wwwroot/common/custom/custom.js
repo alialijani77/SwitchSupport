@@ -325,7 +325,8 @@ function ScoreUpForQuestion(questionId) {
                     'امتیاز شما با موفقیت ثبت شد .',
                     'success'
                 )
-                location.reload();
+                $("#questindetails").load(location.href + " #questindetails");
+
             }
             else if (response.status === "MinScoreForUpScoreQuestion") {
                 Swal.fire(
@@ -383,7 +384,7 @@ function ScoreDownForQuestion(questionId) {
                     'امتیاز شما با موفقیت ثبت شد .',
                     'success'
                 )
-                location.reload();
+                $("#questindetails").load(location.href + " #questindetails");
             }
             else if (response.status === "MinScoreForUpScoreQuestion") {
                 Swal.fire(
@@ -408,6 +409,41 @@ function ScoreDownForQuestion(questionId) {
                 )
             }
 
+            else if (response.status === "error") {
+                Swal.fire(
+                    'خطا',
+                    'مشکلی پیش آمده است . مجددا تلاش نمایید .',
+                    'error'
+                )
+            }
+        },
+        error: function () {
+            Swal.fire(
+                'خطا',
+                'شما دسترسی به این عملیات را ندارید.',
+                'error'
+            )
+        }
+    })
+}
+
+
+function AddQuestionToBookmark(questionId) {
+    $.ajax({
+        url: "/AddQuestionToBookmark",
+        type: "post",
+        data: {
+            questionId: questionId
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                Swal.fire(
+                    'اعلان',
+                    'با موفقیت ثبت شد .',
+                    'success'
+                )
+                $("#questindetails").load(location.href + " #questindetails");
+            }                     
             else if (response.status === "error") {
                 Swal.fire(
                     'خطا',

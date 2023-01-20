@@ -13,6 +13,10 @@
     border: green 2px solid !important;
 }
 
+.gold-color{
+    color : #ffb301 !important;
+}
+
 .input-style {
     position: relative !important;
     top: 2px !important;

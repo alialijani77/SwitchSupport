@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SwitchSupport.DataLayer.Context;
+using SwitchSupport.Domain.Entities.Account;
 using SwitchSupport.Domain.Entities.Questions;
 using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.Interfaces;
@@ -20,7 +21,7 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         public QuestionRepository(SwitchSupportDbContext context)
         {
             _context = context;
-        }        
+        }
         #endregion
 
         #region Tags
@@ -69,7 +70,7 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             return await _context.SelectQuestionTags
                 .Include(t => t.Tag)
                 .Where(t => t.QuestionId == questionId)
-                .Select(t=>t.Tag.Title).ToListAsync();
+                .Select(t => t.Tag.Title).ToListAsync();
         }
 
         public async Task AddTag(Tag tag)
@@ -99,7 +100,7 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             return _context.Questions.Where(q => !q.IsDelete).AsQueryable();
         }
 
-       
+
 
         public async Task<Domain.Entities.Questions.Question?> GetQuestionById(long questionId)
         {
@@ -111,17 +112,38 @@ namespace SwitchSupport.DataLayer.Repositories.Question
 
         public async Task UpdateQuestion(Domain.Entities.Questions.Question question)
         {
-             _context.Questions.Update(question);
+            _context.Questions.Update(question);
         }
 
         public async Task<bool> IsExistsUserScoreForQuestion(long questionId, long userId)
         {
-            return await _context.QuestionUserScores.AnyAsync(q=>q.UserId == userId && q.QuestionId == questionId);
+            return await _context.QuestionUserScores.AnyAsync(q => q.UserId == userId && q.QuestionId == questionId);
         }
 
         public async Task AddQuestionUserScore(QuestionUserScore questionUserScore)
         {
             await _context.QuestionUserScores.AddAsync(questionUserScore);
+        }
+
+        public async Task<bool> IsExistsUserQuestionBookmarkByQuestinIdUserId(long questionId, long userId)
+        {
+            return await _context.UserQuestionBookmarks.AnyAsync(u => u.UserId == userId && u.QuestionId == questionId);
+        }
+
+        public async Task<UserQuestionBookmark?> GetUserQuestionBookmarkByQuestinIdUserId(long questionId, long userId)
+        {
+            return await _context.UserQuestionBookmarks
+                .FirstOrDefaultAsync(u => u.UserId == userId && u.QuestionId == questionId);
+        }
+
+        public void RemoveBookmark(UserQuestionBookmark questionBookmark)
+        {
+            _context.UserQuestionBookmarks.Remove(questionBookmark);
+        }
+
+        public async Task AddBookmark(UserQuestionBookmark questionBookmark)
+        {
+            await _context.UserQuestionBookmarks.AddAsync(questionBookmark);
         }
 
         #endregion
@@ -153,7 +175,7 @@ namespace SwitchSupport.DataLayer.Repositories.Question
 
         public async Task<bool> IsExistsUserScoreForScore(long userId, long answerId)
         {
-            return await _context.AnswerUserScores.AnyAsync(a=>a.UserId == userId && a.AnswerId == answerId);
+            return await _context.AnswerUserScores.AnyAsync(a => a.UserId == userId && a.AnswerId == answerId);
         }
 
         public async Task AddAnswerUserScore(AnswerUserScore answerUserScore)
@@ -176,7 +198,7 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         {
             await _context.QuestionViews.AddAsync(view);
         }
-   
+
         #endregion
     }
 }

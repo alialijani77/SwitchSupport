@@ -4,142 +4,142 @@
 @using SwitchSupport.Domain.ViewModels.Question
 
 @{
-    ViewData["Title"] = "جزئیات سوال";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var tags = ViewData["tags"] as List<string>;
+	ViewData["Title"] = "جزئیات سوال";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var tags = ViewData["tags"] as List<string>;
 }
 
 @section Styles
-    {
-    <link rel="stylesheet" type="text/css" href="/css/page.css">
-    <link rel="stylesheet" type="text/css" href="/css/question.css">
+	{
+	<link rel="stylesheet" type="text/css" href="/css/page.css">
+	<link rel="stylesheet" type="text/css" href="/css/question.css">
 }
 
 @section Header
-    {
-    <partial name="_Header" />
+	{
+	<partial name="_Header" />
 }
 
 <div class="user-page-style">
 
-    <div class="breadcumb-layer">
-        <div class="container">
-            <ul itemtype="http://schema.org/BreadcrumbList" class="breadcrumb">
-                <li itemtype="http://schema.org/ListItem" itemscope itemprop="itemListElement"><a href="/" itemprop="item"><span itemprop="name">سوئیچ بانکی</span></a></li>
-                <li itemtype="http://schema.org/ListItem" itemscope itemprop="itemListElement"><a asp-action="QuestionList" asp-controller="Question" itemprop="item"><span itemprop="name"> پرسش ها </span></a></li>
-                <li itemtype="http://schema.org/ListItem" itemscope itemprop="itemListElement"><a href="javascript:void(0)" itemprop="item"><span itemprop="name"> @Model.Title </span></a></li>
-            </ul>
-        </div>
-    </div>
+	<div class="breadcumb-layer">
+		<div class="container">
+			<ul itemtype="http://schema.org/BreadcrumbList" class="breadcrumb">
+				<li itemtype="http://schema.org/ListItem" itemscope itemprop="itemListElement"><a href="/" itemprop="item"><span itemprop="name">سوئیچ بانکی</span></a></li>
+				<li itemtype="http://schema.org/ListItem" itemscope itemprop="itemListElement"><a asp-action="QuestionList" asp-controller="Question" itemprop="item"><span itemprop="name"> پرسش ها </span></a></li>
+				<li itemtype="http://schema.org/ListItem" itemscope itemprop="itemListElement"><a href="javascript:void(0)" itemprop="item"><span itemprop="name"> @Model.Title </span></a></li>
+			</ul>
+		</div>
+	</div>
 
-    <div class="questions-layer page-style">
+	<div class="questions-layer page-style">
 
-        <div class="container">
+		<div class="container">
 
-            <div class="right-col">
+			<div class="right-col">
 
-                <!-- question content -->
-                <section class="question-content-layer">
+				<!-- question content -->
+				<section class="question-content-layer">
 
-                    <header>
-                        <!-- use this button for edit Post , show only for author -->
-                        <button><i class="icon-pencil-edit"></i></button>
+					<header>
+						<!-- use this button for edit Post , show only for author -->
+						<button><i class="icon-pencil-edit"></i></button>
 
-                        <h1><a href="javascript:void(0)"> @Model.Title </a></h1>
-                        <span> @Model.CreateDate.TimeAgo() </span>
-                        <span><i> @Model.ViewCount </i> بازدید </span>
-                        <span><i> @Model.Answers.Count(s => !s.IsDelete) </i> پاسخ </span>
-                        <span><i> @Model.Score </i> امتیاز </span>
-                    </header>
+						<h1><a href="javascript:void(0)"> @Model.Title </a></h1>
+						<span> @Model.CreateDate.TimeAgo() </span>
+						<span><i> @Model.ViewCount </i> بازدید </span>
+						<span><i> @Model.Answers.Count(s => !s.IsDelete) </i> پاسخ </span>
+						<span><i> @Model.Score </i> امتیاز </span>
+					</header>
 
-                    <article>
-                        <div class="inner">
+					<article id="questindetails">
+						<div class="inner">
 
-                            @Html.Raw(Model.Content)
+							@Html.Raw(Model.Content)
 
-                            <div class="rating-layer">
-                                <div class="scoring-layer">
-                                    <button onclick="ScoreUpForQuestion(@Model.Id)" class="plus"><i class="icon-caret-up"></i></button>
-                                    <span> @Model.Score </span>
-                                    <button onclick="ScoreDownForQuestion(@Model.Id)" class="negative"><i class="icon-caret-down"></i></button>
-                                </div>
-                                <div class="star-rating">
-                                    <button><i class="icon-star"></i></button>
-                                </div>
-                            </div>
+							<div class="rating-layer">
+								<div class="scoring-layer">
+									<button onclick="ScoreUpForQuestion(@Model.Id)" class="plus"><i class="icon-caret-up"></i></button>
+									<span> @Model.Score </span>
+									<button onclick="ScoreDownForQuestion(@Model.Id)" class="negative"><i class="icon-caret-down"></i></button>
+								</div>
+								<div class="star-rating">
+									<button onclick="AddQuestionToBookmark('@Model.Id')" class="@((ViewBag.bookmarks) ? "gold-color" : string.Empty)"><i class="icon-star"></i></button>
+								</div>
+							</div>
 
-                        </div>
+						</div>
 
-                        <div class="detail-layer">
-                            <div class="author">
-                                <a href="javascript:void(0)" class="img-layer">
-                                    <img src="@(PathTools.UserAvatarPath + Model.User.Avatar)">
-                                </a>
-                                <h3><a href="javascript:void(0)"> @Model.User.GetUserDisplayName() </a></h3>
-                            </div>
-                            <a href="javascript:void(0)"> <i class="icon-back-arrow"></i> ثبت پاسخ به این پرسش </a>
-                            <div class="share-layer">
-                                <span> به اشتراک گذاری </span>
-                                <div class="share-detail">
-                                    <div class="short-link">
-                                        <p> لینک کوتاه شامل شناسه شما </p>
-                                        <input type="text" name="" readonly value="@($"{PathTools.SiteAddress}/q/{Model.Id}")">
-                                    </div>
-                                    <div class="socials">
-                                        @*<a href=""><i class="icon-facebook"></i></a>*@
-                                        <a href="https://telegram.me/share/url?url=@($"{Context.Request.Scheme}://{Context.Request.Host + Context.Request.Path}")"><i class="icon-telegram"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
+						<div class="detail-layer">
+							<div class="author">
+								<a href="javascript:void(0)" class="img-layer">
+									<img src="@(PathTools.UserAvatarPath + Model.User.Avatar)">
+								</a>
+								<h3><a href="javascript:void(0)"> @Model.User.GetUserDisplayName() </a></h3>
+							</div>
+							<a href="javascript:void(0)"> <i class="icon-back-arrow"></i> ثبت پاسخ به این پرسش </a>
+							<div class="share-layer">
+								<span> به اشتراک گذاری </span>
+								<div class="share-detail">
+									<div class="short-link">
+										<p> لینک کوتاه شامل شناسه شما </p>
+										<input type="text" name="" readonly value="@($"{PathTools.SiteAddress}/q/{Model.Id}")">
+									</div>
+									<div class="socials">
+										@*<a href=""><i class="icon-facebook"></i></a>*@
+										<a href="https://telegram.me/share/url?url=@($"{Context.Request.Scheme}://{Context.Request.Host + Context.Request.Path}")"><i class="icon-telegram"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</article>
 
-                    <!-- tags -->
-                    <div class="post-tags-layer">
-                        <div class="tags-layer">
-                            @foreach (var item in tags)
-                            {
-                                <a asp-action="QuestionListByTag" asp-controller="Question" asp-route-tagName =" @item"> @item </a>
-                            }
-                                                   
-                        </div>
-                    </div>
-                    <!-- /tags -->
-                    <!-- answer -->
-                    <div class="answers-layer" id="AnswersBox">
-                        <div class="top-layer">
-                            <h4><span> @Model.Answers.Count(s => !s.IsDelete) </span> پاسخ به این پرسش </h4>
-                        </div>
+					<!-- tags -->
+					<div class="post-tags-layer">
+						<div class="tags-layer">
+							@foreach (var item in tags)
+							{
+								<a asp-action="QuestionListByTag" asp-controller="Question" asp-route-tagName=" @item"> @item </a>
+							}
 
-                        @await Component.InvokeAsync("QuestionAnswerList", new { questionId = Model.Id })
+						</div>
+					</div>
+					<!-- /tags -->
+					<!-- answer -->
+					<div class="answers-layer" id="AnswersBox">
+						<div class="top-layer">
+							<h4><span> @Model.Answers.Count(s => !s.IsDelete) </span> پاسخ به این پرسش </h4>
+						</div>
 
-                    </div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <partial name="_AnswerFormPartial" model="new AnswerQuestionViewModel { QuestionId = Model.Id }" />
-                    }
-                    else
-                    {
-                        <div class="alert alert-info">
-                            برای پاسخ به سوال ابتدا باید وارد حساب کاربری خود شوید .
-                        </div>
-                    }
-                </section>
-                <!-- /question content -->
+						@await Component.InvokeAsync("QuestionAnswerList", new { questionId = Model.Id })
 
-            </div>
+					</div>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<partial name="_AnswerFormPartial" model="new AnswerQuestionViewModel { QuestionId = Model.Id }" />
+					}
+					else
+					{
+						<div class="alert alert-info">
+							برای پاسخ به سوال ابتدا باید وارد حساب کاربری خود شوید .
+						</div>
+					}
+				</section>
+				<!-- /question content -->
 
-            <partial name="_LeftSide" />
+			</div>
 
-        </div>
+			<partial name="_LeftSide" />
 
-    </div>
+		</div>
+
+	</div>
 
 </div>
 
 @section Scripts
-    {
-    <partial name="_JqueryValidation" />
-    <script src="/js/question.js"></script>
+	{
+	<partial name="_JqueryValidation" />
+	<script src="/js/question.js"></script>
 
 }

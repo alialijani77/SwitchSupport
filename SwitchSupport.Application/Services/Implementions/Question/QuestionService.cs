@@ -10,6 +10,7 @@ using SwitchSupport.Domain.ViewModels.Question;
 using SwitchSupport.Application.Extensions;
 using System.Data;
 using SwitchSupport.Domain.Enums;
+using SwitchSupport.Domain.Entities.Account;
 
 namespace SwitchSupport.Application.Services.Implementions.Question
 {
@@ -19,7 +20,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         private readonly ScoreManagementViewModel _socerManagment;
         private readonly IUserService _userService;
         #region ctor
-        public QuestionService(IQuestionRepository questionRepository,IOptions<ScoreManagementViewModel> socerManagment, IUserService userService)
+        public QuestionService(IQuestionRepository questionRepository, IOptions<ScoreManagementViewModel> socerManagment, IUserService userService)
         {
             _questionRepository = questionRepository;
             _socerManagment = socerManagment.Value;
@@ -31,18 +32,18 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         #region Tags
 
         public async Task<List<Tag>> GetAllTags()
-        {           
+        {
             return await _questionRepository.GetAllTags();
         }
 
         public async Task<CreateQuestionResult> CheckTagValidation(long userId, List<string>? tags)
         {
-            if(tags != null && tags.Any())
+            if (tags != null && tags.Any())
             {
                 foreach (var item in tags)
                 {
-                   var isExsistTag = await _questionRepository.IsExistsTagByName(item.Trim().ToLower());
-                   if(isExsistTag) continue;
+                    var isExsistTag = await _questionRepository.IsExistsTagByName(item.Trim().ToLower());
+                    if (isExsistTag) continue;
 
                     var userRequestTag = await _questionRepository.CheckUserRequestTag(userId, item);
                     if (userRequestTag)
@@ -106,7 +107,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             await _questionRepository.AddQuestion(qu);
             await _questionRepository.SaveChanges();
 
-            if(createQuestion.SelectTags != null && createQuestion.SelectTags.Any())
+            if (createQuestion.SelectTags != null && createQuestion.SelectTags.Any())
             {
                 foreach (var item in createQuestion.SelectTags)
                 {
@@ -118,22 +119,22 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     {
                         QuestionId = qu.Id,
                         TagId = tag.Id
-                     };
+                    };
 
-                    await _questionRepository.AddQuestionTag(selectTagQuestion);                   
+                    await _questionRepository.AddQuestionTag(selectTagQuestion);
                 }
                 await _questionRepository.SaveChanges();
             }
             await _userService.UpdateUserScoreAndMedal(createQuestion.UserId, _socerManagment.AddNewQuestionScore);
-           
+
             return true;
         }
-        
+
         public async Task<FilterQuestionViewModel> GetAllQuestions(FilterQuestionViewModel filter)
         {
-            var query = await  _questionRepository.GetAllQuestions();
+            var query = await _questionRepository.GetAllQuestions();
 
-            if(!string.IsNullOrEmpty(filter.TagTitle))
+            if (!string.IsNullOrEmpty(filter.TagTitle))
             {
                 query = query.Include(t => t.SelectQuestionTags).ThenInclude(t => t.Tag)
                     .Where(s => s.SelectQuestionTags.Any(s => s.Tag.Title.Equals(filter.TagTitle)));
@@ -157,10 +158,10 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     break;
                 case FilterQuestionSortEnum.ScoreLowToHigh:
                     query = query.OrderBy(q => q.Score);
-                    break;               
+                    break;
             }
-            var result = query.Include(s => s.Answers).Include(s=>s.SelectQuestionTags).ThenInclude(s=>s.Tag)
-                .Include(s=>s.User)
+            var result = query.Include(s => s.Answers).Include(s => s.SelectQuestionTags).ThenInclude(s => s.Tag)
+                .Include(s => s.User)
                 .Select(q => new QuestionListViewModel()
                 {
                     QuestionId = q.Id,
@@ -173,10 +174,10 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     ViewCount = q.ViewCount,
                     AnswersCount = q.Answers.Count(),
                     CreateDate = q.CreateDate.TimeAgo()
-                   // AnswerByDisplayName = q.Answers.Where(a => !a.IsDelete).OrderByDescending(a => a.CreateDate).First().User.GetUserDisplayName(),
+                    // AnswerByDisplayName = q.Answers.Where(a => !a.IsDelete).OrderByDescending(a => a.CreateDate).First().User.GetUserDisplayName(),
                     //AnswerByCreateDate = q.Answers.Any(a => !a.IsDelete) ? q.Answers.OrderByDescending(a => a.CreateDate).First().CreateDate.TimeAgo() : null
                 }).AsQueryable();
-            
+
             await filter.SetPaging(result);
 
             return filter;
@@ -186,7 +187,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         {
             var question = await _questionRepository.GetQuestionById(questionId);
 
-            if (question == null)  return QuestionScoreResult.error;
+            if (question == null) return QuestionScoreResult.error;
 
             var user = await _userService.GetUserById(userId);
 
@@ -196,26 +197,65 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 
             if (user.Score < _socerManagment.MinScoreForDownScoreQuestion && type == QustionScore.Minus) return QuestionScoreResult.MinScoreForDownScoreQuestion;
 
-            if(await _questionRepository.IsExistsUserScoreForQuestion(questionId,userId)) return QuestionScoreResult.IsExistsUserScoreForQuestion;
+            if (await _questionRepository.IsExistsUserScoreForQuestion(questionId, userId)) return QuestionScoreResult.IsExistsUserScoreForQuestion;
 
             var questionUserScore = new QuestionUserScore();
             questionUserScore.QuestionId = questionId;
             questionUserScore.UserId = userId;
 
-            if(type == QustionScore.Plus)
+            if (type == QustionScore.Plus)
             {
                 question.Score += 1;
             }
             else
             {
                 question.Score -= 1;
-            }          
+            }
             await _questionRepository.AddQuestionUserScore(questionUserScore);
             await _questionRepository.UpdateQuestion(question);
             await _questionRepository.SaveChanges();
 
 
             return QuestionScoreResult.success;
+        }
+
+
+        public async Task<bool> CheckAddQuestionToBookmark(long questionId, long userId)
+        {
+            var question = await _questionRepository.GetQuestionById(questionId);
+
+            if (question == null) return false;
+
+            var user = await _userService.GetUserById(userId);
+
+            if (user == null) return false;
+
+            if (await _questionRepository.IsExistsUserQuestionBookmarkByQuestinIdUserId(questionId, userId))
+            {
+                var userQuestionBookmark = await _questionRepository
+                    .GetUserQuestionBookmarkByQuestinIdUserId(questionId, userId);
+                if (userQuestionBookmark == null) return false;
+                _questionRepository.RemoveBookmark(userQuestionBookmark);
+                await _questionRepository.SaveChanges();
+                return true;
+            }
+            else
+            {
+                var userQuestionBookmark = new UserQuestionBookmark();
+                userQuestionBookmark.QuestionId = questionId;
+                userQuestionBookmark.UserId = userId;
+                await _questionRepository.AddBookmark(userQuestionBookmark);
+                await _questionRepository.SaveChanges();
+            }
+            //bebin asan hamchin chizi darim dar jadval
+            //agar dashtim get by id o remove true
+            //agar nadashtim add true
+            return true;
+        }
+
+        public async Task<bool> IsExistsUserQuestionBookmarkByQuestinIdUserId(long questionId, long userId)
+        {
+            return await _questionRepository.IsExistsUserQuestionBookmarkByQuestinIdUserId(questionId, userId);
         }
 
         #endregion
@@ -226,9 +266,9 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         {
             var query = await _questionRepository.GetAllFilterTags();
 
-            if(!string.IsNullOrEmpty(filter.Title))
+            if (!string.IsNullOrEmpty(filter.Title))
             {
-                query = query.Where(t=>t.Title.Contains(filter.Title.ToLower().Trim()));
+                query = query.Where(t => t.Title.Contains(filter.Title.ToLower().Trim()));
             }
 
             switch (filter.Sort)
@@ -265,7 +305,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         {
             var question = _questionRepository.GetQuestionById(answerQuestion.QuestionId);
 
-            if(question == null)
+            if (question == null)
             {
                 return false;
             }
@@ -291,25 +331,25 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         {
             var answer = await _questionRepository.GetAnswerById(answerId);
 
-            if(answer == null) { return false; }
+            if (answer == null) { return false; }
 
             var user = await _userService.GetUserById(userId);
 
-            if(user == null) { return false;}
+            if (user == null) { return false; }
 
-            if(user.IsAdmin) { return true;}
+            if (user.IsAdmin) { return true; }
 
-            if(answer.Question.UserId != userId) { return false;}
+            if (answer.Question.UserId != userId) { return false; }
 
             return true;
         }
 
-        
+
         public async Task SelectTrueAnswer(long userId, long answerId)
         {
             var answer = await _questionRepository.GetAnswerById(answerId);
 
-            if (answer == null) return; 
+            if (answer == null) return;
 
             answer.IsTrue = !answer.IsTrue;
 
@@ -326,7 +366,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 
             var user = await _userService.GetUserById(userId);
 
-            if (user == null)  return AnswerScoreResult.error;
+            if (user == null) return AnswerScoreResult.error;
 
             if (answerScore == AnswerScore.Plus && user.Score < _socerManagment.MinScoreForUpScoreAnswer)
             {
@@ -369,7 +409,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             {
                 return;
             }
-            var QuestionViews = new QuestionView(){ QuestionId = question.Id,UserIP = userIp};
+            var QuestionViews = new QuestionView() { QuestionId = question.Id, UserIP = userIp };
 
             await _questionRepository.AddQuestionView(QuestionViews);
 

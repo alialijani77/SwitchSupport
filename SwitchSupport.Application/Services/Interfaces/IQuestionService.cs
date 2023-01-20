@@ -32,6 +32,10 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         Task<QuestionScoreResult> CreateScoreForQuestion(long questionId, QustionScore type, long userId);
 
+        Task<bool> CheckAddQuestionToBookmark(long questionId, long userId);
+
+        Task<bool> IsExistsUserQuestionBookmarkByQuestinIdUserId(long questionId, long userId);
+
         #endregion
 
         #region Answer
