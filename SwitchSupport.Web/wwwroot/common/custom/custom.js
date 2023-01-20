@@ -151,11 +151,14 @@ function AnswerQuestionFormDone(response) {
 //    });
 //}
 function SelectTrueAnswer(answerId) {
+    var token = $("input[name = __RequestVerificationToken]").val();
+
     $.ajax({
         url:"/SelectTrueAnswer",
         type: "post",
         data: {
-            answerId: answerId
+            answerId: answerId,
+            __RequestVerificationToken : token
         },
         success: function (response) {
             if (response.status === "Success") {
@@ -195,11 +198,15 @@ function SelectTrueAnswer(answerId) {
 
 
 function ScoreUpForAnswer(answerId) {
+    var token = $("input[name = __RequestVerificationToken]").val();
+
+
     $.ajax({
         url: "/ScoreUpForAnswer",
         type: "post",
         data: {
-            answerId: answerId
+            answerId: answerId,
+            __RequestVerificationToken: token
         },
         success: function (response) {
             if (response.status === "success") {
@@ -252,11 +259,15 @@ function ScoreUpForAnswer(answerId) {
 }
 
 function ScoreDownForAnswer(answerId) {
+    var token = $("input[name = __RequestVerificationToken]").val();
+
+
     $.ajax({
         url: "/ScoreDownForAnswer",
         type: "post",
         data: {
-            answerId: answerId
+            answerId: answerId,
+            __RequestVerificationToken: token
         },
         success: function (response) {
             if (response.status === "success") {
@@ -312,11 +323,15 @@ function ScoreDownForAnswer(answerId) {
 
 
 function ScoreUpForQuestion(questionId) {
+    var token = $("input[name = __RequestVerificationToken]").val();
+
+
     $.ajax({
         url: "/ScoreUpForQuestion",
         type: "post",
         data: {
-            questionId: questionId
+            questionId: questionId,
+            __RequestVerificationToken: token
         },
         success: function (response) {
             if (response.status === "success") {
@@ -371,11 +386,15 @@ function ScoreUpForQuestion(questionId) {
 
 
 function ScoreDownForQuestion(questionId) {
+    var token = $("input[name = __RequestVerificationToken]").val();
+
+
     $.ajax({
         url: "/ScoreDownForQuestion",
         type: "post",
         data: {
-            questionId: questionId
+            questionId: questionId,
+            __RequestVerificationToken: token
         },
         success: function (response) {
             if (response.status === "success") {
@@ -429,11 +448,15 @@ function ScoreDownForQuestion(questionId) {
 
 
 function AddQuestionToBookmark(questionId) {
+    var token = $("input[name = __RequestVerificationToken]").val();
+
+
     $.ajax({
         url: "/AddQuestionToBookmark",
         type: "post",
         data: {
-            questionId: questionId
+            questionId: questionId,
+            __RequestVerificationToken : token
         },
         success: function (response) {
             if (response.status === "success") {

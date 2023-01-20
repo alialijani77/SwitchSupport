@@ -54,7 +54,9 @@ namespace SwitchSupport.Web.Controllers
         }
 
         [HttpPost("ScoreUpForQuestion")]
-        public async Task<IActionResult> ScoreUpForQuestion(long questionId)
+		[ValidateAntiForgeryToken]
+
+		public async Task<IActionResult> ScoreUpForQuestion(long questionId)
         {
             var result = await _questionService.CreateScoreForQuestion(questionId, QustionScore.Plus, User.GetUserId());
 
@@ -81,7 +83,9 @@ namespace SwitchSupport.Web.Controllers
         }
 
         [HttpPost("ScoreDownForQuestion")]
-        public async Task<IActionResult> ScoreDownForQuestion(long questionId)
+		[ValidateAntiForgeryToken]
+
+		public async Task<IActionResult> ScoreDownForQuestion(long questionId)
         {
             var result = await _questionService.CreateScoreForQuestion(questionId, QustionScore.Minus, User.GetUserId());
 
@@ -203,6 +207,7 @@ namespace SwitchSupport.Web.Controllers
 
         #region Answer
         [HttpPost("SelectTrueAnswer")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SelectTrueAnswer(long answerId)
         {
             if (!User.Identity.IsAuthenticated)
@@ -219,7 +224,9 @@ namespace SwitchSupport.Web.Controllers
         }
 
         [HttpPost("ScoreUpForAnswer")]
-        public async Task<IActionResult> ScoreUpForAnswer(long answerId)
+		[ValidateAntiForgeryToken]
+
+		public async Task<IActionResult> ScoreUpForAnswer(long answerId)
         {
             var reslut = await _questionService.CreateScoreForAnswer(answerId, AnswerScore.Plus,User.GetUserId());
 
@@ -246,7 +253,9 @@ namespace SwitchSupport.Web.Controllers
             }        
         }
         [HttpPost("ScoreDownForAnswer")]
-        public async Task<IActionResult> ScoreDownForAnswer(long answerId)
+		[ValidateAntiForgeryToken]
+
+		public async Task<IActionResult> ScoreDownForAnswer(long answerId)
         {
             var reslut = await _questionService.CreateScoreForAnswer(answerId, AnswerScore.Minus, User.GetUserId());
 
@@ -279,7 +288,8 @@ namespace SwitchSupport.Web.Controllers
         #region AddQuestionToBookmark
 
         [HttpPost("AddQuestionToBookmark")]
-        public async Task<IActionResult> AddQuestionToBookmark(long questionId)
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> AddQuestionToBookmark(long questionId)
         {
             if (await _questionService.CheckAddQuestionToBookmark(questionId, User.GetUserId()))
             {
