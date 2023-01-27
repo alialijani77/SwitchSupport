@@ -43,7 +43,7 @@
 
 					<header>
 						<!-- use this button for edit Post , show only for author -->
-						<button><i class="icon-pencil-edit"></i></button>
+						<button onclick="LoadUrl('@Url.Action("EditQuestion","Question",new {questionId = Model.Id})')"><i class="icon-pencil-edit"></i></button>
 
 						<h1><a href="javascript:void(0)"> @Model.Title </a></h1>
 						<span> @Model.CreateDate.TimeAgo() </span>

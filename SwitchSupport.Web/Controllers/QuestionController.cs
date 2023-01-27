@@ -84,7 +84,6 @@ namespace SwitchSupport.Web.Controllers
 
         [HttpPost("ScoreDownForQuestion")]
 		[ValidateAntiForgeryToken]
-
 		public async Task<IActionResult> ScoreDownForQuestion(long questionId)
         {
             var result = await _questionService.CreateScoreForQuestion(questionId, QustionScore.Minus, User.GetUserId());
@@ -109,6 +108,22 @@ namespace SwitchSupport.Web.Controllers
                 default:
                     return NotFound();
             }
+        }
+
+        [HttpGet("editquestion/{questionId}")]
+        [Authorize]
+        public async Task<IActionResult> EditQuestion(long questionId)
+        {
+            var res = await _questionService.FillEditQuestionViewModel(questionId,User.GetUserId());
+            if (res == null) return NotFound();
+            return View(res);
+        }
+
+        [HttpPost("editquestion/{questionId}"),ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> EditQuestion(EditQuestionViewModel editQuestion)
+        {
+            return View();
         }
 
         #endregion

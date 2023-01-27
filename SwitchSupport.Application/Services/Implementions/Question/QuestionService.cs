@@ -11,6 +11,7 @@ using SwitchSupport.Application.Extensions;
 using System.Data;
 using SwitchSupport.Domain.Enums;
 using SwitchSupport.Domain.Entities.Account;
+using Newtonsoft.Json;
 
 namespace SwitchSupport.Application.Services.Implementions.Question
 {
@@ -96,6 +97,8 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 
         #region Question
 
+
+
         public async Task<bool> AddQuestion(CreateQuestionViewModel createQuestion)
         {
             var qu = new SwitchSupport.Domain.Entities.Questions.Question()
@@ -128,6 +131,30 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             await _userService.UpdateUserScoreAndMedal(createQuestion.UserId, _socerManagment.AddNewQuestionScore);
 
             return true;
+        }
+
+        public async Task<EditQuestionViewModel?> FillEditQuestionViewModel(long questionId,long userId)
+        {
+            var question = await _questionRepository.GetQuestionById(questionId);
+
+            if (question == null) return null;
+
+            var user = await _userService.GetUserById(userId);
+
+            if (user == null) return null;
+
+            if (user.Id != question.UserId && !user.IsAdmin) return null;
+
+            var tags = await _questionRepository.GetTagsByQuestionId(questionId);
+
+            var editquestion = new EditQuestionViewModel();
+            editquestion.questionId= questionId;
+            editquestion.Title = question.Title;
+            editquestion.Description = question.Content;
+            editquestion.SelectTagsJson = JsonConvert.SerializeObject(tags);
+
+            return editquestion;
+
         }
 
         public async Task<FilterQuestionViewModel> GetAllQuestions(FilterQuestionViewModel filter)

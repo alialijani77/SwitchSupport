@@ -31,6 +31,10 @@
 });
 
 
+function LoadUrl(url) {
+    location.href = url;
+}
+
 var datepickers = document.querySelectorAll(".datepicker");
 if (datepickers.length) {
     for (datepicker of datepickers) {
@@ -484,3 +488,4 @@ function AddQuestionToBookmark(questionId) {
         }
     })
 }
+

@@ -36,6 +36,8 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         Task<bool> IsExistsUserQuestionBookmarkByQuestinIdUserId(long questionId, long userId);
 
+        Task<EditQuestionViewModel?> FillEditQuestionViewModel(long questionId, long userId);
+
         #endregion
 
         #region Answer
