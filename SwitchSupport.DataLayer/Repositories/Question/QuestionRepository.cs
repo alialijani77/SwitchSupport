@@ -40,6 +40,11 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             _context.Tags.Update(tag);
         }
 
+        public async Task RemoveSelectTags(SelectQuestionTag selectQuestionTag)
+        {
+             _context.SelectQuestionTags.Remove(selectQuestionTag);
+        }
+
         public async Task<bool> IsExistsTagByName(string name)
         {
             return await _context.Tags.AnyAsync(t => t.Title.Equals(name) && !t.IsDelete);
@@ -107,6 +112,7 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             return await _context.Questions
                 .Include(q => q.User)
                 .Include(q => q.Answers)
+                .Include(q => q.SelectQuestionTags)
                 .FirstOrDefaultAsync(q => q.Id == questionId && !q.IsDelete);
         }
 

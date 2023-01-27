@@ -133,7 +133,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             return true;
         }
 
-        public async Task<EditQuestionViewModel?> FillEditQuestionViewModel(long questionId,long userId)
+        public async Task<EditQuestionViewModel?> FillEditQuestionViewModel(long questionId, long userId)
         {
             var question = await _questionRepository.GetQuestionById(questionId);
 
@@ -148,13 +148,57 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             var tags = await _questionRepository.GetTagsByQuestionId(questionId);
 
             var editquestion = new EditQuestionViewModel();
-            editquestion.questionId= questionId;
+            editquestion.questionId = questionId;
             editquestion.Title = question.Title;
             editquestion.Description = question.Content;
             editquestion.SelectTagsJson = JsonConvert.SerializeObject(tags);
 
             return editquestion;
 
+        }
+
+        public async Task<bool> EditQuestion(EditQuestionViewModel editQuestion)
+        {
+            var question = await _questionRepository.GetQuestionById(editQuestion.questionId);
+
+            if (question == null) return false;
+
+            var user = await _userService.GetUserById(question.UserId);
+
+            if (user == null) return false;
+
+            if (user.Id != question.UserId && !user.IsAdmin) return false;
+
+            question.Title = editQuestion.Title;
+            question.Content = editQuestion.Description;
+            var tags = question.SelectQuestionTags.ToList();
+
+            foreach (var item in tags)
+            {
+                await _questionRepository.RemoveSelectTags(item);
+            }
+
+            if (editQuestion.SelectedTags != null && editQuestion.SelectedTags.Any())
+            {
+                foreach (var item in editQuestion.SelectedTags)
+                {
+                    var tag = await _questionRepository.GetTagByName(item.Trim().ToLower());
+                    if (tag == null) continue;
+                    tag.UseCount += 1;
+                    await _questionRepository.UpdateTag(tag);
+                    var selectTagQuestion = new SelectQuestionTag()
+                    {
+                        QuestionId = editQuestion.questionId,
+                        TagId = tag.Id
+                    };
+
+                    await _questionRepository.AddQuestionTag(selectTagQuestion);
+                }              
+            }
+
+            await _questionRepository.UpdateQuestion(question);
+            await _questionRepository.SaveChanges();
+            return true;
         }
 
         public async Task<FilterQuestionViewModel> GetAllQuestions(FilterQuestionViewModel filter)

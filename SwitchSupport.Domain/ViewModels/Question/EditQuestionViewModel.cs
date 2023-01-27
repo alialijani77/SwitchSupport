@@ -19,7 +19,7 @@ namespace SwitchSupport.Domain.ViewModels.Question
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string Description { get; set; }
 
-        public List<string>? SelectTags { get; set; }
+        public List<string>? SelectedTags { get; set; }
 
         public string? SelectTagsJson { get; set; }
 

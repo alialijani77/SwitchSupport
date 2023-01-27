@@ -40,6 +40,13 @@ namespace SwitchSupport.Web.Controllers
                 TempData[ErrorMessage] = tagvalidation.Message;
                 return View(createQuestion);
             }
+            if(!ModelState.IsValid)
+            {
+                createQuestion.SelectTagsJson = JsonConvert.SerializeObject(createQuestion.SelectTags);
+                createQuestion.SelectTags = null;
+                TempData[ErrorMessage] = "مشکلی در پارامتر های ورودی رخ داده است";
+                return View(createQuestion);
+            }    
             createQuestion.UserId = HttpContext.User.GetUserId();
             var result = await _questionService.AddQuestion(createQuestion);
             if (result)
@@ -123,7 +130,33 @@ namespace SwitchSupport.Web.Controllers
         [Authorize]
         public async Task<IActionResult> EditQuestion(EditQuestionViewModel editQuestion)
         {
-            return View();
+            var tagvalidation = await _questionService.CheckTagValidation(HttpContext.User.GetUserId(), editQuestion.SelectedTags);
+
+            if (tagvalidation.Status == CreateQuestionEnum.NotValidTag)
+            {
+                editQuestion.SelectTagsJson = JsonConvert.SerializeObject(editQuestion.SelectedTags);
+                editQuestion.SelectedTags = null;
+                TempData[ErrorMessage] = tagvalidation.Message;
+                return View(editQuestion);
+            }
+            if (!ModelState.IsValid)
+            {
+                editQuestion.SelectTagsJson = JsonConvert.SerializeObject(editQuestion.SelectedTags);
+                editQuestion.SelectedTags = null;
+                TempData[ErrorMessage] = "مشکلی در پارامتر های ورودی رخ داده است";
+                return View(editQuestion);
+            }
+            //TODO  Dar create ham moshkel darim dar vm
+            var result = await _questionService.EditQuestion(editQuestion);
+            if (result)
+            {
+                TempData[SuccessMessage] = "عملیات با موفقیت انجام شد.";
+                return Redirect("/");
+            }
+
+            editQuestion.SelectTagsJson = JsonConvert.SerializeObject(editQuestion.SelectedTags);
+            editQuestion.SelectedTags = null;
+            return View(editQuestion);
         }
 
         #endregion

@@ -19,6 +19,8 @@ namespace SwitchSupport.Domain.Interfaces
 
         Task UpdateTag(Tag tag);
 
+        Task RemoveSelectTags(SelectQuestionTag selectQuestionTag);
+
         Task<Tag?> GetTagByName(string tagName);
 
         Task<bool> IsExistsTagByName(string name);
