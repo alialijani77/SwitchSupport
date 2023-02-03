@@ -40,6 +40,11 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         Task<bool> EditQuestion(EditQuestionViewModel editQuestion);
 
+
+        Task<EditAnswerViewModel?> FillEditAnswerViewModel(long answerId, long userId);
+
+        Task<bool> EditAnswer(EditAnswerViewModel editAnswer);
+
         #endregion
 
         #region Answer

@@ -470,6 +470,67 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 
             return AnswerScoreResult.success;
         }
+
+        public async Task<EditAnswerViewModel?> FillEditAnswerViewModel(long answerId, long userId)
+        {
+            var answer = await _questionRepository.GetAnswerById(answerId);
+
+            if (answer == null)
+            {
+                return null;
+            }
+
+            var user = await _userService.GetUserById(userId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            if(answer.UserId != userId && !user.IsAdmin)
+            {
+                return null;
+            }
+
+            var editAnswer = new EditAnswerViewModel();
+            editAnswer.Answer = answer.Content;
+            editAnswer.QuestionId = answer.QuestionId;
+            editAnswer.AnswerId= answerId;
+
+            return editAnswer;
+        }
+
+        public async Task<bool> EditAnswer(EditAnswerViewModel editAnswer)
+        {
+            var answer = await _questionRepository.GetAnswerById(editAnswer.AnswerId);
+
+            if(answer == null)
+            {
+                return false;
+            }           
+            var user = await _userService.GetUserById(editAnswer.UserId); 
+            if (user == null)
+            {
+                return false;
+            }
+
+            if (answer.UserId != editAnswer.UserId && !user.IsAdmin)
+            {
+                return false;
+            }
+            if (answer.QuestionId != editAnswer.QuestionId)
+            {
+                return false;
+            }
+            answer.Content = editAnswer.Answer;
+
+            await _questionRepository.UpdateAnswer(answer);
+            await _questionRepository.SaveChanges();
+
+
+            return true;
+        }
+
         #endregion
 
         #region View
@@ -488,7 +549,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 
             await _questionRepository.UpdateQuestion(question);
             await _questionRepository.SaveChanges();
-        }
+        }       
 
         #endregion
     }

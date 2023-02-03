@@ -329,6 +329,31 @@ namespace SwitchSupport.Web.Controllers
                     break;
             }
         }
+        [HttpGet("EditAnswer/{answerId}")]
+        public async Task<IActionResult> EditAnswer(long answerId)
+        {
+            var editAnswer = await _questionService.FillEditAnswerViewModel(answerId, User.GetUserId());
+            if(editAnswer == null) return NotFound();
+            return View(editAnswer);
+        }
+        [HttpPost("EditAnswer/{answerId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAnswer(EditAnswerViewModel editAnswer)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(editAnswer);
+            }
+            editAnswer.UserId = User.GetUserId();
+            var result = await _questionService.EditAnswer(editAnswer);
+
+            if(result)
+            {
+                TempData[SuccessMessage] = "عملیات با موفقیت انجام شد.";
+                return RedirectToAction("GetQuestionDetails", "Question", new { questionId = editAnswer.QuestionId });
+            }
+            TempData[ErrorMessage] = "عملیات انجام نشد.";
+            return View(editAnswer);
+        }
 
         #endregion
 
