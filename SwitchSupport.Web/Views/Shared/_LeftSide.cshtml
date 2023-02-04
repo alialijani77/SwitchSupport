@@ -5,16 +5,7 @@
     <section class="most-popular-questions">
 
        @await Component.InvokeAsync("ScoreHighToLowQuestion")
-
-        <article>
-            <header><h2> پر بحث ترین پرسش های یک ماه اخیر </h2></header>
-            <ul>
-                <li>
-                    <span> 8.5K <i class="icon-comment"></i></span>
-                    <h2><a href=""> معرفی بهترین و ساده ترین فریم ورک php برای پیاده سازی فروشگاه اینترنتی </a></h2>
-                </li>
-            </ul>
-        </article>
+       @await Component.InvokeAsync("NewQuestion");
 
     </section>
     <!-- /most popular post -->
@@ -27,14 +18,14 @@
     </section>
     <!-- /most controversial posts -->
     <!-- banner -->
-    <div class="banner-layer">
-        <a href=""><img src="/images/banner.jpg"></a>
+    @*<div class="banner-layer">
+        <a href=""><img src=""></a>
     </div>
     <!-- /banner -->
     <!-- banner -->
     <div class="banner-layer">
-        <a href=""><img src="/images/banner-2.jpg"></a>
-    </div>
+        <a href=""><img src=""></a>
+    </div>*@
     <!-- /banner -->
 
 </aside>
