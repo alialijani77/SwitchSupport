@@ -1,0 +1,13 @@
+﻿@model SwitchSupport.Domain.ViewModels.Question.FilterTagViewModel
+
+
+<header><h2> پر بحث ترین تگ ها </h2></header>
+<div class="tags-layer">
+    @if (Model != null && Model.Entities.Any())
+    {
+        foreach (var item in Model.Entities)
+        {
+            <a asp-action="QuestionListByTag" asp-controller="Question" asp-route-tagName=" @item.Title"> @item.Title </a>
+        }
+    }
+</div>
