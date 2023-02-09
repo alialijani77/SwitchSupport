@@ -22,6 +22,8 @@ namespace SwitchSupport.Application.Services.Interfaces
         #endregion
 
         #region Quetion
+
+        Task<IQueryable<Question>> GetQuestion();
         Task<bool> AddQuestion(CreateQuestionViewModel createQuestion);
 
         Task<FilterQuestionViewModel> GetAllQuestions(FilterQuestionViewModel filter);

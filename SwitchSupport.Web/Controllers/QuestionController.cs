@@ -20,6 +20,15 @@ namespace SwitchSupport.Web.Controllers
         #endregion
 
         #region Question
+        [HttpGet("get-question")]
+        public async Task<IActionResult> GetAllQuestion(string name)
+        {
+            var question = await _questionService.GetQuestion();
+            var result = question.Where(q => q.Title.Contains(name.ToLower())).Select(q => q.Title).ToList();
+            return Json(result);
+        }
+
+
         [Authorize]
         [HttpGet("create-question")]
         public async Task<IActionResult> CreateQuestion()

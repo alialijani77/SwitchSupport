@@ -13,15 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwitchSupport.IoC", "Switch
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwitchSupport.Presentation", "SwitchSupport.Presentation", "{4AA4CEE1-C2EE-40DE-A87C-3E637911E655}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchSupport.Application", "SwitchSupport.Application\SwitchSupport.Application.csproj", "{2264BEF7-0580-4445-8EAF-EE0CDD66A9AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchSupport.Application", "SwitchSupport.Application\SwitchSupport.Application.csproj", "{2264BEF7-0580-4445-8EAF-EE0CDD66A9AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchSupport.DataLayer", "SwitchSupport.DataLayer\SwitchSupport.DataLayer.csproj", "{0B31A113-B4A5-4447-9699-2E472827E838}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchSupport.DataLayer", "SwitchSupport.DataLayer\SwitchSupport.DataLayer.csproj", "{0B31A113-B4A5-4447-9699-2E472827E838}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchSupport.Domain", "SwitchSupport.Domain\SwitchSupport.Domain.csproj", "{BDFE3BBF-2901-4544-B6CC-D25D050F651A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchSupport.Domain", "SwitchSupport.Domain\SwitchSupport.Domain.csproj", "{BDFE3BBF-2901-4544-B6CC-D25D050F651A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchSupport.IoC", "SwitchSupport.IoC\SwitchSupport.IoC.csproj", "{E0A2B3E1-FB50-428B-B068-9C51DF4BB692}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchSupport.IoC", "SwitchSupport.IoC\SwitchSupport.IoC.csproj", "{E0A2B3E1-FB50-428B-B068-9C51DF4BB692}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchSupport.Web", "SwitchSupport.Web\SwitchSupport.Web.csproj", "{2FEB3793-C285-4F88-A243-181F73D96270}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchSupport.Web", "SwitchSupport.Web\SwitchSupport.Web.csproj", "{2FEB3793-C285-4F88-A243-181F73D96270}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

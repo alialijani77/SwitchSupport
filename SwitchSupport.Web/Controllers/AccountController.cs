@@ -23,6 +23,10 @@ namespace SwitchSupport.Web.Controllers
         [HttpGet("Login")]
         public async Task<IActionResult> Login(string ReturnUrl = "")
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
             var login = new LoginViewModel();
             if (!string.IsNullOrEmpty(ReturnUrl))
             {
@@ -94,6 +98,10 @@ namespace SwitchSupport.Web.Controllers
         [HttpGet("Register")]
         public async Task<IActionResult> Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
             return View();
         }
         [HttpPost("Register"), ValidateAntiForgeryToken]

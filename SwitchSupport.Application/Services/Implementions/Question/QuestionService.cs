@@ -97,6 +97,11 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 
         #region Question
 
+        public async Task<IQueryable<Domain.Entities.Questions.Question>> GetQuestion()
+        {
+            return await _questionRepository.GetAllQuestions();
+        }
+
         public async Task<bool> AddQuestion(CreateQuestionViewModel createQuestion)
         {
             var qu = new SwitchSupport.Domain.Entities.Questions.Question()
@@ -547,7 +552,9 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 
             await _questionRepository.UpdateQuestion(question);
             await _questionRepository.SaveChanges();
-        }       
+        }
+
+     
 
         #endregion
     }

@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="/css/page.css">
     <link rel="stylesheet" type="text/css" href="/css/question.css">
 	<link href="~/common/magicsuggest/magicsuggest.css" rel="stylesheet" />
+    <link href="~/common/custom/autocomplete.css" rel="stylesheet" />
 }
 
     @section Header
@@ -106,6 +107,7 @@
 	
     <script src="/js/question.js"></script>
     <script src="~/common/magicsuggest/magicsuggest.js"></script>
+    <partial name="_Autocomplete" />
     <script>
         $(function(){
            var ms =  $("#SelectTags").magicSuggest({
