@@ -19,7 +19,8 @@ namespace SwitchSupport.Domain.ViewModels.Question
         [Display(Name = "توضیحات")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string Description { get; set; }
-
+        [Display(Name = "تگ ها")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public List<string>? SelectTags { get; set; }
 
         public string? SelectTagsJson { get; set; }

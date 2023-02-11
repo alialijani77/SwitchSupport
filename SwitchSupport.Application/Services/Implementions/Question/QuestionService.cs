@@ -12,6 +12,7 @@ using System.Data;
 using SwitchSupport.Domain.Enums;
 using SwitchSupport.Domain.Entities.Account;
 using Newtonsoft.Json;
+using SwitchSupport.Application.Statics;
 
 namespace SwitchSupport.Application.Services.Implementions.Question
 {
@@ -171,6 +172,8 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             if (user == null) return false;
 
             if (user.Id != question.UserId && !user.IsAdmin) return false;
+
+            FileExtensions.ManageEditorImages(question.Content, editQuestion.Description, PathTools.CkeditorServerPath);
 
             question.Title = editQuestion.Title;
             question.Content = editQuestion.Description;

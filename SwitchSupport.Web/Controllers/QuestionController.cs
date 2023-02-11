@@ -39,8 +39,8 @@ namespace SwitchSupport.Web.Controllers
 
         [HttpPost("create-question"), ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateQuestion(CreateQuestionViewModel createQuestion)
-        {
-            var tagvalidation = await _questionService.CheckTagValidation(HttpContext.User.GetUserId(), createQuestion.SelectTags);
+        {           
+                var tagvalidation = await _questionService.CheckTagValidation(HttpContext.User.GetUserId(), createQuestion.SelectTags);
 
             if (tagvalidation.Status == CreateQuestionEnum.NotValidTag)
             {
@@ -49,7 +49,7 @@ namespace SwitchSupport.Web.Controllers
                 TempData[ErrorMessage] = tagvalidation.Message;
                 return View(createQuestion);
             }
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 createQuestion.SelectTagsJson = JsonConvert.SerializeObject(createQuestion.SelectTags);
                 createQuestion.SelectTags = null;

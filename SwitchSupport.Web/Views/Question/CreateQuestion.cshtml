@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/page.css">
     <link rel="stylesheet" type="text/css" href="/css/question.css">
-	<link href="~/common/magicsuggest/magicsuggest.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/common/magicsuggest/magicsuggest.css">
     <link href="~/common/custom/autocomplete.css" rel="stylesheet" />
 }
 
@@ -75,7 +75,7 @@
                                             <div class="input-layer">
                                                 <!-- Use YourSelf autocomplete Plugin -->
                                                 <label> <i class="icon-document"></i> تگ های مرتبط با پرسش شما </label>
-                                                <input class="magicsuggest" id="SelectTags" name="SelectTags" type="text">
+                                                <input class="magicsuggest" id="SelectTags" asp-for= "SelectTags">
                                                 <span asp-validation-for="SelectTags"></span>
                                             </div>
                                         </div>
