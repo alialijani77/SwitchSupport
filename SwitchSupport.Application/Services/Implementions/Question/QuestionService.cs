@@ -13,6 +13,8 @@ using SwitchSupport.Domain.Enums;
 using SwitchSupport.Domain.Entities.Account;
 using Newtonsoft.Json;
 using SwitchSupport.Application.Statics;
+using SwitchSupport.Domain.ViewModels.UserPanel.Question;
+using Microsoft.VisualBasic;
 
 namespace SwitchSupport.Application.Services.Implementions.Question
 {
@@ -335,6 +337,16 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             return await _questionRepository.IsExistsUserQuestionBookmarkByQuestinIdUserId(questionId, userId);
         }
 
+        public async Task<FilterQuestionBookMarksViewModel> GetQuestionBookMarks(FilterQuestionBookMarksViewModel filter)
+        {
+            var query =  _questionRepository.GetQuestionBookmark();
+
+            query = query.Where(u => u.UserId == filter.userId);
+
+            await filter.SetPaging(query.Select(u => u.Question).AsQueryable());
+
+            return filter;
+        }
         #endregion
 
         #region FilterTag
@@ -557,7 +569,9 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             await _questionRepository.SaveChanges();
         }
 
-     
+      
+
+
 
         #endregion
     }

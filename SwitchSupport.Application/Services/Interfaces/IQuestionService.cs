@@ -2,6 +2,7 @@
 using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.Enums;
 using SwitchSupport.Domain.ViewModels.Question;
+using SwitchSupport.Domain.ViewModels.UserPanel.Question;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
@@ -42,11 +43,11 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         Task<bool> EditQuestion(EditQuestionViewModel editQuestion);
 
-
         Task<EditAnswerViewModel?> FillEditAnswerViewModel(long answerId, long userId);
 
         Task<bool> EditAnswer(EditAnswerViewModel editAnswer);
 
+        Task<FilterQuestionBookMarksViewModel> GetQuestionBookMarks(FilterQuestionBookMarksViewModel filter);
         #endregion
 
         #region Answer

@@ -63,6 +63,7 @@ namespace SwitchSupport.Domain.Interfaces
 
         Task AddBookmark(UserQuestionBookmark questionBookmark);
 
+        IQueryable<UserQuestionBookmark?> GetQuestionBookmark();
         #endregion
 
         #region Answer

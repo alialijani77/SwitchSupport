@@ -42,7 +42,7 @@ namespace SwitchSupport.DataLayer.Repositories.Question
 
         public async Task RemoveSelectTags(SelectQuestionTag selectQuestionTag)
         {
-             _context.SelectQuestionTags.Remove(selectQuestionTag);
+            _context.SelectQuestionTags.Remove(selectQuestionTag);
         }
 
         public async Task<bool> IsExistsTagByName(string name)
@@ -152,6 +152,11 @@ namespace SwitchSupport.DataLayer.Repositories.Question
             await _context.UserQuestionBookmarks.AddAsync(questionBookmark);
         }
 
+
+        public IQueryable<UserQuestionBookmark?> GetQuestionBookmark()
+        {
+            return _context.UserQuestionBookmarks.Include(u => u.Question).AsQueryable();
+        }
         #endregion
 
         #region Answer
@@ -204,6 +209,7 @@ namespace SwitchSupport.DataLayer.Repositories.Question
         {
             await _context.QuestionViews.AddAsync(view);
         }
+
 
         #endregion
     }

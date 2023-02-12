@@ -261,7 +261,6 @@ namespace SwitchSupport.Web.Controllers
         }
         #endregion
 
-
         #region Answer
         [HttpPost("SelectTrueAnswer")]
         [ValidateAntiForgeryToken]
@@ -365,7 +364,6 @@ namespace SwitchSupport.Web.Controllers
         }
 
         #endregion
-
 
         #region AddQuestionToBookmark
 

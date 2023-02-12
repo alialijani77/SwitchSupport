@@ -55,7 +55,11 @@
         <header><h3> منوی دسترسی </h3><i class="icon-chevron-down"></i></header>
         <div class="inner">
             <ul>
-                <li><a href="/"> مدیریت رزومه  </a>  </li>
+                 <li><a asp-action="Index" asp-controller="Home" asp-area="UserPanel"> داشبورد  </a>  </li>
+                <li><a asp-action="EditInfo" asp-controller="Account" asp-area="UserPanel"> ویرایش اطلاعات کاربری  </a>  </li>
+                <li><a asp-action="QuestionBookmarks" asp-controller="Question" asp-area="UserPanel"> سوالات نشان شده  </a>  </li>
+                <li><a asp-action="changeUserPassword" asp-controller="Account" asp-area="UserPanel"> تغییر کلمه عبور  </a>  </li>
+                <li><a asp-action="Logout" asp-controller="Account"> خروج  </a>  </li>
             </ul>
         </div>
     </section>
