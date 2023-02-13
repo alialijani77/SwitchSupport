@@ -4,7 +4,7 @@ namespace SwitchSupport.Web.Areas.Admin.Controllers
 {
     public class HomeController : AdminBaseController
     {
-        public IActionResult Index()
+        public IActionResult Dashboard()
         {
             return View();
         }
