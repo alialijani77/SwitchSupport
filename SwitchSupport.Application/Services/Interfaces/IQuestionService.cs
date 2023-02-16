@@ -70,5 +70,11 @@ namespace SwitchSupport.Application.Services.Interfaces
         #region View
         Task AddViewForQuestion(string userIp, Question question);
         #endregion
+
+        #region Admin
+
+        Task<List<TagJsonViewModel>> GetTagListForChartJs();
+
+        #endregion
     }
 }
