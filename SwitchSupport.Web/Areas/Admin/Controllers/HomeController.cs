@@ -16,5 +16,10 @@ namespace SwitchSupport.Web.Areas.Admin.Controllers
 			ViewData["ChartDataJson"] = JsonConvert.SerializeObject(await _questionService.GetTagListForChartJs());
 			return View();
         }
+
+        public async Task<IActionResult> LoadFilterTagsPartial()
+        {
+            return PartialView("_FilterTagsPartial");
+        }
     }
 }
