@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using SwitchSupport.Application.Statics;
 using SwitchSupport.Domain.ViewModels.UserPanel.Question;
 using Microsoft.VisualBasic;
+using SwitchSupport.Domain.ViewModels.Admin.Tag;
 
 namespace SwitchSupport.Application.Services.Implementions.Question
 {
@@ -90,7 +91,6 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 			res.Message = "انتخاب تگ الزامی می باشد";
 			return res;
 		}
-
 
 		public async Task<List<string>> GetTagsByQuestionId(long questionId)
 		{
@@ -586,6 +586,33 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 			}).ToList();
 
 			return res;
+		}
+
+		public async Task<FilterTagAdminViewModel> FilterTagAdmin(FilterTagAdminViewModel filter)
+		{
+			var query = await _questionRepository.GetAllFilterTags();
+
+			if (!string.IsNullOrEmpty(filter.Title))
+			{
+				query = query.Where(s => s.Title.Contains(filter.Title));
+			}
+
+			switch (filter.Status)
+			{
+				case FilterTagAdminStatus.All:
+					break;
+				case FilterTagAdminStatus.NoDescription:
+					query = query.Where(s => !string.IsNullOrEmpty(s.Description));
+					break;
+				case FilterTagAdminStatus.HasDescription:
+					query = query.Where(s => string.IsNullOrEmpty(s.Description));
+
+					break;
+			}
+
+			await filter.SetPaging(query);
+
+			return filter;
 		}
 
 

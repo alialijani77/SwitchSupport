@@ -1,6 +1,7 @@
 ﻿using SwitchSupport.Domain.Entities.Questions;
 using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.Enums;
+using SwitchSupport.Domain.ViewModels.Admin.Tag;
 using SwitchSupport.Domain.ViewModels.Question;
 using SwitchSupport.Domain.ViewModels.UserPanel.Question;
 using System;
@@ -20,6 +21,8 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<CreateQuestionResult> CheckTagValidation(long userId, List<string>? tags);
 
         Task<List<string>> GetTagsByQuestionId(long questionId);
+
+        Task<FilterTagAdminViewModel> FilterTagAdmin(FilterTagAdminViewModel filter);
         #endregion
 
         #region Quetion
