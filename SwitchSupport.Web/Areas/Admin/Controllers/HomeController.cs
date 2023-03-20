@@ -2,6 +2,9 @@
 using Newtonsoft.Json;
 using SwitchSupport.Application.Services.Interfaces;
 using SwitchSupport.Domain.ViewModels.Admin.Tag;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
+using System.Net.NetworkInformation;
+using System;
 
 namespace SwitchSupport.Web.Areas.Admin.Controllers
 {
@@ -24,5 +27,17 @@ namespace SwitchSupport.Web.Areas.Admin.Controllers
 			var result = await _questionService.FilterTagAdmin(filter);
 			return PartialView("_FilterTagsPartial", result);
 		}
-	}
+
+        public async Task<IActionResult> loadCreateTagModal()
+        {
+			return PartialView("_CreateTagAdminPartial");
+        }
+
+        public async Task<IActionResult> CreateTag(CreateTagAdminViewModel createTag)
+        {
+
+			return Ok();
+        }
+    }
 }
+

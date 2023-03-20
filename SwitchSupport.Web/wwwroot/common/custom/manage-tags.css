@@ -17,3 +17,9 @@
 .mt-50 {
     margin-top: 50px
 }
+
+.admin-error-style {
+    color: tomato;
+    font-size: 13px;
+}
+

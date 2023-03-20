@@ -6,22 +6,51 @@
         //    StartLoading("#LargeModal");
         //},
         success: function (response) {
-           /* EndLoading("#LargeModal")*/;
+           /* EndLoading("#LargeModalBody")*/;
             $("#LargeModalBody").html(response);
-            $("#LargeModalLabel").html("مدیریت تگ ها");
+            $("#LargeModalLabel").html(`<span>مدیریت تگ ها</span>
+                                        <button onclick="createTagModal()" class="btn btn-success btn-xs mr-5">افزودن تگ جدید</button>
+            `);
             $("#LargeModal").modal("show");
         },
         error: function () {
-            /*EndLoading("#LargeModal");*/
-            swal({
-                title: "خطا",
-                text: "عملیات با خطا مواجه شد لطفا مجدد تلاش کنید .",
-                icon: "error",
-                button: "باشه"
-            });
+            /*EndLoading();*/
+            Swal.fire(
+                'خطا',
+                'عملیات با خطا مواجه شد لطفا مجدد تلاش کنید .',
+                'error'
+            )
         }
     });
 }
+function createTagModal(url) {
+    $.ajax({
+        url: "/admin/home/loadCreateTagModal",
+        type: "get",
+        //beforeSend: function () {
+        //    StartLoading("#LargeModal");
+        //},
+        success: function (response) {
+           /* EndLoading("#LargeModalBody")*/;
+            $("#MediumModalLabel").html("افزودن تگ جدید");
+            $("#MediumModalBody").html(response);
+            $('#create-tag-form').removeData('validator', 'unobtrusiveValidation');
+            $.validator.unobtrusive.parse('#create-tag-form');
+            $("#MediumModal").modal("show");
+        },
+        error: function () {
+            /*EndLoading();*/
+            Swal.fire(
+                'خطا',
+                'عملیات با خطا مواجه شد لطفا مجدد تلاش کنید .',
+                'error'
+            )
+        }
+    });
+}
+
+
+
 
 function SubmitFilterFormAjaxPagination(pageId) {
     $("#CurrentPage").val(pageId);
