@@ -50,6 +50,24 @@ function createTagModal(url) {
 }
 
 
+function createTag(response) {
+    if (response.status === "error") {
+        Swal.fire(
+            'خطا',
+            response.msg,
+            'error'
+        )
+    }
+    else {
+        $("#MediumModal").modal("hide");
+        $('#filter_ajax_form').submit();
+        Swal.fire(
+            'موفق',
+            response.msg,
+            'success')
+    }
+}
+
 
 
 function SubmitFilterFormAjaxPagination(pageId) {

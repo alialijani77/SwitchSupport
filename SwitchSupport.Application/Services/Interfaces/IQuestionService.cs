@@ -23,6 +23,8 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<List<string>> GetTagsByQuestionId(long questionId);
 
         Task<FilterTagAdminViewModel> FilterTagAdmin(FilterTagAdminViewModel filter);
+
+        Task CreateTagAdmin(CreateTagAdminViewModel createTag);
         #endregion
 
         #region Quetion

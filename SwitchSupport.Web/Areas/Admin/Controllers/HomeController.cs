@@ -23,7 +23,7 @@ namespace SwitchSupport.Web.Areas.Admin.Controllers
 
 		public async Task<IActionResult> LoadFilterTagsPartial(FilterTagAdminViewModel filter)
 		{
-			filter.TakeEntitiy = 2;
+			filter.TakeEntitiy = 10;
 			var result = await _questionService.FilterTagAdmin(filter);
 			return PartialView("_FilterTagsPartial", result);
 		}
@@ -35,8 +35,13 @@ namespace SwitchSupport.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> CreateTag(CreateTagAdminViewModel createTag)
         {
+			if (!ModelState.IsValid)
+			{
+				return new JsonResult(new { status = "error", msg = "عملیات با موفقیت انجام نشد ." });
+			}
+			await _questionService.CreateTagAdmin(createTag);
+            return new JsonResult(new { status = "success", msg = "عملیات با موفقیت انجام شد ." });
 
-			return Ok();
         }
     }
 }

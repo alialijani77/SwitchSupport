@@ -96,11 +96,21 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 		{
 			return await _questionRepository.GetTagsByQuestionId(questionId);
 		}
-		#endregion
 
-		#region Question
 
-		public async Task<IQueryable<Domain.Entities.Questions.Question>> GetQuestion()
+        public async Task CreateTagAdmin(CreateTagAdminViewModel createTag)
+        {
+			var tag = new Tag();
+			tag.Title = createTag.Title;
+			tag.Description = createTag.Description;
+			await _questionRepository.AddTag(tag);
+			await _questionRepository.SaveChanges();
+        }
+        #endregion
+
+        #region Question
+
+        public async Task<IQueryable<Domain.Entities.Questions.Question>> GetQuestion()
 		{
 			return await _questionRepository.GetAllQuestions();
 		}
@@ -616,6 +626,6 @@ namespace SwitchSupport.Application.Services.Implementions.Question
 		}
 
 
-		#endregion
-	}
+        #endregion
+    }
 }
