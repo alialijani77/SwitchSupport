@@ -44,6 +44,7 @@ namespace SwitchSupport.Domain.Interfaces
 
         Task UpdateQuestion(Question question);
 
+        Task<Tag?> GetTagById(long id);
 
         Task AddQuestionTag(SelectQuestionTag questionTag);
 

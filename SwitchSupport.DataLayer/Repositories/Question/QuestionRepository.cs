@@ -86,10 +86,16 @@ namespace SwitchSupport.DataLayer.Repositories.Question
 		{
 			return await _context.Tags.FirstOrDefaultAsync(t => !t.IsDelete && t.Title.Equals(tagName));
 		}
-		#endregion
 
-		#region Question
-		public async Task AddQuestion(Domain.Entities.Questions.Question question)
+        public async Task<Tag?> GetTagById(long id)
+        {
+            return await _context.Tags.FirstOrDefaultAsync(t => t.Id == id);
+        }
+
+        #endregion
+
+        #region Question
+        public async Task AddQuestion(Domain.Entities.Questions.Question question)
 		{
 			await _context.Questions.AddAsync(question);
 		}
@@ -211,7 +217,9 @@ namespace SwitchSupport.DataLayer.Repositories.Question
 			await _context.QuestionViews.AddAsync(view);
 		}
 
+      
 
-		#endregion
-	}
+
+        #endregion
+    }
 }
