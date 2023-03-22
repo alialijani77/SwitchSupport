@@ -217,8 +217,6 @@ namespace SwitchSupport.DataLayer.Repositories.Question
 			await _context.QuestionViews.AddAsync(view);
 		}
 
-      
-
 
         #endregion
     }

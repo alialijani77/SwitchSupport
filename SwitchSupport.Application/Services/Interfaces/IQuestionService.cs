@@ -85,6 +85,9 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         Task EditTagAdmin(EditTagAdminViewModel editTag);
 
+        Task<bool> DeleteTag(long tagId);
+
+
         #endregion
     }
 }

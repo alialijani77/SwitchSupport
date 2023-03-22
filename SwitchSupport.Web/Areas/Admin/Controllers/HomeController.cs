@@ -63,6 +63,18 @@ namespace SwitchSupport.Web.Areas.Admin.Controllers
             await _questionService.EditTagAdmin(editTag);
             return new JsonResult(new { status = "success", msg = "عملیات با موفقیت انجام شد ." });
         }
+
+        public async Task<IActionResult> DeleteTag(long tagId)
+        {
+            var result = await _questionService.DeleteTag(tagId);
+            if(result == false)
+            {
+                return new JsonResult(new { status = "error", msg = "عملیات با موفقیت انجام نشد ." });
+
+            }
+            return new JsonResult(new { status = "success", msg = "عملیات با موفقیت انجام شد ." });
+
+        }
     }
 }
 

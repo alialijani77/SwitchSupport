@@ -124,3 +124,51 @@ function LoadEditTagModal(tagId) {
         }
     });
 }
+
+
+
+	function DeleteTag(tagId) {
+    Swal.fire({
+        title: 'آیا از حذف مورد انتخابی اطمینان دارید؟',
+        text: "شما در حال حذف می باشید!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'بله حذف کن!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/admin/home/DeleteTag",
+                type: "get",
+                data: {
+                    tagId: tagId
+                },               
+                success: function (response) {
+                         if (response.status === "error") {
+                        Swal.fire(
+                            'خطا',
+                            response.msg,
+                            'error'
+                        )
+                    }
+                    else {
+                        $('#filter_ajax_form').submit();
+                        Swal.fire(
+                            'موفق',
+                            response.msg,
+                            'success')
+                    }                              
+                },
+                error: function () {
+                     Swal.fire(
+                            'خطا',
+                            response.msg,
+                            'error'
+                        )
+                }
+            });
+           
+        }
+    })
+}

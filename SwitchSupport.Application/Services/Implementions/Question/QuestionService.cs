@@ -594,6 +594,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         public async Task<FilterTagAdminViewModel> FilterTagAdmin(FilterTagAdminViewModel filter)
         {
             var query = await _questionRepository.GetAllFilterTags();
+            query = query.Where(s => !s.IsDelete).OrderByDescending(s => s.CreateDate);
 
             if (!string.IsNullOrEmpty(filter.Title))
             {
@@ -609,7 +610,6 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     break;
                 case FilterTagAdminStatus.HasDescription:
                     query = query.Where(s => string.IsNullOrEmpty(s.Description));
-
                     break;
             }
 
@@ -649,6 +649,20 @@ namespace SwitchSupport.Application.Services.Implementions.Question
             await _questionRepository.UpdateTag(tag);
             await _questionRepository.SaveChanges();
 
+        }
+
+        public async Task<bool> DeleteTag(long tagId)
+        {
+            var tag = await _questionRepository.GetTagById(tagId);
+
+            if(tag == null)
+            {
+                return false;
+            }
+            tag.IsDelete = true;
+            await _questionRepository.UpdateTag(tag);
+            await _questionRepository.SaveChanges();
+            return true;
         }
 
 
