@@ -18,6 +18,8 @@ namespace SwitchSupport.Domain.ViewModels.Question
 
         public bool HasAnyAnswer { get; set; }
 
+        public bool IsChecked { get; set; }
+
         public bool HasAnyTrueAnswer { get; set; }
 
         public int AnswersCount { get; set; }

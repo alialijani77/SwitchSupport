@@ -12,11 +12,19 @@ namespace SwitchSupport.Domain.ViewModels.Question
 {
     public class FilterQuestionViewModel : Paging<QuestionListViewModel>
     {
+        public FilterQuestionViewModel()
+        {
+            CheckedStatus = FilterCheckedStatusEnum.All;
+            Sort = FilterQuestionSortEnum.NewToOld;
+        }
         public string? Title { get; set; }
 
         public string? TagTitle { get; set; }
 
         public FilterQuestionSortEnum Sort { get; set; }
+
+        public FilterCheckedStatusEnum CheckedStatus { get; set; }
+
     }
 
     public enum FilterQuestionSortEnum
@@ -25,5 +33,12 @@ namespace SwitchSupport.Domain.ViewModels.Question
         [Display(Name = "تاریخ ثبت صعودی")] OldToNew,
         [Display(Name = "امتیاز صعودی")] ScoreHighToLow,
         [Display(Name = "امتیاز صعودی")] ScoreLowToHigh
+    }
+
+    public enum FilterCheckedStatusEnum
+    {
+        [Display(Name = "همه")] All,
+        [Display(Name = "بررسی شده")] IsChecked,
+        [Display(Name = "بررسی نشده")] NotChecked
     }
 }

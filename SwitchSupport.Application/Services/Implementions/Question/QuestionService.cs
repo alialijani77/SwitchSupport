@@ -243,6 +243,19 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     query = query.OrderBy(q => q.Score);
                     break;
             }
+
+            switch(filter.CheckedStatus)
+            {
+                case FilterCheckedStatusEnum.All:
+                    break;
+                case FilterCheckedStatusEnum.IsChecked:
+                    query = query.Where(q => q.IsChecked);
+
+                    break;
+                case FilterCheckedStatusEnum.NotChecked:
+                    query = query.Where(q => !q.IsChecked);
+                    break;
+            }
             var result = query.Include(s => s.Answers).Include(s => s.SelectQuestionTags).ThenInclude(s => s.Tag)
                 .Include(s => s.User)
                 .Select(q => new QuestionListViewModel()
@@ -250,6 +263,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     QuestionId = q.Id,
                     Title = q.Title,
                     Score = q.Score,
+                    IsChecked = q.IsChecked,
                     HasAnyTrueAnswer = q.Answers.Any(a => !a.IsDelete && a.IsTrue),
                     HasAnyAnswer = q.Answers.Any(a => !a.IsDelete),
                     Tags = q.SelectQuestionTags.Select(t => t.Tag.Title).ToList(),

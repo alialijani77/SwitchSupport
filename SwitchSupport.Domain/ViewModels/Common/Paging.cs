@@ -13,7 +13,7 @@ namespace SwitchSupport.Domain.ViewModels.Common
         {
             CurrentPage = 1;
             HowManyShowBeforAfter = 3;
-            TakeEntitiy = 3;
+            TakeEntitiy = 5;
             Entities = new List<T>();
         }
         public int CurrentPage { get; set; }
