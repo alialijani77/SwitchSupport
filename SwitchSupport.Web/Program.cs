@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SwitchSupport.DataLayer.Context;
 using SwitchSupport.Domain.ViewModels.Common;
 using SwitchSupport.IoC;
+using SwitchSupport.Web.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,7 @@ builder.Services.AddAuthentication(options =>
 // Add services to the container.
 #region MiddleWare
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 builder.Services.Configure<ScoreManagementViewModel>(builder.Configuration.GetSection("ScoreManagement"));
 var app = builder.Build();
 
@@ -62,6 +64,6 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapHub<OnlineUsersHub>("/hubs/online-users");
 app.Run();
 #endregion

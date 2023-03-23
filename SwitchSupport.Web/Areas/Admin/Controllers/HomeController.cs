@@ -75,6 +75,11 @@ namespace SwitchSupport.Web.Areas.Admin.Controllers
             return new JsonResult(new { status = "success", msg = "عملیات با موفقیت انجام شد ." });
 
         }
+
+        public ActionResult ShowOnlineUsers()
+        {
+            return View();
+        }
     }
 }
 
