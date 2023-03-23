@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SwitchSupport.Application.Services.Interfaces;
+using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.ViewModels.Question;
 
 namespace SwitchSupport.Web.Areas.Admin.Controllers
@@ -17,6 +18,28 @@ namespace SwitchSupport.Web.Areas.Admin.Controllers
         {
             var result = await _questionService.GetAllQuestions(filter);
             return View(result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteQuestion(long questionId)
+        {
+            var result = await _questionService.DeleteQuestion(questionId);
+            if (result == false)
+            {
+                return new JsonResult(new { status = "error", msg = "عملیات با موفقیت انجام نشد ." });
+
+            }
+            return new JsonResult(new { status = "success", msg = "عملیات با موفقیت انجام شد ." });
+        }
+        [HttpPost]
+        public async Task<IActionResult> changeQuestionIsCheckedStatus(long questionId)
+        {
+            var result = await _questionService.changeQuestionIsCheckedStatus(questionId);
+            if (result == false)
+            {
+                return new JsonResult(new { status = "error", msg = "عملیات با موفقیت انجام نشد ." });
+
+            }
+            return new JsonResult(new { status = "success", msg = "عملیات با موفقیت انجام شد ." });
         }
     }
 }

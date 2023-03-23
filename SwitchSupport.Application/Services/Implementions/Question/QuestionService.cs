@@ -244,7 +244,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
                     break;
             }
 
-            switch(filter.CheckedStatus)
+            switch (filter.CheckedStatus)
             {
                 case FilterCheckedStatusEnum.All:
                     break;
@@ -669,7 +669,7 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         {
             var tag = await _questionRepository.GetTagById(tagId);
 
-            if(tag == null)
+            if (tag == null)
             {
                 return false;
             }
@@ -680,6 +680,25 @@ namespace SwitchSupport.Application.Services.Implementions.Question
         }
 
 
+        public async Task<bool> DeleteQuestion(long questionId)
+        {
+            var question = await _questionRepository.GetQuestionById(questionId);
+            if (question == null) return false;
+            question.IsDelete = true;
+            await _questionRepository.UpdateQuestion(question);
+            await _questionRepository.SaveChanges();
+            return true;
+        }
+
+        public async Task<bool> changeQuestionIsCheckedStatus(long questionId)
+        {
+            var question = await _questionRepository.GetQuestionById(questionId);
+            if (question == null) return false;
+            question.IsChecked = true;
+            await _questionRepository.UpdateQuestion(question);
+            await _questionRepository.SaveChanges();
+            return true;
+        }
         #endregion
     }
 }

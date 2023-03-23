@@ -87,6 +87,10 @@ namespace SwitchSupport.Application.Services.Interfaces
 
         Task<bool> DeleteTag(long tagId);
 
+        Task<bool> DeleteQuestion(long questionId);
+
+        Task<bool> changeQuestionIsCheckedStatus(long questionId);
+
 
         #endregion
     }
