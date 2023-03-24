@@ -56,5 +56,10 @@ namespace SwitchSupport.DataLayer.Repositories.Account
         {
             return await _context.Users.SingleOrDefaultAsync(u => !u.IsDelete && u.Id == userId);
         }
+
+        public IQueryable<User> GetUserIQueryable()
+        {
+            return _context.Users.Where(u => !u.IsDelete).AsQueryable();
+        }
     }
 }

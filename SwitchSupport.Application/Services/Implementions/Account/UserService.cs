@@ -10,6 +10,7 @@ using SwitchSupport.Domain.Entities.Account;
 using SwitchSupport.Domain.Enums;
 using SwitchSupport.Domain.Interfaces;
 using SwitchSupport.Domain.ViewModels.Account;
+using SwitchSupport.Domain.ViewModels.Admin.User;
 using SwitchSupport.Domain.ViewModels.Common;
 using SwitchSupport.Domain.ViewModels.UserPanel.Account;
 using System;
@@ -216,7 +217,6 @@ namespace SwitchSupport.Application.Services.Implementions.Account
             return ResultEditInfo.success;
         }
 
-
         #endregion
 
         #region ChangePassword
@@ -274,6 +274,34 @@ namespace SwitchSupport.Application.Services.Implementions.Account
                 }
             }
         }
+        #endregion
+
+        #region Admin-User
+
+        public async Task<FilterUserAdminViewModel> GetFilterUserAdmin(FilterUserAdminViewModel filter)
+        {
+            var query = _userRepository.GetUserIQueryable();
+
+            if (!string.IsNullOrEmpty(filter.UserSearch))
+            {
+                query = query.Where(u => (u.FirstName + "" + u.LastName).Trim().Contains(filter.UserSearch) || u.Email.Trim().Contains(filter.UserSearch));
+            }
+            switch (filter.AccountActivationStatus)
+            {
+                case AccountActivationStatus.All:
+                    break;
+                case AccountActivationStatus.Active:
+                    query = query.Where(u => u.IsEmailConfirmed);
+                    break;
+                case AccountActivationStatus.Inactive:
+                    query = query.Where(u => !u.IsEmailConfirmed);
+                    break;              
+            }
+
+            await filter.SetPaging(query);
+            return filter;
+        }
+
         #endregion
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SwitchSupport.Domain.Entities.Account;
 using SwitchSupport.Domain.ViewModels.Account;
+using SwitchSupport.Domain.ViewModels.Admin.User;
 using SwitchSupport.Domain.ViewModels.UserPanel.Account;
 using System;
 using System.Collections.Generic;
@@ -35,5 +36,7 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<ChangePasswordResult> ChangePassword(ChangePasswordViewModel changePassword, long userId);
 
         Task UpdateUserScoreAndMedal(long userId,int score);
+
+        Task<FilterUserAdminViewModel> GetFilterUserAdmin(FilterUserAdminViewModel filter);
     }
 }

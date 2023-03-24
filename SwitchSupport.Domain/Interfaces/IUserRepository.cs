@@ -22,5 +22,7 @@ namespace SwitchSupport.Domain.Interfaces
         Task<User> GetUserByActivationcode(string activationcode);
 
         Task<User?> GetUserById(long userId);
+
+        IQueryable<User> GetUserIQueryable();
     }
 }

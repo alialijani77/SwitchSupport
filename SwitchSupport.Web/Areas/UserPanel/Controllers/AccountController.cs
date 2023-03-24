@@ -7,6 +7,8 @@ namespace SwitchSupport.Web.Areas.UserPanel.Controllers
 {
     public class AccountController : UserPanelBaseController
     {
+
+        #region Ctor
         private IStateServices _stateServices;
         private readonly IUserService _userService;
         public AccountController(IStateServices stateServices, IUserService userService)
@@ -14,8 +16,6 @@ namespace SwitchSupport.Web.Areas.UserPanel.Controllers
             _stateServices = stateServices;
             _userService = userService;
         }
-        #region Ctor
-
         #endregion
 
         #region EditInfo
