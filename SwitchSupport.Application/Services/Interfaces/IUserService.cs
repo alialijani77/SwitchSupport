@@ -38,5 +38,9 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task UpdateUserScoreAndMedal(long userId,int score);
 
         Task<FilterUserAdminViewModel> GetFilterUserAdmin(FilterUserAdminViewModel filter);
+
+        Task<EditUserAdminViewModel?> GetEditUserAdmin(long userId);
+
+        Task<EditUserAdminResult> EditUserAdmin(EditUserAdminViewModel editUser);
     }
 }

@@ -295,11 +295,71 @@ namespace SwitchSupport.Application.Services.Implementions.Account
                     break;
                 case AccountActivationStatus.Inactive:
                     query = query.Where(u => !u.IsEmailConfirmed);
-                    break;              
+                    break;
             }
 
             await filter.SetPaging(query);
             return filter;
+        }
+
+        public async Task<EditUserAdminViewModel?> GetEditUserAdmin(long userId)
+        {
+            var user = await _userRepository.GetUserById(userId);
+            if (user == null) return null;
+
+            var result = new EditUserAdminViewModel();
+            result.UserId = user.Id;
+            result.GetNewsLetter = user.GetNewsLetter;
+            result.PhoneNumber = user.PhoneNumber;
+            result.IsEmailConfirmed = user.IsEmailConfirmed;
+            result.Avatar = user.Avatar;
+            result.Email = user.Email;
+            result.FirstName = user.FirstName;
+            result.LastName = user.LastName;
+            result.CityId = user.CityId;
+            result.CountryId = user.CountryId;
+            result.BirthDate = user.BirthDate?.ToShamsi();
+            result.Description = user.Description;
+            result.IsAdmin = user.IsAdmin;
+            result.IsBan = user.IsBan;
+            result.Password = user.Password;
+
+            return result;
+        }
+
+        public async Task<EditUserAdminResult> EditUserAdmin(EditUserAdminViewModel editUser)
+        {
+            var user = await _userRepository.GetUserById(editUser.UserId);
+            if (user == null) return EditUserAdminResult.UserNotFound;
+
+            if (!user.Email.Equals(editUser.Email) && await _userRepository.IsExistsUserByEmail(editUser.Email))
+            {
+                return EditUserAdminResult.NotValidEmail;
+            }
+
+            user.BirthDate = editUser.BirthDate?.ToMiladi();
+            user.Description = editUser.Description;
+            user.Avatar = editUser.Avatar;
+            user.Email = editUser.Email;
+            user.FirstName = editUser.FirstName;
+            user.LastName = editUser.LastName;
+            user.CityId = editUser.CityId;
+            user.CountryId = editUser.CountryId;
+            user.IsEmailConfirmed = editUser.IsEmailConfirmed;
+            user.PhoneNumber = editUser.PhoneNumber;
+            user.GetNewsLetter = editUser.GetNewsLetter;
+            user.IsAdmin = editUser.IsAdmin;
+            user.IsBan = editUser.IsBan;
+
+            if(!string.IsNullOrEmpty(editUser.Password))
+            {
+                user.Password = PasswordHelper.EncodePasswordMd5(editUser.Password);
+
+            }
+            await _userRepository.UpdateUser(user);
+            await _userRepository.Save();
+
+            return EditUserAdminResult.Success;
         }
 
         #endregion

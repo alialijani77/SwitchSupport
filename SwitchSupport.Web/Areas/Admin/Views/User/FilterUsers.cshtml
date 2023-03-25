@@ -78,7 +78,7 @@
                                     <span class="@(!user.IsBan ? "success" : "danger")">@(!user.IsBan ? "دسترسی آزاد" : "دسترسی محدود")</span>
                                 </td>
                                 <td class="vertical-align-middle">
-                                    <a href="#" class="btn btn-warning btn-circle btn-xs">
+                                    <a asp-action="EditInfoUserAdmin" asp-controller="User" asp-area="admin" asp-all-route-userId="@user.Id" class="btn btn-warning btn-circle btn-xs">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                 </td>
