@@ -47,7 +47,9 @@ namespace SwitchSupport.DataLayer.Context
 
         public DbSet<AnswerUserScore> AnswerUserScores { get; set; }
 
+        public DbSet<Permission> Permissions { get; set; }
 
+        public DbSet<UserPermission> UserPermissions { get; set; }
 
         #endregion
 
