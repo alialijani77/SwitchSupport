@@ -42,5 +42,7 @@ namespace SwitchSupport.Application.Services.Interfaces
         Task<EditUserAdminViewModel?> GetEditUserAdmin(long userId);
 
         Task<EditUserAdminResult> EditUserAdmin(EditUserAdminViewModel editUser);
+
+        Task<bool> CheckUserPermission(long permissionId, long userId);
     }
 }

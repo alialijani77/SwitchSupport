@@ -127,7 +127,7 @@ namespace SwitchSupport.Web.Controllers
         #endregion
 
         #region Email Activation
-        [HttpGet("Email-Activation/{activationcode}")]
+        [HttpGet("Activate-Email/{activationcode}")]
         public async Task<IActionResult> EmailActivation(string activationcode)
         {
             var result = await _userService.EmailActivation(activationcode);

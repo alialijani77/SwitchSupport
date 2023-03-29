@@ -363,5 +363,17 @@ namespace SwitchSupport.Application.Services.Implementions.Account
         }
 
         #endregion
+
+        #region Permission
+        public async Task<bool> CheckUserPermission(long permissionId, long userId)
+        {
+            var user = await _userRepository.GetUserById(userId);
+            if (user == null) return false;
+            if (user.IsAdmin) return true;
+            if (user.IsBan) return false;
+            if(!await _userRepository.CheckUserHasPermission(permissionId, userId)) return false;
+            return true;
+        }
+        #endregion
     }
 }

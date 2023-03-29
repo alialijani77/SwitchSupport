@@ -24,5 +24,7 @@ namespace SwitchSupport.Domain.Interfaces
         Task<User?> GetUserById(long userId);
 
         IQueryable<User> GetUserIQueryable();
+
+        Task<bool> CheckUserHasPermission(long permissionId, long userId);
     }
 }

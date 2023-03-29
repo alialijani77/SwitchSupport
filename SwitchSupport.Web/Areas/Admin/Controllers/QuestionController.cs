@@ -2,9 +2,11 @@
 using SwitchSupport.Application.Services.Interfaces;
 using SwitchSupport.Domain.Entities.Tags;
 using SwitchSupport.Domain.ViewModels.Question;
+using SwitchSupport.Web.ActionFilters;
 
 namespace SwitchSupport.Web.Areas.Admin.Controllers
 {
+    [PermissionChecker(3)]
     public class QuestionController : AdminBaseController
     {
         #region ctor

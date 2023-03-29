@@ -61,5 +61,13 @@ namespace SwitchSupport.DataLayer.Repositories.Account
         {
             return _context.Users.Where(u => !u.IsDelete).AsQueryable();
         }
+
+        #region Permisson
+
+        public async Task<bool> CheckUserHasPermission(long permissionId, long userId)
+        {
+            return await _context.UserPermissions.AnyAsync(u => u.PermissionId == permissionId && u.UserId == userId);
+        }
+        #endregion
     }
 }

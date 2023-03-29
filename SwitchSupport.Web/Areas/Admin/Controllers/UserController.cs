@@ -3,9 +3,11 @@ using SwitchSupport.Application.Extensions;
 using SwitchSupport.Application.Services.Implementions.SiteSettings;
 using SwitchSupport.Application.Services.Interfaces;
 using SwitchSupport.Domain.ViewModels.Admin.User;
+using SwitchSupport.Web.ActionFilters;
 
 namespace SwitchSupport.Web.Areas.Admin.Controllers
 {
+    [PermissionChecker(2)]
     public class UserController : AdminBaseController
     {
         #region ctor
