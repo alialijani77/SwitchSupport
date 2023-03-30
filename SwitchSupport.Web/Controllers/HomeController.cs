@@ -33,5 +33,11 @@ namespace SwitchSupport.Web.Controllers
             upload.UploadFile(filename, PathTools.CkeditorServerPath);
             return Json(new { url = $"{PathTools.CkeditorPath}{filename}" });
         }
+
+        [HttpGet("/404")]
+        public async Task<IActionResult> NotFoundPage()
+        {
+            return View();
+        }
     }
 }

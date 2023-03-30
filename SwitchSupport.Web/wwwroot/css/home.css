@@ -10,11 +10,11 @@ a,i,input[type="submit"], form button,.clientarea-layer .loggedin-status span{ o
 .landing-layer {
     width: 100%;
     position: relative;
-    background: url('../images/landing.jpg') no-repeat top center;
+    background: url('../images/dtsw.png') no-repeat top center;
     /*background: url('/images/pic/61638062.jpg') no-repeat top center;*/
     background-size: cover;
     padding: 70px 0 90px;
-    border-top: 4px solid #fecd32
+    /*border-top: 4px solid #fecd32*/
 }
 .landing-layer header .logo{
     width: 175px;

@@ -9,7 +9,7 @@
             {
                 <li>
                     <span> @item.ViewCount <i class="icon-star"></i></span>
-                    <h2><a href="">@item.Title</a></h2>
+                    <h2><a asp-action="GetQuestionDetails" asp-controller="Question" asp-route-questionId="@item.QuestionId">@item.Title</a></h2>
                 </li>
             }
         }        
