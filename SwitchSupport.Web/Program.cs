@@ -5,6 +5,7 @@ using SwitchSupport.DataLayer.Context;
 using SwitchSupport.Domain.ViewModels.Common;
 using SwitchSupport.IoC;
 using SwitchSupport.Web.Hubs;
+using WebMarkupMin.AspNetCore7;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,24 @@ builder.Services.AddAuthentication(options =>
 
 #endregion
 
+#region Minify
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddWebMarkupMin(
+    options =>
+    {
+        options.AllowMinificationInDevelopmentEnvironment = true;
+        options.AllowCompressionInDevelopmentEnvironment = true;
+    })
+    .AddHtmlMinification(
+        options =>
+        {
+            options.MinificationSettings.RemoveRedundantAttributes = true;
+            options.MinificationSettings.RemoveHttpProtocolFromAttributes = true;
+            options.MinificationSettings.RemoveHttpsProtocolFromAttributes = true;
+        })
+    .AddHttpCompression();
+#endregion
 #endregion
 
 // Add services to the container.
@@ -53,7 +72,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseWebMarkupMin();
 app.UseRouting();
 
 app.UseAuthentication();
