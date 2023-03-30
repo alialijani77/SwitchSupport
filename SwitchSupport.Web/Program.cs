@@ -53,6 +53,7 @@ builder.Services.AddWebMarkupMin(
         })
     .AddHttpCompression();
 #endregion
+
 #endregion
 
 // Add services to the container.
