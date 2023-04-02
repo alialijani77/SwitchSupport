@@ -221,6 +221,13 @@ function ScoreUpForAnswer(answerId) {
                 )
                 $("#AnswersBox").load(location.href + " #AnswersBox");
             }
+            else if (response.status === "NotAuth") {
+                Swal.fire(
+                    'خطا',
+                    'خواهشمند است وارد سامانه شوید .',
+                    'error'
+                )
+            }
             else if (response.status === "MinScoreForUpScoreAnswer") {
                 Swal.fire(
                     'خطا',
@@ -281,6 +288,13 @@ function ScoreDownForAnswer(answerId) {
                     'success'
                 )
                 $("#AnswersBox").load(location.href + " #AnswersBox");
+            }
+            else if (response.status === "NotAuth") {
+                Swal.fire(
+                    'خطا',
+                    'خواهشمند است وارد سامانه شوید .',
+                    'error'
+                )
             }
             else if (response.status === "MinScoreForUpScoreAnswer") {
                 Swal.fire(
@@ -347,6 +361,13 @@ function ScoreUpForQuestion(questionId) {
                 $("#questindetails").load(location.href + " #questindetails");
 
             }
+            else if (response.status === "NotAuth") {
+                Swal.fire(
+                    'خطا',
+                    'خواهشمند است وارد سامانه شوید .',
+                    'error'
+                )
+            }
             else if (response.status === "MinScoreForUpScoreQuestion") {
                 Swal.fire(
                     'خطا',
@@ -408,6 +429,13 @@ function ScoreDownForQuestion(questionId) {
                     'success'
                 )
                 $("#questindetails").load(location.href + " #questindetails");
+            }
+            else if (response.status === "NotAuth") {
+                Swal.fire(
+                    'خطا',
+                    'خواهشمند است وارد سامانه شوید .',
+                    'error'
+                )
             }
             else if (response.status === "MinScoreForUpScoreQuestion") {
                 Swal.fire(

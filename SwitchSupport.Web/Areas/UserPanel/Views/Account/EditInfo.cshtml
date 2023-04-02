@@ -89,7 +89,7 @@
 						<label asp-for="CityId"></label>
 						<select asp-for="CityId">
 							<option value="">لطفا شهر خود را انتخاب نمایید</option>
-							@if(state != null && state.Any())
+							@if (cities != null && cities.Any())
 							{
 								@foreach (var item in cities)
 								{

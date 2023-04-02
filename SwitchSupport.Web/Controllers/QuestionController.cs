@@ -74,6 +74,10 @@ namespace SwitchSupport.Web.Controllers
 
 		public async Task<IActionResult> ScoreUpForQuestion(long questionId)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return new JsonResult(new { status = "NotAuth" });
+            }
             var result = await _questionService.CreateScoreForQuestion(questionId, QustionScore.Plus, User.GetUserId());
 
             switch (result)
@@ -102,6 +106,11 @@ namespace SwitchSupport.Web.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> ScoreDownForQuestion(long questionId)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return new JsonResult(new { status = "NotAuth" });
+            }
+
             var result = await _questionService.CreateScoreForQuestion(questionId, QustionScore.Minus, User.GetUserId());
 
             switch (result)
@@ -284,6 +293,10 @@ namespace SwitchSupport.Web.Controllers
 
 		public async Task<IActionResult> ScoreUpForAnswer(long answerId)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return new JsonResult(new { status = "NotAuth" });
+            }
             var reslut = await _questionService.CreateScoreForAnswer(answerId, AnswerScore.Plus,User.GetUserId());
 
             switch (reslut)
@@ -313,6 +326,10 @@ namespace SwitchSupport.Web.Controllers
 
 		public async Task<IActionResult> ScoreDownForAnswer(long answerId)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return new JsonResult(new { status = "NotAuth" });
+            }
             var reslut = await _questionService.CreateScoreForAnswer(answerId, AnswerScore.Minus, User.GetUserId());
 
             switch (reslut)

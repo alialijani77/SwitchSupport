@@ -17,7 +17,7 @@ namespace SwitchSupport.DataLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -121,6 +121,23 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Avatar = "DefaultAvatar.png",
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(3833),
+                            Email = "alialijani77@gmail.com",
+                            EmailActivationCode = "e5236a5483134c91ba66fe4866220202",
+                            GetNewsLetter = false,
+                            IsAdmin = true,
+                            IsBan = false,
+                            IsDelete = false,
+                            IsEmailConfirmed = true,
+                            Password = "20-2C-B9-62-AC-59-07-5B-96-4B-07-15-2D-23-4B-70",
+                            Score = 0
+                        });
                 });
 
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.UserPermission", b =>
@@ -196,6 +213,39 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("States");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(3910),
+                            IsDelete = false,
+                            Title = "ایران"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(3976),
+                            IsDelete = false,
+                            ParentId = 1L,
+                            Title = "تهران"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(3989),
+                            IsDelete = false,
+                            ParentId = 1L,
+                            Title = "البرز"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(3997),
+                            IsDelete = false,
+                            ParentId = 1L,
+                            Title = "اصفهان"
+                        });
                 });
 
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Questions.Answer", b =>
@@ -510,6 +560,32 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDelete = false,
+                            Title = "switch",
+                            UseCount = 0
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(4024),
+                            IsDelete = false,
+                            Title = "core",
+                            UseCount = 0
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(4033),
+                            IsDelete = false,
+                            Title = "card",
+                            UseCount = 0
+                        });
                 });
 
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.User", b =>

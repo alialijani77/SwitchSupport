@@ -12,18 +12,36 @@ using SwitchSupport.DataLayer.Context;
 namespace SwitchSupport.DataLayer.Migrations
 {
     [DbContext(typeof(SwitchSupportDbContext))]
-    [Migration("20221221200103_AddUseCountTags")]
-    partial class AddUseCountTags
+    [Migration("20230330164444_InitialDatabase")]
+    partial class InitialDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.Permission", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions");
+                });
 
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.User", b =>
                 {
@@ -106,6 +124,46 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Avatar = "DefaultAvatar.png",
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(3833),
+                            Email = "alialijani77@gmail.com",
+                            EmailActivationCode = "e5236a5483134c91ba66fe4866220202",
+                            GetNewsLetter = false,
+                            IsAdmin = true,
+                            IsBan = false,
+                            IsDelete = false,
+                            IsEmailConfirmed = true,
+                            Password = "20-2C-B9-62-AC-59-07-5B-96-4B-07-15-2D-23-4B-70",
+                            Score = 0
+                        });
+                });
+
+            modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.UserPermission", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("PermissionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPermissions");
                 });
 
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.UserQuestionBookmark", b =>
@@ -158,6 +216,39 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("States");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(3910),
+                            IsDelete = false,
+                            Title = "ایران"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(3976),
+                            IsDelete = false,
+                            ParentId = 1L,
+                            Title = "تهران"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(3989),
+                            IsDelete = false,
+                            ParentId = 1L,
+                            Title = "البرز"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(3997),
+                            IsDelete = false,
+                            ParentId = 1L,
+                            Title = "اصفهان"
+                        });
                 });
 
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Questions.Answer", b =>
@@ -197,6 +288,38 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Answers");
+                });
+
+            modelBuilder.Entity("SwitchSupport.Domain.Entities.Questions.AnswerUserScore", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("AnswerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AnswerUserScores");
                 });
 
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Questions.Question", b =>
@@ -440,6 +563,32 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDelete = false,
+                            Title = "switch",
+                            UseCount = 0
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(4024),
+                            IsDelete = false,
+                            Title = "core",
+                            UseCount = 0
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreateDate = new DateTime(2023, 3, 30, 20, 14, 44, 719, DateTimeKind.Local).AddTicks(4033),
+                            IsDelete = false,
+                            Title = "card",
+                            UseCount = 0
+                        });
                 });
 
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.User", b =>
@@ -457,6 +606,25 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.Navigation("City");
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.UserPermission", b =>
+                {
+                    b.HasOne("SwitchSupport.Domain.Entities.Account.Permission", "Permission")
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SwitchSupport.Domain.Entities.Account.User", "User")
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.UserQuestionBookmark", b =>
@@ -503,6 +671,25 @@ namespace SwitchSupport.DataLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Question");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SwitchSupport.Domain.Entities.Questions.AnswerUserScore", b =>
+                {
+                    b.HasOne("SwitchSupport.Domain.Entities.Questions.Answer", "Answer")
+                        .WithMany("AnswerUserScores")
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SwitchSupport.Domain.Entities.Account.User", "User")
+                        .WithMany("AnswerUserScores")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Answer");
 
                     b.Navigation("User");
                 });
@@ -578,8 +765,15 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.Permission", b =>
+                {
+                    b.Navigation("UserPermissions");
+                });
+
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Account.User", b =>
                 {
+                    b.Navigation("AnswerUserScores");
+
                     b.Navigation("Answers");
 
                     b.Navigation("QuestionUserScores");
@@ -587,6 +781,8 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.Navigation("Questions");
 
                     b.Navigation("RequestTags");
+
+                    b.Navigation("UserPermissions");
 
                     b.Navigation("UserQuestionBookmarks");
                 });
@@ -596,6 +792,11 @@ namespace SwitchSupport.DataLayer.Migrations
                     b.Navigation("UserCities");
 
                     b.Navigation("UserCountries");
+                });
+
+            modelBuilder.Entity("SwitchSupport.Domain.Entities.Questions.Answer", b =>
+                {
+                    b.Navigation("AnswerUserScores");
                 });
 
             modelBuilder.Entity("SwitchSupport.Domain.Entities.Questions.Question", b =>

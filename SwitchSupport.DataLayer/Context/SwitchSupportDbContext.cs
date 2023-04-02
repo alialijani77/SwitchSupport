@@ -77,6 +77,73 @@ namespace SwitchSupport.DataLayer.Context
                 SMTP = "smtp.gmail.com"
 
             });
+
+            modelBuilder.Entity<User>().HasData(new User()
+            {
+                CreateDate = DateTime.Now,
+                Email = "alialijani77@gmail.com",
+                IsAdmin = true,
+                Avatar = "DefaultAvatar.png",
+                EmailActivationCode = Guid.NewGuid().ToString("N"),
+                IsEmailConfirmed = true,
+                Id = 1,
+                Password = "20-2C-B9-62-AC-59-07-5B-96-4B-07-15-2D-23-4B-70" //123
+
+            });
+
+            modelBuilder.Entity<State>().HasData(new State()
+            {
+                CreateDate = DateTime.Now,
+                Id = 1,
+                ParentId = null,
+                Title = "ایران"
+
+            });
+            modelBuilder.Entity<State>().HasData(new State()
+            {
+                CreateDate = DateTime.Now,
+                Id = 2,
+                ParentId = 1,
+                Title = "تهران"
+
+            });
+            modelBuilder.Entity<State>().HasData(new State()
+            {
+                CreateDate = DateTime.Now,
+                Id = 3,
+                ParentId = 1,
+                Title = "البرز"
+
+            });
+            modelBuilder.Entity<State>().HasData(new State()
+            {
+                CreateDate = DateTime.Now,
+                Id = 4,
+                ParentId = 1,
+                Title = "اصفهان"
+
+            });
+            modelBuilder.Entity<Tag>().HasData(new Tag()
+            {
+                CreateDate = date,
+                Id = 1,
+                Title = "switch"
+
+            });
+            modelBuilder.Entity<Tag>().HasData(new Tag()
+            {
+                CreateDate = DateTime.Now,
+                Id = 2,
+                Title = "core"
+
+            });
+            modelBuilder.Entity<Tag>().HasData(new Tag()
+            {
+                CreateDate = DateTime.Now,
+                Id = 3,
+                Title = "card"
+
+            });
             #endregion
 
             base.OnModelCreating(modelBuilder);
